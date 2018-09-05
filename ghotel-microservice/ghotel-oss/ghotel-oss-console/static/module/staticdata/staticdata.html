@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>开关类管理</title>
+    <LINK rel="stylesheet" href="/cmc/common/css/default.css"type="text/css">
+    <link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+    <script type="text/javascript" src="/cmc/common/js/staticdata/staticdata.js"></script>
+    <script type="text/javascript" src="/cmc/common/js/comom/jsUtil.js"></script>
+    <LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+</head>
+<body>
+    <div id='mainContent' class="myMainContent">
+        <div id="middlerId" class="easyui-panel" title="查询条件">
+            <form id="noticeSearchForm" class="easyui-form CMCSearchForm" method="post">
+                <table class="tbStyle" style="width:100%">
+                    <tr>
+                        <th align="right">对应CODE ：</th>
+                        <td>
+                            <input type="text" id="typeCode"  name="typeCode" class="easyui-textbox" style="width: 220px;" />
+                        </td>
+                        <th align="right">相关系统：</th>
+                        <td>
+                            <select  class="easyui-combobox"  name="typeKey" id="typeKey" data-options="panelHeight: '80px'" style="width: 220px;" >
+
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="right">名称 ：</th>
+                        <td>
+                            <input type="text" id="name"  name="name" class="easyui-textbox" style="width: 220px;" />
+                        </td>
+                        <th align="right">值：</th>
+                        <td>
+                            <input type="text" id="value"  name="value" class="easyui-textbox" style="width: 220px;" />
+                        </td>
+                    </tr>
+                 </table>
+             </form>
+            <div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:5px;width:70%; ">
+                <a href="javascript:void(0)" class="easyui-linkbutton CMCSearchButton" >查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" id="searchFormAdd" >新建</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" id="searchFormUpdate" >修改</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" id="searchFormUser" >启用</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" id="searchFormExpir" >失效</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" id="searchFormdelete"  >删除</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" id="epxertByKeyCodeIds">清除缓存</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" id="epxertAll"  >清空缓存</a>
+            </div>
+         </div>
+     </div>
+    <div id="addDialog"  title='增加开关' class="easyui-dialog"  data-options="iconCls:'icon-save',modal:true,closed: true" style="width: 650px;height: auto;float: left;margin-top: 0px;" >
+        <form id="addSumbitForm">
+        <table width="100%">
+               <tr>
+                   <td width=120 align="right"><label style="color:red;">*</label>相关系统:</td>
+                   <td class="right">
+                       <select  class="easyui-combobox"  name="typeKey" id="typeKey" data-options="panelHeight: '80px'" style="width: 220px;"  required="true"  >
+
+                       </select>
+
+                   </td>
+               </tr>
+               <tr>
+                   <td width=120 align="right"><label style="color:red;">*</label>对应Code:</td>
+                   <td>
+                       <input type="text" id="typeCode"  name="typeCode" class="easyui-textbox" style="width: 220px;"  required="true"  />
+                   </td>
+               </tr>
+               <tr>
+                   <td width=120 align="right"><label style="color:red;">*</label>名称:</td>
+                   <td><input type="text" id="name"  name="name" class="easyui-textbox" style="width: 220px;" required="true"  /> </td>
+               </tr>
+               <tr>
+                   <td width=120 align="right"><label style="color:red;">*</label>值:</td>
+                   <td><input type="text" id="value"  name="value" class="easyui-textbox" style="width: 220px;"  required="true"  /></td>
+               </tr>
+               <tr>
+                   <td width=120 align="right"><label style="color:red;">*</label>说明</td>
+                   <td><input type="text" id="description"  name="description" class="easyui-textbox" style="width: 220px;"  required="true"  /></td>
+               </tr>
+               <tr>
+                   <td colspan="2" align="center">
+                    &nbsp;
+                   </td>
+               </tr>
+               <tr>
+                   <td colspan="2" align="center">
+                       <a href="javascript:void(0)" class="easyui-linkbutton" id="addSumbit"  >提交</a>
+                       <a href="javascript:void(0)" class="easyui-linkbutton" id="CouponGroupImport" onclick="CMC.dialog('addDialog','close')" >关闭</a>
+                   </td>
+               </tr>
+           </table>
+        </form>
+    </div>
+    <div id="updateDialog"  title='修改开关' class="easyui-dialog"  data-options="iconCls:'icon-save',modal:true,closed: true" style="width: 650px;height: auto;float: left;margin-top: 0px;" >
+        <form id="updateformDialog">
+            <table width="100%">
+                <tr>
+                    <td width=120 align="right"><label style="color:red;">*</label>相关系统:</td>
+                    <td class="right">
+                        <select  class="easyui-combobox"  name="typeKey" id="typeKey" data-options="panelHeight: '80px'" style="width: 220px;" readonly:true" disabled >
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td width=120 align="right"><label style="color:red;">*</label>对应Code:</td>
+                    <td>
+                        <input type="text" id="typeCode"  name="typeCode" class="easyui-textbox" style="width: 220px;" readonly:true" disabled />
+                    </td>
+                </tr>
+                <tr>
+                    <td width=120 align="right"><label style="color:red;">*</label>名称:</td>
+                    <td><input type="text" id="name"  name="name" class="easyui-textbox" style="width: 220px;"   required="true"  /> </td>
+                </tr>
+                <tr>
+                    <td width=120 align="right"><label style="color:red;">*</label>值:</td>
+                    <td><input type="text" id="value"  name="value" class="easyui-textbox" style="width: 220px;"   required="true"  /></td>
+                </tr>
+                <tr>
+                    <td width=120 align="right"><label style="color:red;">*</label>说明</td>
+                    <td><input type="text" id="description"  name="description" class="easyui-textbox" style="width: 220px;"    required="true"  /></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <a href="javascript:void(0)" class="easyui-linkbutton" id="updateSumbit"  >提交</a>
+                        <a href="javascript:void(0)" class="easyui-linkbutton" id="CouponGroupImport" onclick="CMC.dialog('updateDialog','close')" >关闭</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

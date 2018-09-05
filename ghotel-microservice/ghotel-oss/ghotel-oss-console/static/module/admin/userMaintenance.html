@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>用户管理</title>
+<LINK rel="stylesheet" href="/cmc/common/css/default.css"type="text/css">
+<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">   
+<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+<LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+</head>
+<BODY>
+	<div id='mainContent' class="myMainContent" >
+		<div class="easyui-panel" title="查询条件">
+			<form id="searchForm" class="easyui-form CMCSearchForm" method="post" data-options="novalidate:true" >
+				<table style="width:100%;"  class="tbStyle" >
+					<tr>
+						<th width="15%" >登录名:</th>
+						<td width="35%"><input class="easyui-textbox" type="text" name="userLoginId"
+							data-options="required:false"  style="width:250px;" ></input></td>
+						<th width="15%" >姓名:</th>
+						<td width="35%"><input class="easyui-textbox" type="text" name="userName"
+							data-options="required:false" style="width:250px;" ></input></td>
+					</tr>
+					<tr>
+						<th>工作邮箱:</th>
+						<td><input class="easyui-textbox" type="text"
+							name="workMail" data-options="required:false,validType:'email'" style="width:250px;" ></input></td>
+						<th>工作电话:</th>
+						<td><input class="easyui-textbox" name="workPhone" type="text"
+							data-options="required:false" style="width:250px;" ></input></td>
+					</tr>
+					<tr>
+						<th>用户状态:</th>
+						<td><select class="easyui-combobox" name="status" style="width:250px;" data-options="panelHeight: '100px'" >
+								<option	value=""> </option>
+								<option	value="A">未启用</option>
+								<option value="B">已启用</option>
+								<option value="C">注销</option></select></td>
+						<th>用户组:</th>
+						<td><input  id="groupId" class="easyui-combotree" data-options="required:false" name="groupId" style="width:250px;" ></td>
+					</tr>
+				</table>
+			</form>
+				
+			<div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:5px;width:70%; ">
+					<a href="javascript:void(0)" class="easyui-linkbutton CMCSearchButton" permission="User:getAll" >查询</a>
+					<a href="javascript:void(0)" class="easyui-linkbutton" id="user_add" permission="User:add" >新建</a>
+					<a href="javascript:void(0)" class="easyui-linkbutton" id="user_update" permission="User:update,get">修改</a>
+					<a href="javascript:void(0)" class="easyui-linkbutton" id="User_delete" permission="User:delete">删除</a>
+					<!-- <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('.CMCSearchForm').form('clear');">清除</a> -->
+			</div>
+		</div>
+	</div>
+		
+	<div id="updatUserDetail" class="easyui-dialog" title="更新用户记录" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:500px;height:300px;padding:10px">
+		<div style="padding:10px 60px 20px 60px">
+		    <form id="updateForm"  method="post" data-options="novalidate:true">
+		    	<table cellpadding="5">
+		    		<tr>
+		    			<input  type="hidden" name="userId" ></input>
+		    		</tr>
+		    		<tr>
+		    			<td><lable style="color:red;">*</lable>用户登录ID:</td>
+		    			<td><input class="easyui-textbox" type="text" name="userLoginId" data-options="readonly: true"></input></td>
+		    		</tr>
+		    		<tr>
+		    			<td><lable style="color:red;">*</lable>用户姓名:</td>
+		    			<td><input class="easyui-textbox" type="text" name="userName" data-options="required:true"></input></td>
+		    		</tr>
+		    		<tr>
+		    			<td><lable style="color:red;">*</lable>工作邮箱:</td>
+		    			<td><input  class="easyui-textbox" name="workMail" style="width:200px;" data-options="required:true,validType:'email'" id="workMail"></td>
+		    		</tr>
+		    		<tr>
+		    			<td><lable style="color:red;">*</lable>工作电话:</td>
+		    			<td><input class="easyui-textbox" type="text" name="workPhone" data-options="required:true"></input></td>
+		    		</tr>
+		    		<tr>
+		    			<td><lable style="color:red;">*</lable>个人电话:</td>
+		    			<td><input class="easyui-textbox" name="cellPhone" data-options="multiline:false,required:true" ></input></td>
+		    		</tr>
+		    		<tr>
+		    			<td><lable style="color:red;">*</lable>用户状态:</td>
+		    			<td>
+		    				<select class="easyui-combobox" name="status" data-options="panelHeight:'auto'" style="width:200px;">
+								<option	value=""> </option>
+								<option	value="A">未启用</option>
+								<option value="B">正常</option>
+								<option value="C">关闭</option>
+							</select>
+						</td>
+		    		</tr>
+		    	</table>
+		    </form>
+		    <div style="text-align:center;padding:5px">
+		    	<a href="javascript:void(0)" class="easyui-linkbutton UpdateButton" >提交</a>
+		    </div>
+	    </div>
+	</div>
+	
+	<div id="addUserDetail" class="easyui-dialog" title="新增用户记录" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:500px;height:300px;padding:10px">
+		<div style="padding:10px 60px 20px 60px">
+		    <form id="addForm"  method="post" data-options="novalidate:true">
+		    	<table cellpadding="5">
+		    		<tr>
+		    			<td><lable style="color:red;">*</lable>用户登录ID:</td>
+		    			<td><input class="easyui-textbox" type="text" name="userLoginId" id="userLoginId" data-options="required:true"></input><label style="color:red;" id="userLoginIdMsg"></label></td>
+		    		</tr>
+		    		<tr>
+		    			<td><lable style="color:red;">*</lable>用户姓名:</td>
+		    			<td><input class="easyui-textbox" type="text" name="userName" data-options="required:true"></input></td>
+		    		</tr>
+		    		<tr>
+		    			<td><lable style="color:red;">*</lable>工作邮箱:</td>
+		    			<td><input class="easyui-textbox"  name="workMail" style="width:200px;" data-options="required:true,validType:'email'" ></td>
+		    		</tr>
+		    		<tr>
+		    			<td><lable style="color:red;">*</lable>工作电话:</td>
+		    			<td><input class="easyui-textbox" type="text" name="workPhone" data-options="required:true"></input></td>
+		    		</tr>
+		    		<tr>
+		    			<td><lable style="color:red;">*</lable>个人电话:</td>
+		    			<td><input class="easyui-textbox" name="cellPhone" data-options="multiline:false,required:true" ></input></td>
+		    		</tr>
+		    		<tr>
+		    			<td><lable style="color:red;">*</lable>用户分类:</td>
+		    			<td>
+		    				<select class="easyui-combobox" name="userType" data-options="panelHeight:'auto',required:true " style="width:200px;">
+								<option	value=""> </option>
+								<option	value="LO">本地</option>
+								<option value="OA">OA</option>
+							</select>
+						</td>
+		    		</tr>
+		    	</table>
+		    </form>
+		    <div style="text-align:center;padding:5px">
+		    	<a href="javascript:void(0)" class="easyui-linkbutton AddButton" >提交</a>
+		    </div>
+	    </div>
+	</div>
+	<script type="text/javascript" src="/cmc/common/js/admin/user.js"></script>
+</body>
+</html>

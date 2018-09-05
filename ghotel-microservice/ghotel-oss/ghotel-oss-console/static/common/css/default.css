@@ -1,0 +1,432 @@
+/* CSS Document */
+/*edit by bingosoft:fangwei*/
+/*Version 1.0  Beta 2004-07-20*/
+/********** ********** ********** ********** **********/
+/********** BINGOA ELEMENTS STYLE            **********/
+/********** ********** ********** ********** **********/
+body
+{ 
+	margin:0 0 0 0;
+	font-size:9pt;
+	color:#222222; 
+	SCROLLBAR-FACE-COLOR:  #3252A2;  
+ 	SCROLLBAR-HIGHLIGHT-COLOR:  #F3F8FF;  
+ 	SCROLLBAR-SHADOW-COLOR:  #F3F8FF;  
+	 SCROLLBAR-3DLIGHT-COLOR:  #3252A2;  
+ 	SCROLLBAR-ARROW-COLOR:  white;  
+	 SCROLLBAR-TRACK-COLOR:  #E2E5F7;  
+ 	SCROLLBAR-DARKSHADOW-COLOR:  #3252A2;  
+ 	SCROLLBAR-BASE-COLOR:  #3252A2; 
+}
+body  {
+    BACKGROUND-COLOR: RGB(243,248,254);
+    COLOR: #333366;
+    FONT-FAMILY: 'Times New Roman';
+	margin:0px;
+	SCROLLBAR-FACE-COLOR: #799AE1;
+	SCROLLBAR-HIGHLIGHT-COLOR: #799AE1;
+	SCROLLBAR-SHADOW-COLOR: #799AE1;
+	SCROLLBAR-DARKSHADOW-COLOR: #799AE1;
+	SCROLLBAR-3DLIGHT-COLOR: #799AE1;
+	SCROLLBAR-ARROW-COLOR: #FFFFFF;
+	SCROLLBAR-TRACK-COLOR: #AABFEC;
+	font-size: 12px;
+	color: #333333;
+	margin-top: 0px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+table,input,textarea,div
+{
+	font-size:9pt;
+	color:#222222;
+}
+.ecstable {
+			border-collapse: collapse;
+			cellpadding: 3px;
+			cellspacing: 1px;
+			border: 1 solid #6595d6;
+}
+
+a:link
+{
+	color:blue;
+	text-decoration:none;
+}
+a:visited
+{
+	color:#blue;
+	text-decoration:none;
+}
+a:hover
+{
+	color:red;
+	text-decoration:none;
+}
+.button {
+	font-size: 12px;
+	border-left: 1px solid #AABFEC; 
+	border-right: 1px solid #6595D6; 
+	border-top: 1px solid #AABFEC; 
+	border-bottom: 1px solid #6595D6; 
+	background-color: #D6DFF7;
+	color: #1553C2;
+	margin-right:2px;
+}
+/********** ********** ********** ********** **********/
+/********** BINGOA COMMON STYLE              **********/
+/********** ********** ********** ********** **********/
+
+.common_textarea
+{
+	font-size:9pt;
+	border-bottom:1px solid #7F9DB9;
+	border-top:1px solid #7F9DB9;
+	border-left:1px solid #7F9DB9;
+	border-right:1px solid #7F9DB9;
+	width:auto;
+}
+.fw_button
+{
+	font-size:9pt;
+	border-bottom:1px solid #7F9DB9;
+	border-top:1px solid #7F9DB9;
+	border-left:1px solid #7F9DB9;
+	border-right:1px solid #7F9DB9;
+	width:66px;
+	cursor:hand;
+}
+.common_width_space
+{
+	width:10px;
+}
+/********** ********** ********** ********** **********/
+/********** BINGOA-PORTALTOP_SEARCHBAR       **********/
+/********** ********** ********** ********** **********/
+.fwdatagrid_toolbar_1
+{
+	background-image:url(/AMS/common/images/fwdatagrid_toolbar_1.gif);
+	width:15px;
+	height:24px;	
+}
+.fwdatagrid_toolbar_2
+{
+	background-image:url(/AMS/common/images/fwdatagrid_toolbar_2.gif);
+	width:auto;
+}
+.fwdatagrid_toolbar_3
+{
+	background-image:url(/AMS/common/images/fwdatagrid_toolbar_3.gif);
+	width:15px;	
+}
+.fwdatagrid_toolbar_img_TD
+{
+	width:18px;
+	padding-left:8px;
+}
+.fwdatagrid_toolbar_FONT
+{
+	padding-top:2px;
+	padding-right:8px;
+	color:#fff;	
+}
+
+a.fwdatagrid_toolbar_LINK:link
+{
+	color:#fff;
+	text-decoration:none;	
+}
+a.fwdatagrid_toolbar_LINK:visited
+{
+	color:#fff;
+	text-decoration:none;	
+}
+a.fwdatagrid_toolbar_LINK:hover
+{
+	color:#FCAD38;
+	text-decoration:none;	
+}
+a.fwdatagrid_toolbar_LINK_select:link
+{
+	color:#FCAD38;
+	font-weight:bold;
+	text-decoration:none;
+}
+a.fwdatagrid_toolbar_LINK_select:visited
+{
+	color:#FCAD38;
+	font-weight:bold;
+	text-decoration:none;	
+}
+a.fwdatagrid_toolbar_LINK_select:hover
+{
+	color:#fff;
+	font-weight:bold;
+	text-decoration:none;	
+}
+/********** ********** ********** ********** **********/
+/********** BINGOA-OPENWINMAIN               **********/
+/********** ********** ********** ********** **********/
+.openWin_operatebar_BG
+{}
+.openWin_operatebar_TD
+{
+	height:30px;
+	padding-top:10px;
+	text-align:right;
+	padding-right:5px;	
+}
+.openWin_toolbar_1
+{
+	background-image:url(/AMS/common/images/openWin_toolbar_1.gif);
+	width:15px;
+	height:23px;	
+}
+.openWin_toolbar_2
+{
+	background-image:url(/AMS/common/images/openWin_toolbar_2.gif);
+	width:auto;
+}
+.openWin_toolbar_3
+{
+	background-image:url(/AMS/common/images/openWin_toolbar_3.gif);
+	width:15px;	
+}
+a.openWin_toolbar_LINK:link
+{
+	color:#222222;
+	text-decoration:none;
+	cursor:hand;
+}
+a.openWin_toolbar_LINK:visited
+{
+	color:#222222;
+	text-decoration:none;	
+}
+a.openWin_toolbar_LINK:hover
+{
+	color:#FCAD38;
+	text-decoration:none;	
+}
+/*EDF2F8*********/
+.openWin_ltmain_BG
+{
+	width:100px;
+	height:22px;
+	padding-right:3px;
+	text-align:left;
+	background-color:#F3F8FE;	
+}
+.openWin_ltmain_font
+{
+	color:#396C9F;
+	padding-left:2px;
+	padding-top:2px;
+	padding-bottom:2px;
+}
+.openWin_rtmain_BG
+{	
+	padding-left:3px;
+	padding-right:20px;
+	background-color:#F3F8FE;	
+}
+.openWin_mdmain_BG
+{	
+	padding-left:3px;
+	background-color:#F3F8FE;	
+}
+.openWin_rtmain_font
+{
+	color:#396C9F;
+	padding-left:2px;
+	padding-top:2px;
+	padding-bottom:2px;
+}
+.fwOpenWin_RolesList_TD
+{
+	padding:5px 18px 18px 19px;	
+}
+.fwOpenWin_RolesList
+{
+	BORDER-RIGHT: #7F9DB9 1px solid; 
+	BORDER-TOP: #7F9DB9 1px solid; 
+	BORDER-LEFT: #7F9DB9 1px solid;
+	BORDER-BOTTOM: #7F9DB9 1px solid; 
+	OVERFLOW: auto; 
+	HEIGHT: 100px; 
+	BACKGROUND-COLOR: #ffffff; 
+	TEXT-ALIGN: left;
+	
+}
+.fwOpenWin_RolesList_DG
+{
+	BORDER-RIGHT: #7F9DB9 1px solid; 
+	BORDER-LEFT: #7F9DB9 1px solid;
+	BORDER-BOTTOM: #7F9DB9 1px solid; 
+	BORDER-TOP: #7F9DB9 1px solid;
+	OVERFLOW: auto; 
+	BACKGROUND-COLOR: #ffffff; 
+	
+}
+
+input.dateTimePicker
+{
+	width:70px;
+	behavior: url(/AMS/common/htc/calendar.htc);
+}
+ 
+/********** Bingosoft*TABpagesStyle **********/
+.fwNoRightsMessage_FONT
+{
+	font-size:16pt;	
+	font-weight:bold;
+	color:#FCAD38;
+}
+/*New*/
+.pic_padding
+{
+	padding:4px 4px 4px 4px;
+	width:10px;
+	BACKGROUND-COLOR:#fff;
+}
+.divBorderColor
+{
+	BACKGROUND-COLOR: #7CA4C9
+}
+.myselect{
+	behavior:url(/AMS/common/htc/select.htc);
+}
+.myselect2 {
+	behavior:url(/AMS/common/htc/list.htc);
+}
+.DG_btn_Pd{text-align:left;padding-top:5px;}
+.DG_btn_I{cursor:hand;}
+.DG_btn_F{}
+a.DG_btn_LK:link,a.DG_btn_LK:visited{}
+a.DG_btn_LK:hover{}
+.tab_yy {
+    BORDER-RIGHT: 3px outset; 
+	BORDER-TOP: 3px outset; 
+	BORDER-LEFT: 3px outset; 
+	BORDER-BOTTOM: 3px outset
+}
+.new_button {
+	border-left: 1px solid #AABFEC; 
+	border-right: 1px solid #6595D6; 
+	border-top: 1px solid #AABFEC; 
+	border-bottom: 1px solid #6595D6; 
+	background-color: #D6DFF7;
+	color: #1553C2;
+}
+
+
+/* CSS Document */
+
+td,th{
+	font-size:12px;
+}
+a:link {
+	color: #0000FF;
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #0000FF;
+}
+a:hover {
+	text-decoration: none;
+	color: #FF9900;
+}
+a:active {
+	text-decoration: none;
+	color: #FF9900;}
+	
+tr {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 12px;}
+INPUT {
+	FONT-SIZE: 12px;
+	
+}
+select {font-size: 12px;}
+.button {
+	border-left: 1px solid #AABFEC; 
+	border-right: 1px solid #6595D6; 
+	border-top: 1px solid #AABFEC; 
+	border-bottom: 1px solid #6595D6; 
+	background-color: #D6DFF7;
+	color: #1553C2;
+}
+.text {font-size:12px;}
+.table {
+	border-collapse: collapse;
+	cellpadding: 3px;
+	cellspacing: 1px;
+	border: 0 solid #6595D6;}
+.tr1 {
+	font-weight: bold;
+	color: #FFFFFF;
+	background-image: url(/AMS/common/images/bg1.gif);
+	height: 19px;
+}
+.tr2 {
+	background-color: #FFFFFF;
+	background-image: url(/AMS/common/images/bg2.gif);
+	background-color: #F3F4FA;
+	background-repeat:repeat-x;
+	background-position:bottom;
+	height:23PX;
+}
+.tr3 {
+	background-color: #EFEFEF;
+}
+.tr4 {
+	font-size: 9pt;
+	color: #333333;
+	background-color: #EFEFEF;
+}
+.tr5 {
+	font-size: 9pt;
+	color: #333333;
+	background-color: #EFF4FA;
+}
+.tr6 {
+	color: #FFFFFF;
+	background-color:#5883DA;
+	height: 30px;
+	font-size: 14.8px;
+}
+.tr8 {
+	background-color:#FFFFFF;
+	font-size: 9pt;
+	color: #000000;
+	font-weight: normal;
+}
+.tr9 {
+	background-color: #799ae1;
+	font-size: 9pt;
+}
+
+.trh
+{
+	font-weight: bold;
+	color: #FFFFFF;
+	background-image: url(/AMS/common/images/bg1.gif);
+	height: 10px;
+}
+.no_bolder {  
+	background-color:#F3F8FE;
+	border-left-width:0px;
+	border-right-width:0px;
+	border-top-width:0px;
+	border-bottom-style:solid;
+	border-bottom-width:0px;
+}
+.font9white {
+	font-size: 9pt;
+	color: #FFFFFF;
+}
+.tr_form {
+	background-color: #799ae1;
+	font-size: 9pt;
+}

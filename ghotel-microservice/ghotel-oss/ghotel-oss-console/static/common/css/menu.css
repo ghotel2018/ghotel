@@ -1,0 +1,37 @@
+BODY {
+	BACKGROUND:#799ae1; FONT: 12px ËÎÌו; MARGIN: 0px; SCROLLBAR-FACE-COLOR: #799AE1; SCROLLBAR-HIGHLIGHT-COLOR: #799AE1; SCROLLBAR-SHADOW-COLOR: #799AE1; SCROLLBAR-DARKSHADOW-COLOR: #799AE1; SCROLLBAR-3DLIGHT-COLOR: #ffffff; SCROLLBAR-ARROW-COLOR: #FFFFFF; SCROLLBAR-TRACK-COLOR: #AABFEC
+}
+BODY {
+	BORDER-RIGHT: #999999 1px solid; BORDER-LEFT: #999999 1px solid;border-bottom:#cccccc 1px solid
+}
+TABLE {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; BORDER-RIGHT: 0px; BORDER-TOP: 0px
+}
+TD {
+	FONT: 12px ËÎÌו
+}
+IMG {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; BORDER-RIGHT: 0px; BORDER-TOP: 0px; VERTICAL-ALIGN: bottom
+}
+A {
+	COLOR: #000000; FONT: 12px ËÎÌו; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #428eff; TEXT-DECORATION: underline
+}
+.sec_menu {
+	BACKGROUND: #D6DFF7; BORDER-BOTTOM: white 1px solid; BORDER-LEFT: white 1px solid; BORDER-RIGHT: white 1px solid; OVERFLOW: hidden
+}
+.menu_title {
+	
+}
+.menu_title SPAN {
+	COLOR: #215dc6; FONT-WEIGHT: bold; LEFT: 8px; POSITION: relative; TOP: 2px
+}
+.menu_title2 {
+	
+}
+.menu_title2 SPAN {
+	COLOR: #428eff; FONT-WEIGHT: bold; LEFT: 8px; POSITION: relative; TOP: 2px
+}
+

@@ -1,0 +1,122 @@
+body  {
+	SCROLLBAR-FACE-COLOR: #799AE1;
+	SCROLLBAR-HIGHLIGHT-COLOR: #799AE1;
+	SCROLLBAR-SHADOW-COLOR: #FFFFFF;
+	SCROLLBAR-DARKSHADOW-COLOR: #799AE1;
+	SCROLLBAR-3DLIGHT-COLOR: #799AE1;
+	SCROLLBAR-ARROW-COLOR: #FFFFFF;
+	SCROLLBAR-TRACK-COLOR: #AABFEC;
+	font-size: 9pt;
+	color: #333333;
+	margin-top: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-bottom: 10px;
+}
+a:link {
+	color: #0000FF;
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #0000FF;
+}
+a:hover {
+	text-decoration: none;
+	color: #FF9900;
+}
+a:active {
+	text-decoration: none;
+	color: #FF9900;}
+INPUT {
+	FONT-SIZE: 9pt;
+	border: 1px solid #999999;
+}
+
+textarea{
+	FONT-SIZE: 9pt;
+	border: 1px solid #003399;
+}
+select {font-size: 9pt;}
+.button {
+	border-left: 1px solid #AABFEC; 
+	border-right: 1px solid #6595D6; 
+	border-top: 1px solid #AABFEC; 
+	border-bottom: 1px solid #6595D6; 
+	background-color: #D6DFF7;
+	color: #1553C2;
+}
+.text {font-size:9pt;}
+.table {
+	border-collapse: collapse;
+	cellpadding: 3px;
+	cellspacing: 1px;
+	border: 0 solid #6595D6;}
+.tr1 {
+	color: #FFFFFF;
+	background-color:#5883DA;
+	height: 30px;
+	font-size: 14.8px;
+}
+.tr2 {
+	background-color: #FFFFFF;
+	color:red;
+	background-image: url(images/bg2.GIF);
+	background-color: #F3F4FA;
+	background-repeat:repeat-x;
+	background-position:bottom;
+	height:23PX;
+}
+.tr3 {
+	background-color: #799ae1;
+	font-size: 9pt;
+}
+.tr5 {
+	
+	color: #000000;
+	background-image: url(images/bg2.gif);
+	height: 22px;
+}
+.tr4 {
+	background-color:#FFFFFF;
+	font-size: 9pt;
+	color: #000000;
+	font-weight: normal;
+}
+
+
+.red{color: red;}
+a.white:link {
+	color: #FFFFFF;
+	text-decoration: none;
+	font-size: 9pt;
+}
+a.white:visited {
+	text-decoration: none;
+	color: #FFFFFF;
+	font-size: 9pt;
+}
+a.white:hover {
+	text-decoration: underline;
+	color: #FF9900;
+	font-size: 9pt;
+}
+a.white:active {
+	text-decoration: none;
+	color: #FFFFFF;
+	font-size: 9pt;
+}
+	
+.tr6 {
+	font-size: 14.8px;
+	color: #FFFFFF;
+	background-color: #039BC7;
+}
+.font9white {
+	font-size: 9pt;
+	color: #FFFFFF;
+}
+.font9black {
+	font-size: 9pt;
+	color: #000000;
+}

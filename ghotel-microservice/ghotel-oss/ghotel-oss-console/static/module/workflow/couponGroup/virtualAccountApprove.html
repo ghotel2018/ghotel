@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<html>
+<head>
+    <LINK rel="stylesheet" href="/cmc/common/css/default.css"type="text/css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">   
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+    <LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+</head>
+<body >
+  	<DIV id="container" class="container"> 
+	<div id='mainContent' class="mainContent" >
+	   <form id="addCoupAccountForm" class="easyui-form" method="post">
+			<table class="tbStyle" style="width:100%" >
+			     <tr>
+					<td colspan="2">您好，目前优惠劵账户总余额：<span id="addAccountValue"
+							style="color: red;"></span>元
+					</td>
+				</tr>
+				<tr>
+					<td  align="right">审批意见：</td>
+					<td ><textarea name="applyComment" id="applyComment"  rows="15" cols="35"  class="easyui-textbox" data-options="multiline:true,height:100," ></textarea>
+					</td>
+			    </tr>
+			</table>
+		 </form>
+		</div>
+	</DIV>
+	<div id="selectApporUser" ></div>
+</body>
+</html>

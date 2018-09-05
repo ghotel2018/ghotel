@@ -1,0 +1,304 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>调度任务管理</title>
+    <LINK rel="stylesheet" href="/cmc/common/css/default.css"type="text/css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+	<link rel="stylesheet" href="/cmc/common/css/jsonview.css" type="text/css">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">   
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/jsonToTree.js"></script>
+<LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+  </head>
+  
+  <BODY>
+	  <div id='mainContent' class="myMainContent" >
+		<div class="easyui-panel" title="查询条件">
+			<!-- <div style="padding-left:10px;margin:2px;color:red;" >
+				请注意: 
+				<ul>
+					<li>a. 只有启用了的任务才能启动！</li><li>b. 只有状态为执行中的自启动的调度工作才会在系统启动的时候启动！</li>
+					<li>c. 停止所有任务的动作只会操作已启用和执行中的工作</li><li>d. 启动所有任务的动作只会操作已启用和执行中或暂停的工作</li>
+				</ul>
+			</div> -->
+			<form id="jobSearchForm" class="easyui-form CMCSearchForm" method="post" data-options="novalidate:true" >
+				<table class="tbStyle" style="width:100%;color:red;">
+					<tr>
+						<th width="15%" rowspan="2" style="font-weight:bold;">注意事项:</th>
+						<td>a. 只有启用了的任务才能启动。</td>
+						<td>b. 只有状态为执行中的自启动的调度工作才会在系统启动的时候启动。</td>
+					</tr>
+					<tr>
+						<td>c. 停止所有任务的动作只会操作已启用和执行中的工作。</td>
+						<td>d. 启动所有任务的动作只会操作已启用和执行中或暂停的工作。</td>
+					</tr>
+				</table>
+				<table class="tbStyle" style="width:100%;">
+					<tr>
+						<th width="15%">工作名称:</th>
+						<td width="35%">
+							<input class="easyui-textbox" type="text" name="jobName"
+							data-options="required:false"  style="width:250px;" ></input></td>
+						<th width="15%">工作类型:</th>
+						<td width="35%">
+							 <input  name="jobType" style="width:250px;" class="easyui-textbox"  >
+						</td>
+					</tr>
+					<tr>
+						<!-- <th>工作状态:</th>
+						<td>
+							<select class="easyui-combobox" name="jobStatus" style="width:250px;" data-options="panelHeight: '80px'"  >
+								<option	value=""> </option>
+								<option	value="0">空闲</option>
+								<option value="1">运行中</option>
+								<option value="-1">出错</option>
+								<option value="2">暂停</option>
+							</select>
+							
+						</td> -->
+						<!-- <th>是否自启动:</th>
+						<td>
+							<select class="easyui-combobox" name="jobAutoStartId" style="width:250px;" data-options="panelHeight: '60px'"  >
+								<option	value=""> </option>
+								<option	value="1">自启动</option>
+								<option value="0">非自启动</option>
+							</select>
+						</td> -->
+					</tr>
+					<tr>
+						<th>是否启用:</th>
+						<td>
+							<select class="easyui-combobox" name="jobEnableInd" style="width:250px;" data-options="panelHeight: '60px'"  >
+								<option	value=""> </option>
+								<option	value="0">未启用</option>
+								<option value="1">已启用</option>
+							</select>
+						</td>
+						<th></th>
+						<td></td>	
+					</tr>
+				</table>
+			</form>
+			
+			<div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:5px;width:70%; ">
+				<a href="javascript:void(0)" class="easyui-linkbutton CMCSearchButton" permission="Scheduler:getAll" >查询</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="addJob" permission="Scheduler:add" >新建</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="updateJob" permission="Scheduler:update,get">修改</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="showTask" permission="Scheduler:get,listTasks">任务记录管理</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="enableJob" onclick="Scheduler.updateEnableInd(1,0);" permission="Scheduler:update">启用</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="disableJob" onclick="Scheduler.updateEnableInd(0,1);" permission="Scheduler:update">禁用</a>
+<!-- 				<a href="javascript:void(0)" class="easyui-linkbutton" id="startJob" onclick="Scheduler.startJob()" permission="Scheduler:startJob">启动</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="pauseJob" onclick="Scheduler.stopJob();"  permission="Scheduler:stopJob">停止</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="startJob" onclick="Scheduler.startAll();" permission="Scheduler:startAllJob">启动所有</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="startJob" onclick="Scheduler.stopAll();" permission="Scheduler:stopAllJob">停止所有</a> -->
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="disableJob" onclick="Scheduler.openInstanceMnt();" permission="Scheduler:update">实例管理</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="deleteJob" permission="Resource:delete">删除</a>
+			</div>
+		</div>
+		<div id="showJobDetailDialog" class="easyui-dialog" title="工作详细信息" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:650px;height:400px;padding:10px">
+				<div style="padding:10px ">
+				    <form id="jobForm"  method="post" data-options="novalidate:true">
+				    	<table cellpadding="5">
+				    		<tr>
+				    			<td>
+				    				<input type="hidden" name="jobId" />
+				    			</td>
+				    		</tr>
+				    		<tr>
+				    			<td><label style="color:red;">*</label>工作名称:</td>
+				    			<td ><input class="easyui-textbox" type="text" name="jobName" data-options="required:true"></input></td>
+				    			<td rowspan="3"><div id="showCheckResult"></div></td>
+				    		</tr>
+				    		<tr >
+				    			<td><label style="color:red;">*</label>Cron表达式:</td>
+				    			<td><input class="easyui-textbox" type="text" name="jobCronExp" data-options="required:true,onchange:Scheduler.checkChange"></input></td>
+				    			
+				    		</tr>
+				    		<tr>
+				    			<td><label style="color:red;">*</label>任务类型:</td>
+				    			<td ><input class="easyui-textbox" name="jobType" data-options="multiline:false,required:true" ></input></td>
+				    		</tr>
+				    		<!-- <tr>
+				    			<td><label style="color:red;">*</label>是否自启动:</td>
+				    			<td colspan="2">
+				    				<select class="easyui-combobox" name="jobAutoStartId" style="width:100px;" data-options="panelHeight: '60px'"  >
+										<option	value=""> </option>
+										<option	value="1">自启动</option>
+										<option value="0">非自启动</option>
+									</select>
+								</td>
+				    		</tr> -->
+				    		<tr>
+				    			<td><label style="color:red;">*</label>调用类型:</td>
+				    			<td colspan="2">
+				    				<select class="easyui-combobox" name="handlerType" style="width:100px;" data-options="panelHeight: '60px'"  >
+										<option	value=""> </option>
+										<option	value="0">系统自定义类</option>
+										<option value="1">外部接口</option>
+									</select>
+								</td>
+				    		</tr>
+				    		<tr id="isSingletonDisplayControl">
+				    			<td ><label style="color:red;">*</label>是否单实例运行:</td>
+				    			<td ><input  type="hidden" id="isSingleton" name="isSingleton" value=0 />
+				    				<input type="checkbox" onchange="Scheduler.isSingletonCheckBoxChange(this);"  >
+				    			</td>
+				    		</tr>
+				    		<tr>
+				    			<td ><label style="color:red;">*</label>处理器(若为接口，请输入完整URL):</td>
+				    			<td ><input class="easyui-textbox" name="handler" data-options="multiline:true,required:true" style="width:200px;height:80px;"></input></td>
+				    		</tr>
+				    		<tr>
+				    			<td>工作描述:</td>
+				    			<td>
+				    				<input class="easyui-textbox" name="jobDesc" data-options="multiline:true,required:false" style="width:200px;height:60px"></input>
+								</td>
+				    		</tr>
+				    	</table>
+				    </form>
+				    <div style="text-align:center;padding:5px">
+				    	<a href="javascript:void(0)" class="easyui-linkbutton" id="addNewBtn">提交</a>
+				    	<a href="javascript:void(0)" class="easyui-linkbutton" id="updateBtn">更新</a>
+				    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('showJobDetailDialog','close')">关闭</a>
+				    </div>
+			    </div>
+		</div>
+		 <div id="showJobTaskDialog" class="easyui-dialog" title="任务列表" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:1000px;height:550px;padding:10px">
+               <div style="padding:10px 10px 10px 10px">
+					<form id="jobDetailSearchForm" class="easyui-form" method="post" data-options="novalidate:true">
+						<table cellpadding="5">
+							<tr>
+								<td>
+									<input type='hidden' name='start' id="tasksStart" value=1 /> 
+									<input type='hidden' name='end' id="tasksEnd"  value=10 />
+									<input type="hidden" name='jobType'  id="jobTypeInput" />
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+                <table align="center">
+                    <tr>
+                        <td>工作类型：</td>
+                        <td width="30%"><label id="jobType"></label></td>
+                        <td>工作名称：</td>
+                        <td width="30%"><label id="jobName"></label></td>
+                    </tr>
+                    <tr>
+                        <td>工作状态：</td>
+                        <td><label id="jobStatus"></label></td>
+                        <td>表达式：</td>
+                        <td><label id="jobCronExp"></label></td>
+                    </tr>
+                    <tr>
+                       <!--  <td>是否自启动：</td>
+                        <td><label id="jobAutoStart"></label></td> -->
+                        <td>是否启用:</td>
+                        <td><label id="jobEnabled"></label></td>
+                    </tr>
+
+                    <tr>
+                        <td>描述：</td>
+                        <td><label id="jobDesc"></label></td>
+                    </tr>
+					<tr>
+						<td><a href="javascript:void(0)" class="easyui-linkbutton"  onclick="Scheduler.finish()" permission="Scheduler:finishTask">终止</a></td>
+					</tr>
+                </table>
+				<table id="taskResultTable"  class="easyui-datagrid" style='width:100%;height:350px'>
+					<!-- <thead>
+					<tr>
+						<th data-options="field:'taskName',width:'18%'">任务名称</th>
+						<th data-options="field:'taskDesc',width:'12%'">任务描述</th>
+						<th data-options="field:'taskParameter',width:'25%',formatter:Scheduler.showParamDetail">任务参数</th>
+						<th data-options="field:'taskCreateBy',width:'10%'">创建人</th>
+						<th data-options="field:'taskCreateTime',width:'13%'">创建时间</th>
+						<th data-options="field:'taskCompleteTime',width:'13%'">完成时间</th>
+						<th data-options="field:'taskStatus',width:'9%'">任务状态</th>
+					</tr>
+					</thead> -->
+				</table>
+        </div>
+	</div>
+	<div id="searchJobInstanceDialog" class="easyui-dialog" title="任务实例管理" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:750px;height:430px;">
+		<form id="JobInstanceForm" class="easyui-form" method="post" data-options="novalidate:true"  style="width:100%;height:50px;">
+			<table cellpadding="5" style="algin:middle; margin-top:20px;" >
+				<tr>
+	    			<input type='hidden' id="jobId" name='jobId' /> 
+	    		</tr>
+				<tr style="algin:center">
+					<td>当前工作:</td>
+					<td><label id="jobName"></label></td>
+				</tr>
+				<tr style="algin:center">
+					<td>IP地址:</td>
+					<td><input class="easyui-textbox" type="text" name="ipAddr"
+						data-options="required:false"  style="width:200px;" ></input></td>
+				</tr>
+			</table>
+		</form>
+		<div id="buttonBar" class='footer' style="text-align:center;padding:5px;width:70%;height:50px; ">
+			<a href="javascript:void(0)" class="easyui-linkbutton " id="searchJobInstanceList"  >查询</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" id="startJobInstance" >启动实例</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" id="stopJobInstance" >停止实例</a>
+<!-- 			<a href="javascript:void(0)" class="easyui-linkbutton" id="startAllJobInstance" >启动所有实例</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" id="stopAllJobInstance" >停止所有实例</a> -->
+			<a href="javascript:void(0)" class="easyui-linkbutton" id="registerJobInstance" >注册实例</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" id="deleteJobInstance" >删除实例 </a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" id="runJobOne" >执行一次</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('searchJobInstanceDialog','close');">关闭</a>
+		</div>
+		<table id='jobInstanceTable' class='easyui-datagrid' title='任务实例' style='width:100%;height:250px'>
+			<thead>
+				<tr>
+           			<th data-options="field:'permissionDesc',width:'50%'">IP地址</th>
+           			<th data-options="field:'permissionExp',width:'20%'">端口</th>
+           			<th data-options="field:'permissionExp',width:'20%'">实例状态</th>
+           			<th data-options="field:'permissionExp',width:'10%'">信息</th>
+       			</tr>
+      			</thead>
+		</table>
+</div>
+	<div id="registerJobInstanceDialog" class="easyui-dialog" title="任务实例管理" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:350px;height:200px;">
+		<form id="registerForm" class="easyui-form" method="post" data-options="novalidate:true"  style="width:100%;height:100px;">
+			<table cellpadding="5" style="algin:middle; margin-top:20px;" >
+				<tr>
+	    			<input type='hidden' id="jobId" name='jobId' /> 
+	    		</tr>
+				<tr style="algin:center">
+					<td>IP地址:</td>
+					<td><input class="easyui-textbox" type="text" name="ipAddr"
+						data-options="required:true"  style="width:200px;" ></input></td>
+				</tr>
+				<tr style="algin:center">
+					<td>端口:</td>
+					<td><input class="easyui-numberbox" type="text" name="port"
+						data-options="required:true"  style="width:200px;" ></input></td>
+				</tr>
+				<tr style="algin:center">
+					<td>路径:</td>
+					<td><input class="easyui-textbox" type="text" name="path"
+						data-options="required:true"  style="width:200px;" ></input></td>
+				</tr>
+			</table>
+			<div style="text-align:center;padding:5px">
+		    	<a href="javascript:void(0)" class="easyui-linkbutton" id="submitRegisterForm" >提交</a>
+		    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('registerJobInstanceDialog','close');">关闭</a>
+		    </div>
+		</form>
+	</div>
+	<div id="showTaskParamsDetailDialog" class="easyui-dialog" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:820px;height:580px;">
+		<label id="taskParamsOfDialog" ></label>
+	</div>
+	<div id="showJobInstanceErrDetailDialog" class="easyui-dialog" title='错误信息' data-options="iconCls:'icon-save',modal:true,closed: true" style="width:320px;height:280px;">
+		<label id="jobInstanceErrLabel" ></label>
+	</div>
+
+<script type="text/javascript" src="/cmc/common/js/admin/scheduler.js"></script>
+  </body>
+</html>

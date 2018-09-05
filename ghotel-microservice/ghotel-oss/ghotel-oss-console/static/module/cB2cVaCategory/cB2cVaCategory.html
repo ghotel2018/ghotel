@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>类目管理</title>
+<LINK rel="stylesheet" href="/cmc/common/css/default.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/cmc/common/js/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+<LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+</head>
+<BODY>
+	<div id='mainContent' class="myMainContent">
+		<div id="middlerId" class="easyui-panel" title="查询条件">
+			<form id="cB2cVaCategorySearchForm" class="easyui-form CMCSearchForm"
+				method="post">
+				<table class="tbStyle" style="width:100%">
+					<tr>
+						<th width="15%" >类目名称：</th>
+						<td width="35%">
+							<input type="text" id="name" name="name" class="easyui-validatebox" style="width: 250px;"/>
+						</td>
+						<th width="15%" >备注：</th>
+						<td width="35%">
+							<input type="text" id="description" name="description" class="easyui-validatebox" style="width: 250px;"  />
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div id="buttonBar" class='footer CMCButtonBar'
+				style="text-align: center; padding: 5px; width: 70%;">
+				
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="clearCondition">清空</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton CMCSearchButton">查询</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="searchFormAdd" permission="CB2cVaCategory:add" style="margin-left:20px;">新增</a> 
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="searchFormUpdate" permission="CB2cVaCategory:modify">编辑</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="searchFormDelete" permission="CB2cVaCategory:delete">删除</a>
+			</div>
+		</div>
+	</div>
+
+	<div id="winCB2cVaCategorySave" class="easyui-dialog" title="类目管理" style="width:600px;height:240px;"  
+		data-options="modal:true,closed:true,shadow:true,minimizable:false,collapsible:false,maximizable:false,closed:true,resetForm:true"  >
+		<div id="update" style="margin:5px;">
+			<form id="addCB2cVaCategorySaveForm" class="easyui-form" method="post">
+				<table class="tbStyle" style="width:100%">
+					<tr>
+						<th width="30%" >类目名称：</th>
+						<td width="70%" >
+							<input type="text" id="name_add" name="name" 
+								class="easyui-validatebox" style="width: 230px;"/></td>
+					</tr>
+					<tr>
+						<th width="30%" ><span style="color:red">*</span>备注&nbsp;：</th>
+						<td width="70%" >
+							<input class="easyui-validatebox validatebox-radius" style="width: 230px;" 
+								 id="description_add" name="description" data-options="required:true" />
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div id="buttonBar" class='footer' style="text-align: center; padding: 5px; width: 70%;">
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="saveForm">保存</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="saveCancel">关闭</a>
+			</div>
+		</div>
+	</div>
+	
+	<div id="winCB2cVaCategoryUpdate" class="easyui-dialog" title="类目管理" data-options="modal:true,closed:true,shadow:true,minimizable:false,collapsible:false,maximizable:false,closed:true,resetForm:true" style="width:600px;height:240px;"   >
+		<div id="update" style="margin:5px;">
+			<form id="cB2cVaCategoryUpdateForm" class="easyui-form">
+				<input type="hidden" id="id_update" name="id" />
+				<table class="tbStyle" style="width:100%">
+					<tr>
+						<th width="40%" >类目名称：</th>
+						<td width="60%" >
+							<input type="text" id="name_update" name="name" 
+								class="easyui-validatebox" style="width: 230px;"/></td>
+						</td>
+					</tr>
+					<tr>
+						<th>备注：</th>
+						<td>
+							<input type="text" id="description_update" name="description"
+								 class="easyui-validatebox"  style="width: 230px;"/>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div id="buttonBar" class='footer' style="text-align: center; padding: 5px; width: 70%;">
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="updateForm">保存</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="updateCancel">关闭</a>
+			</div>
+		</div>
+	</div>
+	
+	
+</body>
+
+<script type="text/javascript"
+	src="/cmc/common/js/cB2cVaCategory/cB2cVaCategory.js"></script>
+</html>

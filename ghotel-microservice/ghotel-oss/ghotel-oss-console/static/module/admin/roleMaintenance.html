@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>角色管理</title>
+	<LINK rel="stylesheet" href="/cmc/common/css/default.css"type="text/css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">   
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+	<LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+  </head>
+  
+  <BODY>
+    	<DIV id="container" class="container"> 
+	  <div id='mainContent' class="mainContent" > 
+			 <!--  <h2>角色管理</h2> -->
+				<div style="margin:20px 0;"></div>
+				<div><label style="color:red;font-weight:bold;">请注意: 如要配置页面新增，删除和更新等操作权限，请先绑定页面访问权限(/authorized/***/access),第二层角色组是管理员，需要配置数据库与权限的关联记录。 </label> </div>
+				<div style="height:95%;width:100%;">
+					<div style="float:left;width:20%; height:100%;" >
+			  			<div class="easyui-panel" title="角色" style="height:90%;width:width:100%;"  >
+							<ul id="tree" class="easyui-tree" ></ul>
+						</div>
+					</div>
+					<div style="float:right;width:80%;height:100%; ">
+						<div id="updateNodeDetail" style="width:100%;display:none;height: 90%;" >
+							<div style="padding:0px;height:250px;width:750px;">
+								<div class="easyui-panel" title='详细信息' style="width:100%;height: 230px;" >
+									<form id="updateRoleForm" class="easyui-form" method="post" data-options="novalidate:true" style="width:100%;">
+											<table cellpadding="5" style="algin:middle;" >
+												<tr>
+													<td colspan="2"><input type="hidden" name='id' /> </td>
+												</tr>
+												<tr>
+													<td><label style="color:red;">*</label>角色名称:</td>
+													<td><input class="easyui-textbox" type="text" name="roleName"
+														data-options="required:true"  style="width:200px;" ></input></td>
+												</tr>
+												<tr>
+													<td>角色描述:</td>
+													<td><input class="easyui-textbox" type="text" name="roleDesc"
+														data-options=" required:false,multipleline:true " style="width:200px;height:100px;" ></input></td>
+												</tr>
+												<tr>
+													<td>父节点名称:</td>
+													<td><input class="easyui-textbox" type="text"
+														name="parentName" data-options="required:false" style="width:100px;" ></input></td>
+												</tr>
+											</table>
+										</form>
+										<div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:0px;width:60%;position:absolute; height: 50px;">
+											<a href="javascript:void(0)" class="easyui-linkbutton" id="updateRole" permission="Role:update">更新</a>
+											<a href="javascript:void(0)" class="easyui-linkbutton" id="addPermission" permission="Role:addBindingPerm" >添加权限</a>
+											<a href="javascript:void(0)" class="easyui-linkbutton" id="removePermission"  permission="Role:rmBindingPerm" >移除权限</a>
+										</div>
+								</div>
+							</div>
+							<div style="margin:5px 0;padding:0px;width:750px;height:200px;">
+								<table id='bindingPermTable' class='easyui-datagrid' title='关联权限列表' style='width:100%;height:220px;padding-left:10px;'>
+							   		<thead>
+					      				<tr>
+					            			<th data-options="field:'permissionDesc',width:'40%'">权限描述</th>
+					            			<th data-options="field:'permissionExp',width:'40%'">权限表达式</th>
+					        			</tr>
+					    			</thead>
+								</table>
+							</div>
+						</div>
+						
+						<div id="addNodeDetail" style="width:40%;display:none; " >
+							<div class="easyui-panel" title='详细信息' style="width:90%;" >
+								<form id="addRoleForm" class="easyui-form" method="post" data-options="novalidate:true" style="width:100%;">
+										<table cellpadding="5" style="algin:middle;" >
+											<tr>
+												<td colspan="2"><input type="hidden" name='parentId' /> <input type="hidden" name='level' /> </td>
+											</tr>
+											<tr>
+												<td><lable style="color:red;">*</lable>角色名称:</td>
+												<td><input class="easyui-textbox" type="text" name="roleName"
+													data-options="required:true"  style="width:200px;" ></input></td>
+											</tr>
+											<tr>
+												<td>角色描述:</td>
+												<td><input class="easyui-textbox" type="text" name="roleDesc"
+													data-options=" required:false,multipleline:true " style="width:200px;height:100px;" ></input></td>
+											</tr>
+											<tr>
+												<td>父节点名称:</td>
+												<td><input class="easyui-textbox" type="text"
+													name="parentName" data-options="required:false" style="width:100px;" ></input></td>
+											</tr>
+											<tr>
+												<td colspan="1" align="middle"><a href="javascript:void(0)" class="easyui-linkbutton" id="addRole" permission="Role:add">提交</a></td>
+											</tr>
+										</table>
+									</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="showMenu" class="easyui-menu" style="width:120px;">
+					<div id="roleAdd" permission="Role:add" data-options="iconCls:'icon-add'">新增</div>
+					<div id="roleDelete" permission="Role:delete" data-options="iconCls:'icon-remove'">删除</div>
+					<div id="nodeExpend">展开</div>
+					<div id="nodeCollapse">收起</div>
+				</div>
+		</div>
+		
+		<div id="searchPermDialog" class="easyui-dialog" title="查询权限" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:550px;height:430px;">
+				<form id="permSearchForm" class="easyui-form" method="post" data-options="novalidate:true"  style="width:100%;height:50px;">
+					<table cellpadding="5" style="algin:middle; margin-top:20px;" >
+						<tr>
+			    			<input type='hidden' name='start' value=1 /> <input type='hidden' name='end' value=10 />
+			    		</tr>
+						<tr style="algin:center">
+							<td>权限描述:</td>
+							<td><input class="easyui-textbox" type="text" name="permissionDesc"
+								data-options="required:false"  style="width:200px;" ></input></td>
+						</tr>
+<!-- 						<tr>
+							<td>角色名:</td>
+							<td><input  id="roleId" class="easyui-combotree" data-options="required:false" name="roleId" style="width:200px;" ></td>
+						</tr> -->
+					</table>
+				</form>
+				<div id="buttonBar" class='footer' style="text-align:center;padding:5px;width:70%;height:50px; ">
+					<a href="javascript:void(0)" class="easyui-linkbutton CMCSearchButton" id="searchPerms" permission="Role:getAllPerms" >查询</a>
+					<a href="javascript:void(0)" class="easyui-linkbutton" id="selectPermission" permission="Role:addBindingPerm">选择权限</a>
+					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('searchPermDialog','close');">关闭</a>
+				</div>
+				<table id='permResultTable' class='easyui-datagrid' title='权限查询结果' style='width:100%;height:250px'>
+					<thead>
+						<tr>
+	            			<th data-options="field:'permissionDesc',width:'40%'">权限描述</th>
+	            			<th data-options="field:'permissionExp',width:'40%'">权限表达式</th>
+	        			</tr>
+	       			</thead>
+				</table>
+		</div>
+		</DIV>
+	<script type="text/javascript" src="/cmc/common/js/admin/role.js"></script>
+  </body>
+</html>

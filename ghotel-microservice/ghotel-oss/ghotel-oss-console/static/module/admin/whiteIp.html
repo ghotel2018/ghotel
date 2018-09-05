@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>ip白名单</title>
+    <LINK rel="stylesheet" href="/cmc/common/css/default.css"type="text/css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">   
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+	<LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+  </head>
+  
+  <BODY >
+	  <div id='mainContent' class="myMainContent" >
+		<div class="easyui-panel" title="查询条件">
+			<form id="resourceSearchForm" class="easyui-form CMCSearchForm" method="post" data-options="novalidate:true" >
+				<table class="tbStyle" style="width:100%;">
+					<tr>
+						<th width="15%">Ip地址:</th>
+						<td width="35%">
+							<input class="easyui-textbox" name="name" data-options="required:true" style="width:250px;"/>
+						</td>
+						<th width="15%">备注:</th>
+						<td width="35%">
+							<input class="easyui-textbox" name="remark" style="width:250px;" data-options="required:true" id="searchModule"/>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:5px;width:70%;">
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="WhiteIp.viewSwitch()" permission="WhiteIp.select">刷新开关状态</a>
+				<a href="javascript:void(0)" id="switchOn" class="easyui-linkbutton" onclick="WhiteIp.changeSwitchStatus(1)">开启</a>
+		    	<a href="javascript:void(0)" id="switchOff" class="easyui-linkbutton" onclick="WhiteIp.changeSwitchStatus(0)">关闭</a>
+		    	<span style="color:black;">当前状态:<span id="switchStatus"></span></span>
+				<a href="javascript:void(0)" class="easyui-linkbutton CMCSearchButton" permission="WhiteIp:getAll">查询</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('addIpInfo','open')" permission="WhiteIp:add">新增</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="WhiteIp.beforeUpdateFormShow()" permission="WhiteIp:update">修改</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="WhiteIp.viewDeatil()" permission="WhiteIp:select">查看详情</a>
+			</div>
+		</div>
+		<div id="addIpInfo" class="easyui-dialog" title="新增ip" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:400px;height:200px;padding:10px">
+				<div style="padding:10px 60px 20px 60px">
+
+				    <form id="addForm"  method="post" data-options="novalidate:true">
+				    	<table cellpadding="5">
+				    		<tr>
+				    			<td><label style="color:red;">*</label>ip地址:</td>
+				    			<td><input class="easyui-textbox" name="name" data-options="required:true"/></td>
+				    		</tr>
+				    		<tr>
+				    			<td><label style="color:red;">*</label>备注:</td>
+				    			<td><input class="easyui-textbox" name="remark" data-options="required:true"/></td>
+				    		</tr>
+				    	</table>
+				    </form>
+				    <div style="text-align:center;padding:5px">
+				    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="WhiteIp.submitAddForm()">提交</a>
+				    </div>
+			    </div>
+			</div>
+			
+			<div id="updateIpInfo" class="easyui-dialog" title="更新ip" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:400px;height:200px;padding:10px">
+				<div style="padding:10px 60px 20px 60px">
+
+				    <form id="updateForm"  method="post" data-options="novalidate:true">
+				    	<table cellpadding="5">
+				    		<tr>
+				    			<td><label style="color:red;">*</label>ip地址:</td>
+				    			<td>
+				    				<input type="hidden" name="id"/>
+				    				<input class="easyui-textbox" name="name" data-options="required:true"/>
+				    			</td>
+				    		</tr>
+				    		<tr>
+				    			<td><label style="color:red;">*</label>备注:</td>
+				    			<td><input class="easyui-textbox" name="remark" data-options="required:true"/></td>
+				    		</tr>
+				    	</table>
+				    </form>
+				    <div style="text-align:center;padding:5px">
+				    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="WhiteIp.submitUpdateForm()">提交</a>
+				    </div>
+			    </div>
+			</div>
+			
+			<div id="viewDetail" class="easyui-dialog" title="查看详情" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:900px;height:450px;padding:10px">
+				<div style="width:900px;height:450px;">
+					<div style="float:left;height:100%;width:49%;">
+						<div class="easyui-panel">
+						    <form id="hasSelectForm" method="post" class="easyui-form" data-options="novalidate:true">
+						    	<table cellpadding="5">
+						    		<tr>
+						    			<td><label style="color:red;">*</label>访问路径:</td>
+						    			<td>
+						    				<input type="hidden" name="start" value="1"/>
+						    				<input type="hidden" name="num" value="10"/>
+						    				<input type="hidden" name="end" value="10"/>
+						    				<input type="hidden" name="id"/>
+						    				<input class="easyui-textbox" name="name" data-options="required:true"/>
+						    			</td>
+						    		</tr>
+						    		<tr>
+						    			<td><label style="color:red;">*</label>备注:</td>
+						    			<td><input class="easyui-textbox" name="remark" data-options="required:true"/></td>
+						    		</tr>
+						    	</table>
+						    </form>
+							<div class='footer CMCButtonBar' style="text-align:center;padding:5px;width:70%; ">
+								<a href="javascript:void(0)" class="easyui-linkbutton" onclick="WhiteIp.selectHas()" permission="WhiteIp.select">查询</a>
+								<a href="javascript:void(0)" class="easyui-linkbutton" onclick="WhiteIp.cancelContain()" permission="WhiteIp.update">删除关联</a>
+							</div>
+					    	<table class="easyui-datagrid" id="hasTable" title="已关联url列表"></table>
+						</div>
+					</div>
+					<div style="float:left;height:100%;width:49%;">
+						<div class="easyui-panel">
+						    <form id="noHasSelectForm" class="easyui-form" method="post" data-options="novalidate:true">
+						    	<table cellpadding="5">
+						    		<tr>
+						    			<td><label style="color:red;">*</label>访问路径:</td>
+						    			<td>
+						    				<input type="hidden" name="start" value="1"/>
+						    				<input type="hidden" name="num" value="10"/>
+						    				<input type="hidden" name="end" value="10"/>
+						    				<input type="hidden" name="id"/>
+						    				<input class="easyui-textbox" name="name" data-options="required:true"/>
+						    			</td>
+						    		</tr>
+						    		<tr>
+						    			<td><label style="color:red;">*</label>备注:</td>
+						    			<td><input class="easyui-textbox" name="remark" data-options="required:true"/></td>
+						    		</tr>
+						    	</table>
+						    </form>
+					    	<div class='footer CMCButtonBar' style="text-align:center;padding:5px;width:70%; ">
+								<a href="javascript:void(0)" class="easyui-linkbutton" onclick="WhiteIp.selectNoHas()" permission="WhiteIp.select">查询</a>
+								<a href="javascript:void(0)" class="easyui-linkbutton" onclick="WhiteIp.contain()" permission="WhiteIp.update">关联</a>
+								<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('addUrlInfo','open')" permission="WhiteIp.add">新增</a>
+							</div>
+					    	<table class="easyui-datagrid" id="noHasTable" title="未关联url列表"></table>
+						</div>
+					    
+					</div>
+					
+				    <div style="text-align:center;padding:5px">
+				    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('viewDetail','close')">关闭</a>
+				    </div>
+			    </div>
+			</div>
+			
+			
+			<div id="addUrlInfo" class="easyui-dialog" title="新增urL" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:400px;height:200px;padding:10px">
+				<div style="padding:10px 60px 20px 60px">
+
+				    <form id="addUrlForm"  method="post" data-options="novalidate:true">
+				    	<table cellpadding="5">
+				    		<tr>
+				    			<td><label style="color:red;">*</label>访问路径:</td>
+				    			<td>
+				    				<input class="easyui-textbox" name="name" data-options="required:true"/>
+				    			</td>
+				    		</tr>
+				    		<tr>
+				    			<td><label style="color:red;">*</label>备注:</td>
+				    			<td><input class="easyui-textbox" name="remark" data-options="required:true"/></td>
+				    		</tr>
+				    	</table>
+				    </form>
+				    <div style="text-align:center;padding:5px">
+				    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="WhiteIp.addUrlFunction()">提交</a>
+				    </div>
+			    </div>
+			</div>
+			
+		</div>
+	
+	<script type="text/javascript" src="/cmc/common/js/admin/whiteIp.js"></script>
+  </body>
+</html>

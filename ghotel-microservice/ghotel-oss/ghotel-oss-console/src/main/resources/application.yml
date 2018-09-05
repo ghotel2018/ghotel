@@ -1,0 +1,16 @@
+server:
+  port: 8888
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: ghotel-oss-console
+  mvc:
+    static-path-pattern: /cmc/** 
+  resources:
+    static-locations: /static/
+    
+logging:
+  level:
+    root: info

@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>系统消息管理</title>
+    <LINK rel="stylesheet" href="/cmc/common/css/default.css"type="text/css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">   
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+	<script type="text/javascript" charset="utf-8" src="/cmc/common/js/admin/uediter/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/cmc/common/js/admin/uediter/ueditor.all.min.js"> </script>
+	<script type="text/javascript" src="/cmc/common/js/admin/uediter/lang/zh-cn/zh-cn.js"></script>
+<LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+  </head>
+  
+  <BODY >
+	  <div id='mainContent' class="myMainContent" >
+		<div class="easyui-panel" title="查询条件">
+			<form id="resourceSearchForm" class="easyui-form CMCSearchForm" method="post" data-options="novalidate:true" >
+				<table class="tbStyle" style="width:100%;">
+					<tr>
+						<th width="15%">消息标题:</th>
+						<td width="35%">
+							<input class="easyui-textbox" name="messageSubject" data-options="required:true" style="width:250px;"/>
+						</td>
+						<th width="15%">消息内容:</th>
+						<td width="35%">
+							<input class="easyui-textbox" name="messageContent" style="width:250px;" data-options="required:true" id="searchModule"/>
+						</td>
+					</tr>
+					<tr>
+						<th>发布时间:</th>
+						<td><input class="easyui-datebox" name="createDate" data-options="required:false" style="width:250px;"/></td>
+						<th>发布人:</th>
+						<td>
+							<input class="easyui-textbox" name="createBy" data-options="required:false" style="width:250px;"/>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:5px;width:70%; ">
+				<a href="javascript:void(0)" class="easyui-linkbutton CMCSearchButton" permission="SystemMessage:getAll" >查询</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="SystemMessage.beforeAddBoxShow('addSystemMessageDetail')" permission="SystemMessage:add" >新建</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="SystemMessage.beforeUpdateBoxShow('updateSystemMessageDetail')" permission="SystemMessage:update">修改</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="SystemMessage.deleteSystemMessage()" permission="SystemMessage:delete">删除</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="viewSystemMessageButton" permission="SystemMessage:getAll">查看</a>
+			</div>
+		</div>
+		<div id="addSystemMessageDetail" class="easyui-dialog" title="新增系统消息" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:900px;height:450px;padding:10px">
+				<div style="padding:10px 60px 20px 60px">
+
+				    <form id="addForm"  method="post" data-options="novalidate:true">
+				    	<table cellpadding="5">
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>消息标题:</td>
+				    			<td><input class="easyui-textbox" type="text" name="messageSubject" data-options="required:true"></input></td>
+				    		</tr>
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>消息内容:</td>
+				    			<td>
+									<!--<input name="messageContent" style="width:200px;"  id="messageContent">-->
+									<script name="messageContent" id="editor1" type="text/plain" style="width:512px;height:256px;"></script>
+								</td>
+				    		</tr>
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>是否最新:</td>
+				    			<td>
+									<label><input name="isHot" type="radio" value="1"/>是</label>
+									<label><input name="isHot" type="radio" value="0"/>否</label>
+								</td>
+				    		</tr>
+				    	</table>
+				    </form>
+				    <div style="text-align:center;padding:5px">
+				    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="SystemMessage.submitAddForm()">提交</a>
+				    </div>
+			    </div>
+		</div>
+		<div id="updateSystemMessageDetail" class="easyui-dialog" title="更新系统消息" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:900px;height:450px;padding:10px">
+				<div style="padding:10px 60px 20px 60px">
+				    <form id="updateForm"  method="post" data-options="novalidate:true">
+				    	<table cellpadding="5">
+				    		<tr>
+				    			<input type="hidden" name="messageId"/>
+				    		</tr>
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>消息标题:</td>
+				    			<td><input class="easyui-textbox" name="messageSubject" data-options="required:true"/></td>
+				    		</tr>
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>消息内容:</td>
+				    			<td>
+									<!--<input name="messageContent" style="width:200px;" id="messageContent">-->
+									<script id="editor2" name="messageContent" type="text/plain" style="width:512px;height:256px;"></script>
+								</td>
+				    		</tr>
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>是否最新:</td>
+				    			<td>
+									<label><input name="isHot" type="radio" value="1"/>是</label>
+									<label><input name="isHot" type="radio" value="0"/>否</label>
+								</td>
+				    		</tr>
+				    	</table>
+				    </form>
+				    <div style="text-align:center;padding:5px">
+				    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="SystemMessage.submitUpdateForm()">提交</a>
+				    </div>
+			    </div>
+		</div>
+		
+		<div id="viewSystemMessageDetail" class="easyui-dialog" title="查看系统消息" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:600px;height:350px;padding:10px">
+				<div style="padding:10px 60px 20px 60px">
+				    <form id="updateForm"  method="post" data-options="novalidate:true">
+				    	<table cellpadding="5">
+							<tr>
+				    			<td>是否最新:</td>
+				    			<td id="isHot"></td>
+				    		</tr>
+				    		<tr>
+				    			<td>创建人:</td>
+								<td id="createBy"></td>
+				    		</tr>
+							<tr>
+				    			<td>创建时间:</td>
+								<td id="createDate"></td>
+				    		</tr>
+				    		<tr>
+				    			<td>消息标题:</td>
+				    			<td id="messageSubject"></td>
+				    		</tr>
+				    		<tr>
+				    			<td>消息内容:</td>
+				    			<td id="messageContent"></td>
+				    		</tr>
+				    		
+				    	</table>
+				    </form>
+				    <div style="text-align:center;padding:5px">
+				    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('viewSystemMessageDetail','close');">关闭</a>
+				    </div>
+			    </div>
+		</div>
+
+	</div>
+	
+	<script type="text/javascript" src="/cmc/common/js/admin/systemMessage.js"></script>
+  </body>
+</html>

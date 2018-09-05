@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查询推广链接</title>
+    <LINK rel="stylesheet" href="/cmc/common/css/default.css"type="text/css">
+    <link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+    <script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+    <LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+</head>
+<body>
+    <div id='mainContent' class="myMainContent">
+        <div id="middlerId" class="easyui-panel" title="查询条件">
+            <form id="noticeSearchForm" class="easyui-form CMCSearchForm" method="post">
+                <table class="tbStyle" style="width:100%">
+                    <tr>
+                        <th align="right">销售有效期范围 ：</th>
+                        <td>
+                            <input id="startsaledate" name="startsaledate" class="easyui-datebox" style="width:100px;"  data-options="
+                                formatter:function myformatter(date){var y = date.getFullYear();var m = date.getMonth()+1;var d = date.getDate();return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d); },
+                                parser:function myparser(s){if (!s) return new Date();var ss = (s.split('-')); var y = parseInt(ss[0],10);var m = parseInt(ss[1],10);var d = parseInt(ss[2],10); if (!isNaN(y) && !isNaN(m) && !isNaN(d)){return new Date(y,m-1,d);}else{ return new Date();}}">
+                            </input>-
+                            <input id="endsaledate" name="endsaledate" class="easyui-datebox" style="width:100px;"  data-options="
+                                formatter:function myformatter(date){var y = date.getFullYear();var m = date.getMonth()+1;var d = date.getDate();return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d); },
+                                parser:function myparser(s){if (!s) return new Date();var ss = (s.split('-')); var y = parseInt(ss[0],10);var m = parseInt(ss[1],10);var d = parseInt(ss[2],10); if (!isNaN(y) && !isNaN(m) && !isNaN(d)){return new Date(y,m-1,d);}else{ return new Date();}}">
+                            </input>
+                        </td>
+                    </tr>
+                 </table>
+             </form>
+         </div>
+     </div>
+</body>
+</html>

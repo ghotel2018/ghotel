@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>mq返回结果</title>
+    <LINK rel="stylesheet" href="/cmc/common/css/default.css"type="text/css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">   
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+	<LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+  </head>
+  
+  <BODY >
+	  <div id='mainContent' class="myMainContent" >
+		<div class="easyui-panel" title="查询条件">
+			<form id="resourceSearchForm" class="easyui-form CMCSearchForm" method="post" data-options="novalidate:true" >
+				<table class="tbStyle" style="width:100%;">
+					<tr>
+						<th width="15%">失败类:</th>
+						<td width="35%">
+							<input class="easyui-textbox" name="className" data-options="required:true" style="width:250px;"/>
+						</td>
+						<th width="15%">topic:</th>
+						<td width="35%">
+							<input class="easyui-textbox" name="topic" data-options="required:true" style="width:250px;"/>
+						</td>
+					</tr>
+					<tr>
+						<th>状态:</th>
+						<td>
+							<select name="status" class="easyui-combobox">
+								<option value="">全部</option>
+								<option value="0">未处理</option>
+								<option value="1">处理中</option>
+								<option value="2">处理完成</option>
+								<option value="-1">处理失败</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:5px;width:70%;">
+				<a href="javascript:void(0)" class="easyui-linkbutton CMCSearchButton" permission="MqMsgRecord:getAll">查询</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" permission="MqMsgRecord:get" onclick="MqMsgRecord.get()">查看</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" permission="MqMsgRecord:update" onclick="MqMsgRecord.beforeUpdate()">修改</a>
+			</div>
+		</div>
+		<div id="viewDetail" class="easyui-dialog" title="查看信息" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:650px;height:300px;padding:10px">
+			<div style="padding:10px">
+			    <form id="viewForm"  method="post" data-options="novalidate:true">
+			    	<table cellpadding="5">
+			    		<tr>
+			    			<td>topic:</td>
+			    			<td id="topic"></td>
+			    		</tr>
+			    		<tr>
+			    			<td>次数:</td>
+			    			<td id="num"></td>
+			    		</tr>
+			    		<tr>
+			    			<td>状态:</td>
+			    			<td id="status"></td>
+			    		</tr>
+			    		<tr>
+			    			<td>失败类:</td>
+			    			<td id="className"></td>
+			    		</tr>
+			    		<tr>
+			    			<td>信息:</td>
+			    			<td id="errorMsg"></td>
+			    		</tr>
+			    		<tr>
+			    			<td>消息体:</td>
+			    			<td id="msg"></td>
+			    		</tr>
+			    	</table>
+			    </form>
+			    <div style="text-align:center;padding:5px">
+			    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('viewDetail','close')">关闭</a>
+			    </div>
+		    </div>
+		</div>
+		<div id="updateDetail" class="easyui-dialog" title="更新" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:550px;height:280px;padding:10px">
+			<div style="padding:10px 60px 20px 60px">
+			    <form id="updateForm"  method="post" data-options="novalidate:true">
+			    	<table cellpadding="5">
+			    		<tr>
+			    			<td><span style="color:red;">*</span>失败次数:</td>
+			    			<td>
+			    				<input name="msgId" id="msgId" type="hidden"/>
+			    				<input class="easyui-textbox" name="num" data-options="required:true"/>
+			    			</td>
+			    		</tr>
+			    		<tr>
+			    			<td><span style="color:red;">*</span>状态:</td>
+			    			<td>
+								<label><input type="radio" name="status" value="0"/>未处理</label>
+								<label><input type="radio" name="status" value="1"/>处理中</label>
+								<label><input type="radio" name="status" value="2"/>处理完成</label>
+								<label><input type="radio" name="status" value="-1"/>处理失败</label>
+							</td>
+			    		</tr>
+			    		<tr>
+			    			<td><span style="color:red;">*</span>消息体:</td>
+			    			<td>
+			    				<textarea name="msg" rows="5" cols="40"></textarea>
+			    			</td>
+			    		</tr>
+			    	</table>
+			    </form>
+			    <div style="text-align:center;padding:5px">
+			    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="MqMsgRecord.submitUpdateForm()">提交</a>
+			    </div>
+		    </div>
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="/cmc/common/js/admin/mqMsgRecord.js"></script>
+  </body>
+</html>

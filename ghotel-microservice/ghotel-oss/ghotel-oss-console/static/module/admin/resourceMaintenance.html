@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>资源管理</title>
+    <LINK rel="stylesheet" href="/cmc/common/css/default.css"type="text/css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">   
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+<LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+  </head>
+  
+  <BODY >
+	  <div id='mainContent' class="myMainContent" >
+		<div class="easyui-panel" title="查询条件">
+			<form id="resourceSearchForm" class="easyui-form CMCSearchForm" method="post" data-options="novalidate:true" >
+				<table class="tbStyle" style="width:100%;">
+					<tr>
+						<th width="15%">资源名称:</th>
+						<td width="35%">
+							<input class="easyui-textbox" type="text" name="resourceName"
+							data-options="required:false"  style="width:250px;" ></input>
+						</td>
+						<th width="15%">资源模块:</th>
+						<td width="35%">
+							 <input  name="module" style="width:250px;"  id="searchModule" >
+						</td>
+					</tr>
+					<tr>
+						<th>资源代码:</th>
+						<td><input class="easyui-textbox" type="text"
+							name="actionCode" data-options="required:false" style="width:250px;" ></input></td>
+						<th>资源分类:</th>
+						<td>
+							<select class="easyui-combobox" name="category" style="width:250px;" data-options="panelHeight: '100px'"  >
+								<option	value=""> </option>
+								<option	value="menu">菜单</option>
+								<option value="uri">功能</option>
+								<option value="all">所有</option>
+							</select>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>访问类别:</th>
+						<td>
+							<select class="easyui-combobox" name="resourceType" style="width:250px;" data-options="panelHeight: '100px'"  >
+								<option	value=""> </option>
+								<option	value="IT">技术后台</option>
+								<option value="BA">业务后台</option>
+								<option value="OP">功能</option>
+							</select>
+						</td>
+						<th></th>
+						<td></td>		
+					</tr>
+				</table>
+			</form>
+			<div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:5px;width:70%; ">
+				<a href="javascript:void(0)" class="easyui-linkbutton CMCSearchButton" permission="Resource:getAll" >查询</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="Resource.beforeAddBoxShow('addResourceDetail')" permission="Resource:add" >新建</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="Resource.beforeUpdateBoxShow('updateResourceDetail')" permission="Resource:update">修改</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('moduleMnt','open');" permission="Resource:addModule">新增模块</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="Resource.openMemuDialog();" permission="Resource:mngMenu">编辑菜单</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="deleteResourceButton" permission="Resource:delete">删除</a>
+			</div>
+		</div>
+		<div id="addResourceDetail" class="easyui-dialog" title="新增资源记录" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:500px;height:350px;padding:10px">
+				<label style="color:red;font-weight:bold;">注意: 请为资源代码为*的资源配置与资源代码为【access】的记录配置相同的资源路径</label>
+				<div style="padding:10px 60px 20px 60px">
+
+				    <form id="addForm"  method="post" data-options="novalidate:true">
+				    	<table cellpadding="5">
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>资源名称:</td>
+				    			<td><input class="easyui-textbox" type="text" name="resourceName" data-options="required:true"></input></td>
+				    		</tr>
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>资源模块:</td>
+				    			<td><input  name="module" style="width:200px;"  id="addModule"></td>
+				    		</tr>
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>资源路径:</td>
+				    			<td><input class="easyui-textbox" type="text" name="resourceUrl" data-options="required:true"></input></td>
+				    		</tr>
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>资源代码:</td>
+				    			<td><input class="easyui-textbox" name="actionCode" data-options="multiline:false,required:true" ></input></td>
+				    		</tr>
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>资源分类:</td>
+				    			<td>
+				    				<select class="easyui-combobox" name="category" style="width:200px;" data-options="panelHeight: '100px'"  >
+										<option	value=""> </option>
+										<option	value="menu">菜单</option>
+										<option value="uri">功能</option>
+										<option value="all">所有</option>
+									</select>
+								</td>
+				    		</tr>
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>访问类别:</td>
+				    			<td>
+				    				<select class="easyui-combobox" name="resourceType" style="width:200px;" data-options="panelHeight: '100px'" >
+										<option	value=""> </option>
+										<option	value="IT">技术后台</option>
+										<option value="BA">业务后台</option>
+										<option value="OP">功能</option>
+									</select>
+								</td>
+				    		</tr>
+				    		<tr>
+				    			<td>资源描述:</td>
+				    			<td>
+				    				<input class="easyui-textbox" name="resourceDesc" data-options="multiline:true,required:false" style="height:60px"></input>
+								</td>
+				    		</tr>
+				    	</table>
+				    </form>
+				    <div style="text-align:center;padding:5px">
+				    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="Resource.submitAddForm()">提交</a>
+				    </div>
+			    </div>
+		</div>
+		<div id="updateResourceDetail" class="easyui-dialog" title="更新资源记录" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:500px;height:350px;padding:10px">
+				<label style="color:red;font-weight:bold;">注意: 请为资源代码为*的资源配置与资源代码为【access】的记录配置相同的资源路径</label>
+				<div style="padding:10px 60px 20px 60px">
+				    <form id="updateForm"  method="post" data-options="novalidate:true">
+				    	<table cellpadding="5">
+				    		<tr>
+				    			<input  type="hidden" name="id" ></input>
+				    		</tr>
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>资源名称:</td>
+				    			<td><input class="easyui-textbox" type="text" name="resourceName" data-options="required:true"></input></td>
+				    		</tr>
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>资源模块:</td>
+				    			<td><input   name="module" style="width:200px;"  id="updateModule"></td>
+				    		</tr>
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>资源路径:</td>
+				    			<td><input class="easyui-textbox" type="text" name="resourceUrl" data-options="required:true"></input></td>
+				    		</tr>
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>资源代码:</td>
+				    			<td><input class="easyui-textbox" name="actionCode" data-options="multiline:false,required:true" ></input></td>
+				    		</tr>
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>资源分类:</td>
+				    			<td>
+				    				<select class="easyui-combobox" name="category" data-options="panelHeight:'auto' " style="width:200px;" data-options="panelHeight: '100px'"  >
+										<option	value=""> </option>
+										<option	value="menu">菜单</option>
+										<option value="uri">功能</option>
+										<option value="all">所有</option>
+									</select>
+								</td>
+				    		</tr>
+				    		<tr>
+				    			<td><lable style="color:red;">*</lable>访问类别:</td>
+				    			<td>
+				    				<select class="easyui-combobox" name="resourceType" data-options="panelHeight:'auto'" style="width:200px;" data-options="panelHeight: '100px'" >
+										<option	value=""> </option>
+										<option	value="IT">技术后台</option>
+										<option value="BA">业务后台</option>
+										<option value="OP">功能</option>
+									</select>
+								</td>
+				    		</tr>
+				    		<tr>
+				    			<td>资源描述:</td>
+				    			<td>
+				    				<input class="easyui-textbox" name="resourceDesc" data-options="multiline:true,required:false" style="height:60px"></input>
+								</td>
+				    		</tr>
+				    	</table>
+				    </form>
+				    <div style="text-align:center;padding:5px">
+				    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="Resource.submitUpdateForm()">提交</a>
+				    </div>
+			    </div>
+		</div>
+    	<div id="addModuleDialog" class="easyui-dialog" title="新增模块" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:500px;height:200px;padding:10px">
+			<div style="padding:10px ">
+			    <form id="addModuleForm"  method="post" data-options="novalidate:true">
+			    	<table cellpadding="5">
+			    		<tr>
+			    			<td><label style="color:red;">*</label>模块标识:</td>
+			    			<td><input class="easyui-textbox" type="text" name="moduleId" data-options="required:true"></input></td>
+			    		</tr>
+			    		<tr>
+			    			<td><label style="color:red;">*</label>模块描述:</td>
+			    			<td><input  name="moduleName" class="easyui-textbox"  data-options="required:true" style="width:200px;" ></td>
+			    		</tr>
+			    	</table>
+			    </form>
+			    <div style="text-align:center;padding:5px">
+			    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="Resource.addModule();">提交</a>
+			    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('addModuleDialog','close');">关闭</a>
+			    </div>
+		    </div>
+		</div>
+		<div id="moduleMnt" class="easyui-dialog" title="模块信息管理" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:500px;height:400px;padding:10px">
+			<div style="margin:20px 0;"></div>
+	    	<table id="moduleList" class="easyui-datagrid" style="width:450px;height:300px">
+	    	</table>
+    	</div>
+    	<div id="searchResourceDialog" class="easyui-dialog" title="菜单资源选择" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:810px;height:550px;padding:10px">
+			<div style="color:red; font-weight:bold; padding-left:2px;" >
+				<ul>
+					<li>请注意 :只查询类型为菜单的资源</li>
+				</ul>
+			</div>
+			<div class="easyui-panel" title="查询条件" style="width:100%;">
+				<div style="padding:5px 5px 5px 5px">
+						<form id="menuSearchForm" class="easyui-form" method="post" data-options="novalidate:true"  >
+							<table cellpadding="5" style="algin:middle;" >
+								<tr>
+									<td>
+										<input type='hidden' name='start' value=1 /> 
+										<input type='hidden' name='end' value=10 />
+										<input type='hidden' name='category' value='menu' />
+									</td>
+								</tr>
+								<tr>
+									<td>资源名称:</td>
+									<td><input class="easyui-textbox" type="text" name="name" data-options="required:false"  style="width:200px;" ></input></td>
+									<td>资源模块:</td>
+									<td>
+										 <input  name="module" style="width:200px;"  id="searchModuleMenu" >
+									</td>
+								</tr>
+								<tr>
+									<td>访问类别:</td>
+									<td>
+										<select class="easyui-combobox" name="resourceType" style="width:200px;" data-options="panelHeight: '80px'"  >
+											<option	value=""> </option>
+											<option	value="IT">技术后台</option>
+											<option value="BA">业务后台</option>
+											<option value="OP">功能</option>
+										</select>
+									</td>
+								</tr>
+							</table>
+						</form>
+				</div>
+				<div id="buttonBar" class='footer' style="text-align:center;padding:5px;width:90%; height:50px;">
+					<a href="javascript:void(0)" class="easyui-linkbutton " onclick="Resource.Menu.searchMenu();" >查询</a>
+					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="Resource.Menu.selectMenu();">选择菜单</a>
+					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('searchResourceDialog','close');">关闭</a>
+				</div>
+			</div>
+			<div id='menuSearchResult' style='margin:20px 0;'><table id='memuSearchTable' class='easyui-datagrid' title='查询结果' style='width:100%;height:340px'></table></div>
+		</div>
+
+	</div>
+	
+	<div id="showMemu" class="easyui-menu" style="width:150px;">
+		<div  id="AddSubMenuBtn"   data-options="iconCls:'icon-add'"  onclick ="Resource.Menu.appendWithoutResource();">新增(不选择资源)</div>
+		<div  id="AddSubMenuBtn"   data-options="iconCls:'icon-add'"  onclick ="Resource.Menu.appendWithResource();">新增(选择资源)</div>
+		<div  id="DeleteSubMenuBtn" data-options="iconCls:'icon-remove'"  onclick ="Resource.Menu.removeit();"> 删除</div>
+		<div  id="editSubMenuBtn"   data-options="iconCls:'icon-edit'" onclick="Resource.Menu.update();" >更新</div>
+		<div  id="saveSubMenuBtn"  data-options="iconCls:'icon-ok'" onclick="Resource.Menu.save();">保存</div>
+		<div  id="upSubMenuBtn"  data-options="iconCls:'icon-up'"  onclick="Resource.Menu.moveUpMenu();" >上移</div>
+		<div  id="downSubMenuBtn"  data-options="iconCls:'icon-down'"  onclick="Resource.Menu.moveDownMenu();">下移</div>
+	</div>
+	<div id="menuMntDialog" class="easyui-dialog" title="菜单编辑" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:800px;height:520px;">
+		<table id="menutree" style="height:480px;"></table>
+	</div>
+	<script type="text/javascript" src="/cmc/common/js/admin/resource.js"></script>
+  </body>
+</html>

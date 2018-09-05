@@ -1,0 +1,50 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.inactive').click(function(){
+		if($(this).siblings('ul').css('display')=='none'){
+			$(this).parent('li').siblings('li').removeClass('inactives');
+			$(this).addClass('inactives');
+			$(this).siblings('ul').slideDown(100).children('li');
+			if($(this).parents('li').siblings('li').children('ul').css('display')=='block'){
+				$(this).parents('li').siblings('li').children('ul').parent('li').children('a').removeClass('inactives');
+				$(this).parents('li').siblings('li').children('ul').slideUp(100);
+
+			}
+		}else{
+			$(this).removeClass('inactives');
+			$(this).siblings('ul').slideUp(100);
+			$(this).siblings('ul').children('li').children('ul').parent('li').children('a').addClass('inactives');
+			$(this).siblings('ul').children('li').children('ul').slideUp(100);
+			$(this).siblings('ul').children('li').children('a').removeClass('inactives');
+		}
+	})
+});
+</script>
+<div style='display:inline-block; float:left;width:20%;'>
+	<div class="list">
+		<ul class="yiji">
+			<li><a href="#" class="inactive" id='top'>菜单列表</a>
+				<ul>
+					<li id="backendMnt"><a href="#" class="inactive">后台管理列表</a>
+						<ul>
+							<li id='group' ><a href="/cmc/authorized/group/access">用户组管理</a></li> 
+							<li id='permission' ><a href="/cmc/authorized/permission/access">权限管理</a></li>
+							<li id='role' ><a href="/cmc/authorized/role/access">角色管理</a></li> 
+							<li id='resource' ><a href="/cmc/authorized/resource/access">资源管理</a></li> 
+							<li id='user' ><a href="/cmc/authorized/user/access">用户管理</a></li>
+						</ul>
+					</li> 
+					<li><a href="#" class="inactive active">业务功能列表</a>   
+						<ul>
+							<li><a href="#">优惠券管理</a>
+								<ul>
+									
+								</ul>
+							</li>
+						</ul>
+					</li> 
+				</ul>
+			</li> 
+		</ul>
+	</div>
+</div>

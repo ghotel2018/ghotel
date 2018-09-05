@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>卡券Redis</title>
+    <LINK rel="stylesheet" href="/cmc/common/css/default.css"type="text/css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">   
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+	<LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+  </head>
+  
+  <BODY >
+	  <div id='mainContent' class="myMainContent" >
+		<div class="easyui-panel" title="查询条件">
+			<form id="resourceSearchForm" class="easyui-form CMCSearchForm" method="post" data-options="novalidate:true" >
+				<table class="tbStyle" style="width:100%;">
+					<tr>
+						<th width="15%">key:</th>
+						<td width="35%">
+							<input class="easyui-textbox" id="key" name="key" data-options="required:true" style="width:250px;"/>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:5px;width:70%;">
+				<a href="javascript:void(0)" class="easyui-linkbutton" permission="CouponRedis:getAll" onclick="CouponRedis.selectAll()">查询</a>
+				<!-- <a href="javascript:void(0)" class="easyui-linkbutton" onclick="CouponRedis.viewDeatil()" permission="CouponRedis:get">查看</a> -->
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('CouponRedis_add_div','open')" permission="CouponRedis:add">新增</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CouponRedis.deleteRedis()" permission="CouponRedis:delete">删除</a>
+			</div>
+		</div>
+	  </div>
+	  
+	  <div id="CouponRedis_add_div" title="添加数据" class="easyui-dialog" style="width:500px;height:270px;"
+		data-options="iconCls:'icon-save',modal:true,closed: true,cache: false">
+		<div style="margin: 10px 0px 0px 0px;">
+			<form id="CouponRedisAddForm" method="post" enctype="multipart/form-data">
+				<table class="tbStyle" style="algin:middle; width: 100%">
+					<tr>
+						<th width="20%"><label style="color:red;">&nbsp;*</label>key：</th>
+						<td width="80%">
+							<input type="text" name="key" id="key"  class="easyui-textbox" class="easyui-textbox" style="width: 320px" data-options="required:true"/>
+						</td>
+					</tr>
+					<tr>
+						<th width="20%"><label style="color:red;">&nbsp;*</label>过期时间(单位:秒)：</th>
+						<td width="80%">
+							<input name="expiredTime" id="expiredTime"  class="easyui-textbox" class="easyui-textbox" style="width: 320px"/>
+						</td>
+					</tr>
+					<tr>
+						<th width="20%"><label style="color:red;">&nbsp;*</label>value：</th>
+						<td width="80%">
+							<textarea name="value" id="value"  rows="3" cols="30"  class="easyui-textbox" data-options="multiline:true,width:320,height:150,required:true" ></textarea>
+						</td>
+					</tr>
+				</table>	
+				<div class='CMCButtonBar' style="text-align: center; padding: 5px; width: 95%;">
+					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CouponRedis.submitAddForm()" permission="CouponRedis:add">保存</a>&nbsp;&nbsp;
+					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('CouponRedis_add_div','close')">关闭</a>
+				</div>											
+			</form>
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="/cmc/common/js/admin/couponRedis.js"></script>
+  </body>
+</html>

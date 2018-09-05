@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>XXCMC后台管理</title>
+<link rel="stylesheet" type="text/css" href="/cmc/common/css/index.css" />
+<link rel="stylesheet" type="text/css"	href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css" />
+
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src='/cmc/common/js/outlook.js'></script>
+<script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+<script type="text/javascript" src="/cmc/common/js/jsonToTree.js"></script>
+
+<script type="text/javascript">
+	$(function() {
+		$('#loginOut').click(function() {
+			$.messager.confirm('系统提示', '您确定要退出本次登录吗?', function(msg) {
+				if (msg) {
+					CMC.logout();
+				}
+			});
+		});
+		
+		$("#loginUserName").click(function(){
+			CMC.dialog('userInformation', 'open');
+			var user = CMC.pageConfig.user;
+			$('#userId').val(user['userId']);
+			$('#userLoginId').val(user['userLoginId']);
+			$('#userName').val(user['userName']);
+			$('#lastLoginTime').val(user['lastLoginTime']);
+			$('#createDate').val(user['createDate']);
+			$('#workPhone').val(user['workPhone']);
+			$('#workMail').val(user['workMail']);
+			$('#cellPhone').val(user['cellPhone']);
+			$('#personalMail').val(user['personalMail']);
+		});
+	});
+</script>
+<style>
+</style>
+
+</head>
+<body class="easyui-layout" style="overflow-y: hidden" scroll="no">
+	<noscript>
+		<div
+			style="position: absolute; z-index: 100000; height: 2046px; top: 0px; left: 0px; width: 100%; background: white; text-align: center;">
+			<img src="images/noscript.gif" alt='抱歉，请开启脚本支持！' />
+		</div>
+	</noscript>
+
+	<div region="north" border="false"
+		style="overflow: hidden; height: 30px; background: url(/cmc/common/images/myImage/layout-browser-hd-bg.gif) #7f99be repeat-x center 50%; line-height: 30px; color: #fff; font-family: Verdana, 微软雅黑, 黑体">
+		<span style="float: right; padding-right: 20px;" class="head">
+			<img src="/cmc/common/images/myImage/user.png" width="20"	height="20" align="absmiddle" />
+			<a href="#" id="loginUserName"></a> 
+			<a href="javascript:void(0)" style="padding-left:20px;" id="resetPwdButton">
+				<img src="/cmc/common/images/myImage/wrench.png" width="20"	height="20" align="absmiddle" />修改密码
+			</a>
+			<a href="#" id="loginOut" style="padding-left:20px;">
+				<img src="/cmc/common/images/myImage/door_out.png" width="20" height="20" align="absmiddle" />退出
+			</a>
+		</span>
+		<span style="padding-left: 10px; font-size: 16px; float: left;">
+			<img src="/cmc/common/images/myImage/blocks.gif" width="20"
+			height="20" align="absmiddle" /> XXCMC后台管理
+		</span>
+		<span style="float: left; padding-left: 30px; color:White;">上次登录时间：
+			<span id="lastLoginTime"></span>
+		</span>
+	</div>
+
+	<div region="south" split="false"
+		style="height: 25px; background: #D2E0F2;">
+		<div class="footer">Copyright 1997-2008 中国XXx股份有限公司</div>
+	</div>
+
+	<div region="west" split="true" title="导航菜单"
+		style="width: 250px; min-width: 250px; max-width: 250px;" id="west">
+		<div id='wnav' class="easyui-accordion" fit="true" border="false">
+			<!--  导航内容 -->
+		</div>
+	</div>
+
+	<div id="mainPanle" region="center"
+		style="background: #eee; overflow-y: hidden">
+		<div id="tabs" class="easyui-tabs" fit="true" border="false">
+			<div title="首页" style="padding: 20px; overflow: hidden;" id="home">
+
+				<div id="mainContent" class="mainContent" style="width: 100%; height: 100%">
+					<div  style="width:100%;height:49%;">
+						<div style="width:49%; height:100%;float:left;padding:4px;">
+							<form id="messageSearchForm" action="">
+								<input type="hidden" name="start" value=1 /> <input	type="hidden" name="end" value=10 />
+							</form>
+							<table id='messageTable' class='easyui-datagrid' title='系统消息' style='width: 100%; height: 100%'></table>
+						</div>
+						<div style="width:49%;height:100%;float:left;padding:4px;">
+							<form id="statisticSearchForm" action="">
+								<input type="hidden" name="start" value=1 /> <input	type="hidden" name="end" value=10 />
+							</form>
+							<table id='statisticTable' class='easyui-datagrid' title='排行榜' style='width: 100%; height: 100%'></table>
+						</div>
+					</div>
+					<div style="margin: 10px;"></div>
+					<div style="width:100%;height:49%;">
+						<div style="width:49%; height:100%;float:left;padding:4px;">
+							<form id="taskSearchForm" action="">
+								<input type="hidden" name="start" value=1 /><input	type="hidden" name="end" value=10 />
+							</form>
+							<table id='taskTable' class='easyui-datagrid' title='任务结果查询'
+								style='width: 100%; height: 100%'>
+							</table>
+						</div>
+						<div style="width:49%; height:100%;float:left;padding:4px;">
+							<form id="noticeSearchForm" action="">
+								<input type="hidden" name="start" value=1 /> <input	type="hidden" name="end" value=10 />
+							</form>
+							<table id='noticeTable' class='easyui-datagrid' title='通知'
+								style='width: 100%; height: 100%'>
+							</table>
+						</div>
+					</div>
+					<div id="messageDetail" class="easyui-dialog" title="系统消息详情" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:500px;height:350px;padding:10px">
+						<div style="padding:10px 60px 20px 60px">
+							<form id="updateForm"  method="post" data-options="novalidate:true">
+								<table cellpadding="5">
+									<tr>
+										<th id="messageSubject"></th>
+									</tr>
+									<tr>
+										<td id="messageContent"></td>
+									</tr>
+								</table>
+							</form>
+						</div>
+					</div>
+					<div id="noticeDetail" class="easyui-dialog" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:540px;height:380px;">
+						<label id="noticeDetaill" ></label>
+					</div>
+					<!-- <div id="noticeDetail" class="easyui-dialog" title="系统消息详情" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:600px;height:250px;padding:10px">
+						<label id="noticeDetaill"></label>
+						<div>
+							<table cellpadding="5">
+								<tr>
+									<td id="noticeSubject"></td>
+								</tr>
+								<tr>
+									<td id="noticeContent" style="word-break: break-all;"></td>
+								</tr>
+							</table>
+						</div>
+					</div> -->
+					
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div id="resetPwdDialog" class="easyui-dialog" title="密码重置"
+		data-options="iconCls:'icon-save',modal:true,closed: true"
+		style="width: 550px; height: 180px; padding: 10px">
+		<div style="padding: 10px">
+			<form id="resetPwdForm" method="post"
+				data-options="novalidate:true">
+				<table cellpadding="5">
+					<tr>
+						<td><label style="color: red;">*</label>旧密码:</td>
+						<td><input class="textbox" type="password" id="oldPwd"
+							name="oldPwd"></input><label id='oldMsg' style="color: red;"></label></td>
+						<td rowspan="3"><div id="showCheckResult"></div></td>
+					</tr>
+					<tr>
+						<td><label style="color: red;">*</label>新密码:</td>
+						<td><input class="textbox" type="password" id="newPwd1"
+							name="newPwd1"></input><label id='newPwd1Msg'
+							style="color: red;"></label></td>
+
+					</tr>
+					<tr>
+						<td><label style="color: red;">*</label>再输入一次新密码:</td>
+						<td><input class="textbox" type="password" id="newPwd2"
+							name="newPwd2"></input><label id='newPwd2Msg'
+							style="color: red;"></label></td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align: center; padding: 5px">
+				<a href="javascript:void(0)" class="easyui-linkbutton"
+					id="submitPwdRequestButton">提交</a> <a href="javascript:void(0)"
+					class="easyui-linkbutton"
+					onclick="CMC.dialog('resetPwdDialog','close')">关闭</a>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div id = "userInformation" class="easyui-dialog" title="个人信息" 
+	data-options="iconCls:'icon-save',modal:true,closed: true" style="width:600px;height:200px" >
+		<div style="margin-top:10px "></div>
+		<form id="userUpdateForm" action="">
+			<table class="commTblStyle_1" cellspacing="1" cellpadding="1"
+						style="width: 500px;">
+				<tr>
+					<td width=120 align="right">用户ID:</td>
+					<td class="right"><input type="text" id="userId"  name="userId" class="textbox"  readonly style="width: 120px;" /> </td>
+					<td width=120 align="right">用户登录ID:</td>
+					<td class="right"><input type="text" id="userLoginId"  name="userLoginId" class="textbox" readonly style="width: 120px;" /></td>
+				</tr>
+				<tr>
+					<td width=120 align="right">用户名:</td> 
+					<td class="right"><input type="text" id="userName" name="userName" class="textbox"  style="width: 120px;" /> </td>
+					<td width=120 align="right">创建日期:</td>
+					<td class="right"><input type="text" id="createDate" name="createDate" class="textbox" readonly style="width: 120px;" /> </td>
+				</tr>
+				<tr>
+					<td width=120 align="right">工作电话:</td>
+					<td class="right"><input type="text" id="workPhone" name="workPhone" class="textbox"  style="width: 120px;" /> </td>
+					<td width=120 align="right">工作邮箱 :</td>
+					<td class="right"><input type="text" id="workMail" name="workMail" class="textbox"  style="width: 120px;" /> </td>
+				</tr>
+				<tr>
+					<td width=120 align="right">个人电话:</td>
+					<td class="right"><input type="text" id="cellPhone" name="cellPhone" class="textbox"  style="width: 120px;" /> </td>
+					<td width=120 align="right">个人邮箱:</td>
+					<td class="right"><input type="text" id="personalMail" name="personalMail" class="textbox"  style="width: 120px;" /> </td>
+				</tr>
+			</table>
+		</form>
+		<div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:5px;width:70%;position:absolute; ">
+			<a href="javascript:void(0)" class="easyui-linkbutton " id="updateUserButton" >更新信息</a>
+		</div>
+	</div>
+	
+	<div id="mm" class="easyui-menu" style="width: 180px;">
+		<div id="mm-tabupdate">刷新</div>
+		<div class="menu-sep"></div>
+		<div id="mm-tabclose">关闭</div>
+		<div id="mm-tabcloseall">全部关闭</div>
+		<div id="mm-tabcloseother">除此之外全部关闭</div>
+		<div class="menu-sep"></div>
+		<div id="mm-tabcloseright">当前页右侧全部关闭</div>
+		<div id="mm-tabcloseleft">当前页左侧全部关闭</div>
+		<div class="menu-sep"></div>
+		<div id="mm-exit">退出</div>
+	</div>
+	<script type="text/javascript" src="/cmc/common/js/index.js"></script>
+</body>
+</html>

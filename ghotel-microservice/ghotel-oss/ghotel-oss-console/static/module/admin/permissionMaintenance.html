@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>权限管理</title>
+    <LINK rel="stylesheet" href="/cmc/common/css/default.css"type="text/css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">   
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+    <LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+  </head>
+  <BODY >
+	<div id='mainContent' class="myMainContent" >
+		<div id="searchPanel" class="easyui-panel" title="查询条件">
+			<form id="searchForm" class="easyui-form CMCSearchForm" method="post" data-options="novalidate:true"  style="height:100px;">
+				<table class="tbStyle" style="width:100%;">
+					<tr style="algin:center">
+						<th width="10%">权限描述:</th>
+						<td width="90%">
+							<input class="easyui-textbox" type="text" name="permName"
+							data-options="required:false"  style="width:250px;" >
+							</input>
+						</td>
+					</tr>
+					<tr>
+						<th width="10%">角色名:</th>
+						<td width="90%">
+							<input  id="roleId" class="easyui-combotree" data-options="required:false" name="roleId" style="width:250px;" >
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:5px;width:70%; ">
+				<a href="javascript:void(0)" class="easyui-linkbutton CMCSearchButton" permission="Permission:getAll" >查询</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="searchFormAdd" permission="Permission:add">新建</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="searchFormUpdate" permission="Permission:update,get">修改</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="searchFormDelete" permission="Permission:delete">删除</a>
+			</div>
+		</div>
+	</div>
+		
+	<div id="permissionDialog" class="easyui-dialog" title="更新权限信息" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:780px;height:600px;" >
+		<div style="margin:10px 0;"></div>
+			<div style="color:red;font-weight:bold;padding-left:2px;">
+				<ul>请注意: 
+					<li>a. 同一权限记录只能绑定同一模块的不同资源. </li>
+					<li>b. 每个权限至少须绑定一个资源记录.</li>
+				</ul>
+			</div>
+			<form id="permissionForm"  method="post" >
+				<table cellpadding="5" style="algin:middle;" >
+					<tr>
+						<input name="id" id="permissionId" type="hidden"/>
+					</tr>
+					<tr>
+						<td><lable style="color:red;">*</lable>权限表达式:</td>
+						<td>
+							 <input class="easyui-textbox"   id="permissionExp" data-options="readonly: true"  name="permissionExp" style="width:300px;"   >
+						</td>
+					</tr>
+					<tr>
+						<td><lable style="color:red;">*</lable>权限描述:</td>
+						<td><input class="easyui-textbox"  id="permissionDesc" name="permissionDesc" data-options="required:true,multiline:true"  style="width:200px;height:50px;" ></input></td>
+					</tr>
+				</table>
+			</form>
+			<div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:5px;width:70%; ">
+				<a href="javascript:void(0)" class="easyui-linkbutton" style="display:none;" id="submitUpdatePermForm" permission='Permision:update' >更新</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" style="display:none;" id="submitAddPermForm" permission='Permision:update' >新增</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="addResFromeDialog" permission="Permission:addResource"  >添加资源</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="rmResFromDialog" permission="Permission:deleteResource">删除资源</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('permissionDialog','close')">关闭</a>
+			</div>
+		<div style="margin:10px 0;" >
+			<table id='existResourceList'  title='已有资源列表' style='width:100%;height:350px'>
+					<thead>
+						<tr>
+							<th data-options="field:'resourceName',width:'15%'">资源名称</th>
+	            			<th data-options="field:'module',width:'15%'">资源模块</th>
+	            			<th data-options="field:'actionCode',width:'10%'">资源代码</th>
+	            			<th data-options="field:'resourceUrl',width:'30%'">资源路径</th>
+	            			<th data-options="field:'category',width:'10%'">资源分类</th>
+	            			<th data-options="field:'resourceType',width:'10%'">访问类别</th>
+	        			</tr>
+        			</thead>
+			</table>
+		</div>
+	</div>
+	
+<!-- 		<div id="addPermissionDialog" class="easyui-dialog" title="新增权限" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:600px;height:550px;" >
+			<div style="margin:10px 0;">
+				<div class="easyui-panel" title="权限信息" style="width:100%;height:100px;">
+					<form id="permissionAddForm" class="easyui-form" method="post" data-options="novalidate:true" >
+						<table cellpadding="5" style="algin:middle;" >
+							<tr>
+								<input name="id" type="hidden"/>
+							</tr>
+							<tr>
+								<td><lable style="color:red;">*</lable>权限表达式:</td>
+								<td>
+									 <input class="easyui-textbox"  data-options="required:true,readonly: true"  name="permissionExp" style="width:200px;"   >
+								</td>
+								<td><lable style="color:red;">*</lable>权限描述:</td>
+								<td><input class="easyui-textbox" type="text" name="permissionDesc" data-options="required:true"  style="width:200px;" ></input></td>
+							</tr>
+						</table>
+					</form>
+					<div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:5px;width:70%; ">
+						<a href="javascript:void(0)" class="easyui-linkbutton" id="submitAddPermForm" permission='Permision:add' >提交</a>
+						<a href="javascript:void(0)" class="easyui-linkbutton" id="addResFromAddDialog" permission="Permission:addResource"  >添加资源</a>
+						<a href="javascript:void(0)" class="easyui-linkbutton" id="removePermFromAddDialog" permission="Permission:deleteResource">删除资源</a>
+					</div>
+				</div>
+			</div>
+			<div style="margin:10px 0;" >
+				<table id='existResourceListForAdd' class='easyui-datagrid' title='已有资源列表' style='width:100%;height:350px'>
+						<thead>
+							<tr>
+								<th data-options="field:'resourceName',width:'25%'">资源名称</th>
+		            			<th data-options="field:'module',width:'15%'">资源模块</th>
+		            			<th data-options="field:'actionCode',width:'10%'">资源代码</th>
+		            			<th data-options="field:'resourceUrl',width:'30%'">资源路径</th>
+		            			<th data-options="field:'category',width:'10%'">资源分类</th>
+		            			<th data-options="field:'resourceType',width:'10%'">访问类别</th>
+		        			</tr>
+	        			</thead>
+				</table>
+			</div>
+		</div> -->
+		
+	<div id="searchResourceDialog" class="easyui-dialog" title="资源选择" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:780px;height:680px;padding:10px">
+		<div style="color:red; font-weight:bold; padding-left:2px;" >
+			<ul>请注意 :
+			<li>a. 每条权限记录不能包含两个不同的模块 ，</li>
+			<li>b. '*'代表所有资源</li> 
+			</ul>
+		</div>
+		<div class="easyui-panel" title="查询条件" style="width:100%;">
+			<div style="padding:5px 5px 5px 5px">
+					<form id="resourceSearchForm" class="easyui-form CMCSearchForm" method="post" data-options="novalidate:true"  >
+						<table cellpadding="5" style="algin:middle;" >
+							<tr>
+								<input type='hidden' name='start' value=1 /> <input type='hidden' name='end' value=10 />
+							</tr>
+							<tr>
+								<td>资源名称:</td>
+								<td><input class="easyui-textbox" type="text" name="name"
+									data-options="required:false"  style="width:200px;" ></input></td>
+								<td>资源模块:</td>
+								<td>
+									 <input  name="module" style="width:200px;"  id="searchModule" >
+								</td>
+							</tr>
+							<tr>
+								<td>资源代码:</td>
+								<td><input class="easyui-textbox" type="text"
+									name="actionCode" data-options="required:false" style="width:200px;" ></input></td>
+								<td>资源分类:</td>
+								<td>
+									<select class="easyui-combobox" name="category" style="width:200px;">
+										<option	value=""> </option>
+										<option	value="menu">菜单</option>
+										<option value="uri">功能</option>
+										<option value="all">所有</option>
+									</select>
+									
+								</td>
+							</tr>
+							<tr>
+								<td>访问类别:</td>
+								<td>
+									<select class="easyui-combobox" name="resourceType" style="width:200px;">
+										<option	value=""> </option>
+										<option	value="IT">技术后台</option>
+										<option value="BA">业务后台</option>
+										<option value="OP">功能</option>
+									</select>
+								</td>
+							</tr>
+						</table>
+					</form>
+			</div>
+			<div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:5px;width:90%; height:50px;">
+				<a href="javascript:void(0)" class="easyui-linkbutton " id="searchResourceButton" >查询</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="selectResource">选择资源</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('searchResourceDialog','close');">关闭</a>
+			</div>
+		</div>
+		<div id='searchResult' style='margin:20px 0;'><table id='resourceSearchTable' class='easyui-datagrid' title='查询结果' style='width:100%;height:350px'></table></div>
+	</div>
+	<script type="text/javascript" src="/cmc/common/js/admin/permission.js"></script>
+  </body>
+</html>

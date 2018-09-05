@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>优惠券日志管理</title>
+    <LINK rel="stylesheet" href="/cmc/common/css/default.css"type="text/css">
+    <link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="/cmc/common/js/ajaxfileupload.js"></script>
+    <script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+    <script type="text/javascript" src="/cmc/common/js/fileSave.js"></script>
+
+    <LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+</head>
+<body>
+<DIV id="container" class="container">
+    <div id='mainContent' class="myMainContent" >
+<!--         <h2>优惠券日志查询</h2> -->
+        <div style="margin:3px 0;"></div>
+        <div class="easyui-panel" title="查询条件" >
+<!--             <div style="padding-left:10px;margin:2px;color:red;" >
+                请注意:
+                <ul>
+                    <li>a. 请至少输入一个条件进行导出！</li>
+                </ul>
+            </div> -->
+                <form id="noticeSearchForm" class="easyui-form CMCSearchForm" method="post" data-options="novalidate:true" >
+                    <table class="tbStyle" style="width:100%">
+                        <tr>
+                            <th width="15%">操作人账户:</th>
+                            <td width="35%"><input id="noticeReceiver" class="easyui-textbox" type="text" name="noticeReceiver"
+                                       data-options="required:false"  style="width:200px;" ></input></td>
+                            <th>起止日期:</th>
+                            <td>
+                                <input id="startTime" name="startTime" class="easyui-datebox" validtype="dateCompareLE['#endTime']" style="width: 120px;" data-options="panelWidth:'250px'" /> --
+                                <input id="endTime" name="endTime" class="easyui-datebox" validtype="dateCompareGE['#startTime']" style="width: 120px;" data-options="panelWidth:'250px'" />
+                            </td>          
+                        </tr>
+                        <tr>
+                         
+                        </tr>
+                        <tr>
+                            <th><lable style="color:red;">*</lable>功能模块:</th>
+                            <td><input name="module" style="width:200px;" id="updateModule"></td>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                    </table>
+                </form>
+            <div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:5px;width:70%; " algin="bottom">
+                <a href="javascript:void(0)" class="easyui-linkbutton" id="clearCondition">清空</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton CMCSearchButton" onclick="CouponNotice.get" permission="CouponNotice:get" >查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" id="exportNotices" permission="CouponNotice:export" >报表导出</a>
+            </div>
+        </div>
+        
+       <!--  <div id="noticeResult" >
+            <table id="taskResultTable"  class="easyui-datagrid">
+                <thead>
+                <tr>
+                    <th data-options="field:'noticeSubject',width:'18%'">日志主题</th>
+                    <th data-options="field:'noticeType',width:'12%'">日志类型</th>
+                    <th data-options="field:'noticeContent',width:'25%',formatter:CouponNotice.contentDetail">日志内容</th>
+                    <th data-options="field:'createTime',width:'13%'">创建时间</th>
+                    <th data-options="field:'noticeReceiver',width:'9%'">任务状态</th>
+                </tr>
+                </thead>
+            </table>
+        </div> -->
+    </div>
+</DIV>
+<script type="text/javascript" src="/cmc/common/js/admin/couponNotice.js"></script>
+</body>
+</html>

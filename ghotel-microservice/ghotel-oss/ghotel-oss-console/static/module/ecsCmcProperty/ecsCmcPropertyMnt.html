@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>属性配置管理</title>
+    <LINK rel="stylesheet" href="/cmc/common/css/default.css"type="text/css">
+    <link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+    <LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+    <style> <!-- .dialog-button { padding: 5px; text-align: center; } --> </style>
+</head>
+<body>
+<div id='mainContent' class="myMainContent" >
+    <!-- ---------------------------------查询属性配置条件开始--------------------------------- -->
+    <div id="middlerId" class="easyui-panel" title="属性配置查询条件">
+        <form id="searchForm" class="easyui-form CMCSearchForm"
+              method="post" data-options="novalidate:true">
+            <table class="tbStyle" style="algin:middle; width: 100%" >
+                <tr>
+                    <th width="15%">属性名:</th>
+                    <td width="35%"><input class="easyui-textbox" type="text" id="input_propertyname" name="propertyname"
+                                           data-options="required:false"  style="width:200px;" ></input></td>
+                    <th width="15%">属性值：</th>
+                    <td width="35%"><input class="easyui-textbox" type="text" id="input_propertyvalue" name="propertyvalue"
+                                           data-options="required:false"  style="width:200px;" ></input></td>
+                </tr>
+            </table>
+        </form>
+        <div id="buttonBar" class='footer CMCButtonBar'
+             style="text-align: center; padding: 5px; width: 70%;">
+
+            <a href="javascript:void(0)" class="easyui-linkbutton CMCSearchButton" permission="CmcProperty:getAll" >查询</a>&nbsp;&nbsp;
+            <a href="javascript:void(0)" class="easyui-linkbutton" id="CmcProperty_reset">重置</a>&nbsp;&nbsp;
+            <a href="javascript:void(0)" class="easyui-linkbutton" id="CmcProperty_add" permission="CmcProperty:add" >新建</a>&nbsp;&nbsp;
+            <a href="javascript:void(0)" class="easyui-linkbutton" id="CmcProperty_update" permission="CmcProperty:update,get">修改</a>&nbsp;&nbsp;
+            <a href="javascript:void(0)" class="easyui-linkbutton" id="CmcProperty_delete" permission="CmcProperty:delete">删除</a>&nbsp;&nbsp;
+        </div>
+    </div>
+    <!-- ---------------------------------查询属性配置条件结束--------------------------------- -->
+
+    <!-- ---------------------------------新增属性配置开始--------------------------------- -->
+    <div id="winEcsCmcPropertyAdd" class="easyui-dialog" title="新增属性配置" data-options="modal:true,closed:true,shadow:true,minimizable:false,collapsible:false,maximizable:false,closed:true,resetForm:true,buttons:[{
+                text:'确定',
+                handler:function(){eitdProperty(true,'ecsCmcPropertyAddForm');}
+            },{
+                text:'关闭',
+                handler:function(){CMC.dialog('winEcsCmcPropertyAdd','close');}
+            }]" style="width:380px;height:280px;"   >
+        <div id="add" style="margin:5px;">
+            <form id="ecsCmcPropertyAddForm" class="easyui-form" method="post">
+                <table class="tbStyle" style="width:100%">
+                    <tr>
+                        <th width="25%" ><span style="color:red">*</span>属性名：</th>
+                        <td width="75%" ><input type="text" id="propertyname_save" name="propertyname" class="easyui-textbox" style="width: 220px;" data-options="required:true" /></td>
+                    </tr>
+                    <tr>
+                        <th ><span style="color:red">*</span>属性值：</th>
+                        <td ><input type="text" id="propertyvalue_save" name="propertyvalue" class="easyui-textbox" style="width: 220px;" data-options="required:true" /></td>
+                    </tr>
+                    <tr>
+                        <th >描述：</th>
+                        <td ><input type="text" id="description_save" name="description" class="easyui-textbox" style="width:220px;height:100px"  data-options="required:false,multiline:true" /></td>
+                    </tr>
+                    <tr>
+                        <th >缺省值：</th>
+                        <td ><input type="text" id="propertyvalueInter_save" name="propertyvalueInter" class="easyui-textbox" style="width: 220px;" data-options="required:false" /></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <!-- ----------------------------------------------新增属性配置结束-------------------------------------------------- -->
+
+
+    <!-- ----------------------------------------------更新属性配置开始-------------------------------------------------- -->
+    <div id="winEcsCmcPropertyUpdate" class="easyui-dialog" title="新增属性配置" data-options="modal:true,closed:true,shadow:true,minimizable:false,collapsible:false,maximizable:false,closed:true,resetForm:true,buttons:[{
+                text:'确定',
+                handler:function(){eitdProperty(false,'ecsCmcPropertyUpdateForm');}
+            },{
+                text:'关闭',
+                handler:function(){CMC.dialog('winEcsCmcPropertyUpdate','close');}
+            }]" style="width:380px;height:280px;"   >
+        <div id="update" style="margin:5px;">
+            <form id="ecsCmcPropertyUpdateForm" class="easyui-form" method="post">
+                <table class="tbStyle" style="width:100%">
+                    <tr>
+                        <th width="25%" ><span style="color:red">*</span>属性名：</th>
+                        <td width="75%" ><input type="text" id="propertyname_update" name="propertyname" class="easyui-textbox" style="width: 220px;" data-options="required:true" /></td>
+                    </tr>
+                    <tr>
+                        <th ><span style="color:red">*</span>属性值：</th>
+                        <td ><input type="text" id="propertyvalue_update" name="propertyvalue" class="easyui-textbox" style="width: 220px;" data-options="required:true" /></td>
+                    </tr>
+                    <tr>
+                        <th >描述：</th>
+                        <td ><input type="text" id="description_update" name="description" class="easyui-textbox" style="width:220px;height:100px"  data-options="required:false,multiline:true" /></td>
+                    </tr>
+                    <tr>
+                        <th >缺省值：</th>
+                        <td ><input type="text" id="propertyvalueInter_update" name="propertyvalueInter" class="easyui-textbox" style="width: 220px;" data-options="required:false" /></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <!-- ----------------------------------------------更新属性配置结束-------------------------------------------------- -->
+</div>
+
+<script type="text/javascript" src="/cmc/common/js/ecsCmcProperty/ecsCmcPropertyMnt.js"></script>
+</body>
+</html>

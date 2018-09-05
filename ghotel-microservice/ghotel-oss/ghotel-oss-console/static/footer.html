@@ -1,0 +1,78 @@
+<div id="loginBox"  class="easyui-dialog" title="登陆框" style="width:540px;height:400px;padding:10px; ">
+	<TABLE height="250" cellSpacing=0 cellPadding=0 width="400" border=0 align="center" valign="middle">
+		<TBODY>
+			<TR>
+				<TD>
+					<FORM id="ajaxloginfrom" action=""
+						method="post">
+						<TABLE
+							style="BORDER-RIGHT: #6595d6 1px solid; BORDER-TOP: #6595d6 1px solid; BORDER-LEFT: #6595d6 1px solid; BORDER-BOTTOM: #6595d6 1px solid"
+							cellSpacing=0 cellPadding=0 width=500>
+							<TBODY>
+								<TR>
+									<TD height=351>
+										<TABLE cellSpacing=0 cellPadding=0 width=500 border=0>
+											<TBODY>
+												<TR>
+													<TD><IMG height=56
+														src="/cmc/common/images/login01.jpg" width=500></TD>
+												</TR>
+												<TR>
+													<TD><IMG height=123
+														src="/cmc/common/images/login02.jpg" width=500></TD>
+												</TR>
+												<TR>
+													<TD vAlign=bottom align=center
+														background="/cmc/common/images/login03.jpg"
+														height=172>
+														<TABLE cellSpacing=0 cellPadding=0 width=400 border=0>
+															<TBODY>
+																<TR>
+																	<TD align=right width=147 height=30>用户名：</TD>
+																	<TD width=253 height=30 align="left"><input
+																		class="common_textarea" type="text" id="username"
+																		name="username" value=""
+																		check lower reg="accounts" /></TD>
+																</TR>
+																<TR>
+																	<TD align=right height=30>密 码：</TD>
+																	<TD height=30 align="left"><input
+																		class="common_textarea" type="password" id="pwd"
+																		name="password" value="" /></TD>
+																</TR>
+																<TR>
+																	<TD align=right height=30>校验码：</TD>
+																	<TD><input class="common_textarea" type="text"
+																		id="__txtVerifyCode" name="__txtVerifyCode" size="10" /><img
+																		id="__imgVerifyCode" /><font color="#0080FF"
+																		onclick="CMC.showVerifyCodeWindowForFeedback();"
+																		style="cursor:hand">&nbsp;&nbsp;看不清楚？换张图片</font></TD>
+																</TR>
+																<TR>
+																	<TD align=right height=30>&nbsp;</TD>
+																	<TD height=30 align=left> <INPUT class=button
+																		type="button" value="登 录" onclick="CMC.checkVerifyCode('CMC.ajaxLogin')">
+																		&nbsp; <INPUT class=button type=reset value="清 空"
+																		name=Submit></TD>
+																</TR>
+
+															</TBODY>
+														</TABLE>
+													</TD>
+												</TR>
+											</TBODY>
+										</TABLE>
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</FORM>
+				</TD>
+			</TR>
+		</TBODY>
+	</TABLE>
+</div>
+<div id="proccessingMsgDialog"  class="easyui-dialog" title=" " style="width:240px;height:70px; ">
+	<label>正在处理中，请稍后。。。<img alt="" style="height:20px;width:20px;" src="/cmc/common/images/loading.gif"></label>
+</div>
+<!-- <div class="footerbox"><div class="footer">Copyright 1997-2008 goc</div></div> -->

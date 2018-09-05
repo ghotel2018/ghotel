@@ -1,0 +1,212 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <LINK rel="stylesheet" href="/cmc/common/css/default.css"type="text/css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">   
+
+<TITLE>中国XX</TITLE>
+
+</head>
+<BODY background="/cmc/common/images/loginbg.jpg" style="position:absolute;width:100%;height:100%; ">
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<TABLE height="250" cellSpacing=0 cellPadding=0 width="400" border=0
+		align="center" valign="middle">
+		<TBODY>
+			<TR>
+				<TD>
+					<FORM id="loginfrom" action=""
+						method="post">
+						<TABLE
+							style="BORDER-RIGHT: #6595d6 1px solid; BORDER-TOP: #6595d6 1px solid; BORDER-LEFT: #6595d6 1px solid; BORDER-BOTTOM: #6595d6 1px solid"
+							cellSpacing=0 cellPadding=0 width=500>
+							<TBODY>
+								<TR>
+									<TD height=351>
+										<TABLE cellSpacing=0 cellPadding=0 width=500 border=0>
+											<TBODY>
+												<TR>
+													<TD><IMG height=56
+														src="/cmc/common/images/login01.jpg" width=500></TD>
+												</TR>
+												<TR>
+													<TD><IMG height=123
+														src="/cmc/common/images/login02.jpg" width=500></TD>
+												</TR>
+												<TR>
+													<TD vAlign=bottom align=center
+														background="/cmc/common/images/login03.jpg"
+														height=172>
+														<TABLE cellSpacing=0 cellPadding=0 width=400 border=0>
+															<TBODY>
+																<TR>
+																	<TD align=right width=147 height=30>用户名：</TD>
+																	<TD width=253 height=30 align="left"><input
+																		class="common_textarea" type="text" id="username"
+																		name="username" value=""
+																		check lower reg="accounts" /></TD>
+																</TR>
+																<TR>
+																	<TD align=right height=30>密 码：</TD>
+																	<TD height=30 align="left"><input
+																		class="common_textarea" type="password" id="pwd"
+																		name="password" value="" /></TD>
+																</TR>
+																<TR>
+																	<TD align=right height=30>校验码：</TD>
+																	<TD><input class="common_textarea" type="text"
+																		id="__txtVerifyCode" name="__txtVerifyCode" size="10" /><img
+																		id="__imgVerifyCode" src="/security/generateImage?timestamep=1" /><font color="#0080FF"
+																		onclick="showVerifyCodeWindowForFeedback();"
+																		style="cursor:hand">&nbsp;&nbsp;看不清楚？换张图片</font></TD>
+																</TR>
+																<TR>
+																	<TD align=right height=30>&nbsp;</TD>
+																	<TD height=30 align=left><input type="hidden"
+																		name="returnURL" value="" /> <input
+																		type="hidden" id="errorMessage"
+																		value="" /> <INPUT class=button
+																		type="button" value="登 录" onclick="checkVerifyCode('window.login')">
+																		&nbsp; <INPUT class=button type=reset value="清 空"
+																		name=Submit></TD>
+																</TR>
+
+															</TBODY>
+														</TABLE>
+													</TD>
+												</TR>
+											</TBODY>
+										</TABLE>
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</FORM>
+				</TD>
+			</TR>
+		</TBODY>
+	</TABLE>
+</body>
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+	<script language="javascript">
+
+	$(document).ready(function() {
+		showVerifyCodeWindowForFeedback();
+		if ("" != $("#errorMessage").val()) {
+			alert($("#errorMessage").val());
+		}
+
+	});
+
+	window.login = function () {
+		if(validatePass()){
+			$.ajax({
+				method : "POST",
+				url : "/security/login",
+				dataType : "json",
+				async : true,
+				data: $("#loginfrom").form().serialize(),
+	            success:function(data, textStatus){
+	            	//字符串，则另外处理
+	            	if(typeof data !="string" ){
+	            		 //成功回调方法增强处理
+	                	 if(data.statusCode == 1){
+	                		if(data.messageBody){
+	                    		alert(data.messageBody);
+	                    	}else{
+	                    		CMC.alertMessage("当前请求发生错误，请联系系统管理员！",'error');
+	                    	}
+	                	}else if(data.statusCode == 2){
+	                		if(data.messageBody.errorMessage){
+	                    		alert(data.messageBody.errorMessage);
+	                    		return;
+	                    	}
+	                    	window.location.href = window.location.protocol+"//"+window.location.host+"/cmc" + data.messageBody.url;
+	                	}
+	            	}
+	            },
+				error : function() {
+					alert(server_error);
+				}
+			});
+		}
+		
+
+	}
+	
+	validatePass = function (){
+		if ($("#username").val() == "") {
+			alert("请输入用户名。");
+			$("#username").focus();
+			return false;
+		}
+		if ($("#password").val() == "") {
+			alert("请输入密码。");
+			$("#password").focus();
+			return false;
+		}
+		return true;
+	}
+	
+	showVerifyCodeWindowForFeedback = function () {
+		var myDate = new Date();
+		$("#__imgVerifyCode").attr(
+				"src", "/security/generateImage?timestamep="
+						+ myDate.getTime());
+		$("#__txtVerifyCode").val("");
+	}
+	
+	checkVerifyCode = function(callBack) {
+		var msg_blank = "请输入验证码！";
+		var msg_incorrect = "验证码不正确，请重试！";
+		var server_error = "服务器出错,请联系管理员！";
+		var v = $("#__txtVerifyCode").val();
+		if (v == "") {
+			alert(msg_blank);
+			return;
+		}
+		$.ajax({
+			method : "GET",
+			url : "/security/verifyCode?verifyCode=" + v,
+			dataType : "json",
+			async : false,
+			success : function(msg) {
+				if (msg.statusCode == 0 &&( msg.messageBody==""||msg.messageBody==null)) {
+					if(typeof callBack =='function'){
+						callBack();
+					}else if(typeof callBack =='string'){
+						window[callBack.split('.')[0]][callBack.split('.')[1]]();
+					}
+					return;
+				} else {
+					alert(msg_incorrect);
+					showVerifyCodeWindowForFeedback();
+					return;
+				}
+			},
+			error : function() {
+				alert(server_error);
+			}
+		});
+	}
+	
+    window.onkeydown = function(e) {
+		if (e.keyCode == 13) { //回车键的键值为13
+			checkVerifyCode(window.login);
+		}
+	}
+</script>
+</html>

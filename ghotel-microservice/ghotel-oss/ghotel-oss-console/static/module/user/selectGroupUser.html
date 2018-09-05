@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ <html xmlns="http://www.w3.org/1999/xhtml">
+	<head id="Head1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>选择用户</title>
+	<link rel="stylesheet" type="text/css"	href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css" />
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+	<LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+  </head>
+  <body class="easyui-layout" style="overflow-y: hidden" scroll="no"> 
+	        <div region="west" split="true" title="用户组" style="width: 250px; min-width: 50px; max-width: 350px;" id="west">
+				<div id='wnav' class="easyui-accordion" fit="true" border="false">
+					<ul id="groupTree" class="easyui-tree" ></ul>
+				</div>
+			</div>
+	        <div region="center" border="true">
+		      <div style="margin:0px 0;padding:0px;" id='mainContent' class="mainContent">
+					<div class="easyui-panel" title="查询条件" style="width:100%;height:130px;">
+						<form id="userSearchForm" class="easyui-form CMCSearchForm" method="post" data-options="novalidate:true" >
+							<table  class="tbStyle" style="width:100%;">
+								<tr>
+									<th  align="right">登录账号 :</th>
+									<td><input class="easyui-textbox" type="text" name="userLoginId"
+										data-options="required:false"  style="width:100px;" ></input></td>
+									<th  align="right">姓名 :</th>
+									<td><input type="hidden" name="status" value="B"/><input class="easyui-textbox" type="text" name="userName"
+										data-options="required:false" style="width:100px;" ></input></td>
+								</tr>
+								<tr>
+									<th  align="right">邮箱 :</th>
+									<td><input class="easyui-textbox" type="text"
+										name="workMail" data-options="required:false,validType:'email'" style="width:100px;" ></input></td>
+									<th  align="right">工作电话 :</th>
+									<td><input class="easyui-textbox" name="workPhone" type="text"
+										data-options="required:false" style="width:100px;" ></input></td>
+								</tr>
+								<tr>
+									<td colspan="4" align="center">
+									<a href="javascript:void(0)" class="easyui-linkbutton CMCSearchButton" onpermission="SelectUser:getAll"  id="user_search" >查询</a>
+									<a href="javascript:void(0)" class="easyui-linkbutton" onpermission="SelectUser:getAll"  onclick="closeWin()" >选择</a>
+									</td>
+								</tr>
+							</table>
+						</form>
+					</div>	
+			  </div>
+	        </div>  
+ </body>
+ <script type="text/javascript" src="/cmc/common/js/user/selectGroupUser.js"></script>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>用户组管理</title>
+    <LINK rel="stylesheet" href="/cmc/common/css/default.css"type="text/css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">   
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+    <LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+  </head>
+  <BODY >
+	<div id='mainContent' class="myMainContent" >
+		<div style="height:100%; width:100%;">
+			<div style="float:left;width:20%;height:97%; " > 
+	  			<div class="easyui-panel" title='用户组' style="width:100%;height:100%; " >
+					<ul id="groupTree" class="easyui-tree" ></ul>
+				</div>
+			</div>
+			
+			<div style="float:right; width:80%;height:500px;">
+				<div id="updateNodeDetail" style="width:100%; display:none;" >
+					<div style="padding-left:5px;height:150px; width:870px">
+						<div class="easyui-panel" title='详细信息' style="height:100%; width:100%;">
+							<form id="groupUpdateForm" class="easyui-form" method="post" data-options="novalidate:true" style="width:100%;">
+								<table cellpadding="5" align="center" valign="middle" >
+									<tr>
+										<td colspan="2"><input type="hidden" name='id' /> </td>
+									</tr>
+									<tr>
+										<td><lable style="color:red;">*</lable>用户组名称:</td>
+										<td><input class="easyui-textbox" type="text" name="groupName"
+											data-options="required:true,validType:{length:[0,32]}"  style="width:200px;" ></input></td>
+									</tr>
+									<tr>
+										<td>用户组描述:</td>
+										<td><input class="easyui-textbox" type="text" name="groupDesc"
+											data-options=" required:false,multiline:true,validType:{length:[0,128]} " style="width:200px;height:50px" ></input></td>
+									</tr>
+									<tr>
+										<td>父节点名称2:</td>
+										<td><input class="easyui-textbox" type="text"
+											name="parentName" data-options="required:false,readonly:true" style="width:100px;" ></input></td>
+									</tr>
+								</table>
+							</form>
+							<div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:0px;width:60%;position:absolute;">
+								<a href="javascript:void(0)" class="easyui-linkbutton"   style="display:none;" permission="Group:update" id="submitUpdateForm">更新</a>
+								<a href="javascript:void(0)" class="easyui-linkbutton"  style="display:none;" permission="Group:addBindingUser" id="showAddUserDialog" >添加用户</a>
+								<a href="javascript:void(0)" class="easyui-linkbutton"  style="display:none;" permission="Group:addBindingRole" id="showAddRoleDialog" >添加角色</a>
+								<a href="javascript:void(0)" class="easyui-linkbutton"  style="display:none;" permission="Group:removeBindingUser" id="deleteUser">删除用户</a>
+								<a href="javascript:void(0)" class="easyui-linkbutton"  style="display:none;" permission="Group:removeBindingRole" id="deleteRole">删除角色</a>
+							</div>
+						</div>	
+					</div>
+					
+					<div style="padding-left:5px;padding-top:20px;height:370px;">
+						<div style="width:50%;height:100%; overflow:auto; float:left">
+							<table id='userTable' class='easyui-datagrid' title='关联用户列表' style='width:100%;height:100%;padding-left:10px;'>
+						   		<thead>
+				      				<tr>
+				            			<th data-options="field:'userLoginId',width:'32%'">用户登录账号</th>
+				            			<th data-options="field:'userName',width:'32%'">用户姓名</th>
+				            			<th data-options="field:'status',width:'32%'">用户状态</th>
+				        			</tr>
+				    			</thead>
+							</table>
+						</div>
+						<div style="width:49%;height:100%;overflow:auto; float:right">
+							<table id='roleTable' class='easyui-datagrid' title='关联角色列表' style='width:100%;height:100%;padding-left:10px;'>
+								<thead>
+				      				<tr>
+				            			<th data-options="field:'roleName',width:'90%'">绑定的角色名</th>
+				        			</tr>
+				    			</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div id="addNodeDetail" style="width:100%;display:none;height:220px" >
+					<div class="easyui-panel" title='新增信息' style="width:30%;height:100%;" >
+						<form id="groupAddForm" class="easyui-form" method="post" data-options="novalidate:true" style="width:100%;height:150px;">
+								<table cellpadding="5"   align="center" valign="middle" >
+									<tr>
+										<td colspan="2"><input type="hidden" name='parentId' /> <input type="hidden" name='level' /> <input type="hidden" name='groupType' /></td>
+									</tr>
+									<tr>
+										<td><lable style="color:red;">*</lable>用户组名称:</td>
+										<td><input class="easyui-textbox" type="text" name="groupName"
+											data-options="required:true,validType:{length:[0,32]}"  style="width:200px;" ></input></td>
+									</tr>
+									<tr>
+										<td>用户组描述:</td>
+										<td><input class="easyui-textbox" type="text" name="groupDesc"
+											data-options=" required:false,multiline:true,validType:{length:[0,128]} " style="width:200px;height:50px" ></input></td>
+									</tr>
+									<tr>
+										<td>父节点名称:</td>
+										<td><input class="easyui-textbox" type="text"
+											name="parentName" data-options="required:false, readonly:true" style="width:100px;" ></input></td>
+									</tr>
+								</table>
+						</form>
+						<div id="buttonBar" class='footer CMCButtonBar' style="text-align:center;padding:0px;width:50%; ">
+							<a href="javascript:void(0)" class="easyui-linkbutton" style="text-align:center;display:none;" permission="Group:add" id="submitAddForm" >新增</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="showMemu" class="easyui-menu" style="width:120px;">
+			<div  id="groupAddBtn" permission="Group:add"  style="display:none;"  data-options="iconCls:'icon-add'"  onclick ="Group.append();">新增</div>
+			<div  id="groupDeleteBtn" permission="Group:delete" style="display:none;"  data-options="iconCls:'icon-remove'"  onclick ="Group.removeit();"> 删除</div>
+			<div  onclick="Group.expand();" >展开</div>
+			<div  onclick="Group.collapse();">收起</div>
+		</div>
+	</div>
+	
+	<div id="bindRoleDialog" class="easyui-dialog" title="绑定角色" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:500px;height:400px;">
+		<div style="padding:10px 10px 10px 10px">
+			<div style="width:100%; height:300px;" >
+		  			<div class="easyui-panel" title="角色" style="height:300px;width:width:100%;"  >
+						<ul id="roletree" class="easyui-tree" ></ul>
+					</div>
+				</div>
+		    <div style="text-align:center;padding:5px">
+		    	<a href="javascript:void(0)" class="easyui-linkbutton" id="bindRoleButton">绑定角色</a><a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('bindRoleDialog','close');" >关闭</a>
+		    </div>
+	    </div>
+	</div>
+	
+	<div id="bindUserDialog" class="easyui-dialog" title="绑定用户" data-options="iconCls:'icon-save',modal:true,closed: true" style="width:500px;height:400px;">
+		<div style="padding:10px 10px 10px 10px">
+		    <form id="userSearchForm"  method="post" data-options="novalidate:true">
+		    	<table cellpadding="5">
+		    		<tr>
+		    			<input type='hidden' name='start' value=1 /> <input type='hidden' name='end' value=10 />
+		    		</tr>
+		    		<tr>
+		    			<td>用户名称:</td>
+		    			<td><input class="easyui-textbox" type="text" name="userName" data-options="required:true"></input></td>
+		    		</tr>
+		    		<tr>
+		    			<td>登录账号:</td>
+		    			<td><input class="easyui-textbox"  name="userLoginId" style="width:200px;"  id="userLoginId"></td>
+		    		</tr>
+		    	</table>
+		    </form>
+	    </div>
+		<div style="text-align:center;padding:5px">
+		 	<a href="javascript:void(0)" class="easyui-linkbutton" style="display:none;" permission="Group:getUsers" id="searchUserButton">查询</a>
+		    <a href="javascript:void(0)" class="easyui-linkbutton" style="display:none;" permission="Group:addBindingUser" id="bindUserButton">绑定用户</a>
+		    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="CMC.dialog('bindUserDialog','close');" >关闭</a>
+		</div>
+		<table id='userResultTable' class='easyui-datagrid' title='用户查询结果' style='width:100%;height:250px'>
+			<thead>
+				<tr>
+           			<th data-options="field:'userLoginId',width:'30%'">用户登录账号</th>
+           			<th data-options="field:'userName',width:'30%'">用户姓名</th>
+           			<th data-options="field:'status',width:'30%'">用户状态</th>
+       			</tr>
+      			</thead>
+		</table>
+	</div>
+	
+	<script type="text/javascript" src="/cmc/common/js/admin/group.js"></script>
+  	</body>
+</html>
+

@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: ghotel-oss-clawer
+    
+clawer:
+  ctrip:
+    path:
+      selenium: /usr/local/bin/chromedriver
+      scrapyProject: /Users/***/git/ghotel/ghotel-oss/ghotel-oss-clawer/script/Xiecheng/Xiecheng/spiders
+    command:
+      scrapyHotelInfo: scrapy runspider Xiechengjiudian.py
