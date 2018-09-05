@@ -41,7 +41,6 @@ public class IndexController extends AbstractModuleCommonController {
 	private SystemMessageService systemMessageService;
 
 	@Autowired
-	@Qualifier("noticeService")
 	private GocNoticeService noticeService;
 	// @Value("${ftp_server_hostname}")
 	// private String ftpIp;
