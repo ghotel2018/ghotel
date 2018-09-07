@@ -22,6 +22,7 @@ import com.ghotel.oss.console.core.utils.GocUserUtils;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 操作日志切点类
@@ -77,13 +78,14 @@ public class GocLogAspect {
                 }
             }
             GocNoticeBean gocNoticeBean = new GocNoticeBean();
-            String currentTimeString = DateFormatUtils.format(System.currentTimeMillis(), "yyyy-MM-ddTHH:mm:ss.sss");
+            String currentTimeString = DateFormatUtils.format(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss.sss");
             gocNoticeBean.setCreateTime(currentTimeString);
             gocNoticeBean.setModule(moduleId);
             gocNoticeBean.setNoticeContent(content);
             gocNoticeBean.setNoticeReceiver(userName);
             gocNoticeBean.setNoticeSubject(subjectName);
             gocNoticeBean.setNoticeType("op");
+            gocNoticeBean.setNoticeId(UUID.randomUUID().toString());
             noticeService.addNotice(gocNoticeBean);
         } catch (Exception e) {
             logger.error("日志切面【后置通知】异常：异常信息为：{},堆栈为：{}", e.getMessage(), e);
