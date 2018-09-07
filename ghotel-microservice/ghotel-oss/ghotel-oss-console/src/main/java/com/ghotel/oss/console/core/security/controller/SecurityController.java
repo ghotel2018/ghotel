@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +45,6 @@ public class SecurityController extends AbstractModuleCommonController {
 	@ResponseBody
 	@RequestMapping(value = "/getAuthority", method = RequestMethod.POST)
 	public Message getAuthority(String projectAbbr) throws Exception {
-//		String username = request.getParameter("username");
-//		String projectAbbr = request.getParameter("projectAbbr");
 		Message message = new Message(null, RequestStatusConstant.STATUS_CODE_SECCEED);
 		PageConfigBean config = securityService.getMenuConfig(GocWebUtils.getSessionUser().get(), projectAbbr);
 		message.setMessageBody(config);
@@ -143,10 +140,11 @@ public class SecurityController extends AbstractModuleCommonController {
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public @ResponseBody Message logout(HttpServletRequest request) {
 		try {
-//			SecurityUtils.getSubject().logout();
-			//need to merge the sessiondao
+			// SecurityUtils.getSubject().logout();
+			// need to merge the sessiondao
 			gocAuthorizingRealm.clearCached();
 		} catch (Exception e) {
+			log.error("user logout face error:", e);
 		}
 		request.getSession().invalidate();
 		Map<String, String> returnParams = new HashMap<String, String>();

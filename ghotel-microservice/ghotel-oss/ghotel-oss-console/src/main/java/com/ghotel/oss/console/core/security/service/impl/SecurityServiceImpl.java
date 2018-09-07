@@ -219,6 +219,7 @@ public class SecurityServiceImpl implements SecurityService {
 						+ menuConfig.getResource().getActionCode();
 				if (SecurityUtils.getSubject().isPermitted(permissionExp)) {
 					result.add(menuConfig);
+					log.info("add {} to user's menu", menuConfig);
 				}
 			} else {
 				if (!menuConfig.getChildren().isEmpty()) {

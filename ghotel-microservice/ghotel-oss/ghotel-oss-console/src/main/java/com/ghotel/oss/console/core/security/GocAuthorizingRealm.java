@@ -112,6 +112,7 @@ public class GocAuthorizingRealm extends AuthorizingRealm {
 				return new SimpleAuthenticationInfo(token.getUsername(), new String(token.getPassword()),
 						this.getName());
 			} else {
+				log.info("{} login failed with wrong password!", token);
 				throw new IncorrectCredentialsException("你输入的密码不正确！");
 			}
 		}).orElseThrow(() -> new UnknownAccountException("您输入的的账号不存在"));
