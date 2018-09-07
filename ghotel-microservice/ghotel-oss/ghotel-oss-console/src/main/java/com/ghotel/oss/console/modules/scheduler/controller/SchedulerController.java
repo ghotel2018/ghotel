@@ -50,15 +50,7 @@ import com.ghotel.oss.console.modules.scheduler.service.SchedulerService;
 @RequiresAuthentication
 public class SchedulerController extends AbstractModuleCommonController  {
 	
-	
-	// seq 1
-	/*
-	private static final String STOP_INSTANCE_URL_TEMPLATE ="http://{ip}:{port}/cmc/security/commonJob/stopJob"; 
-	private static final String START_INSTANCE_URL_TEMPLATE ="http://{ip}:{port}/cmc/security/commonJob/startJob"; 
-	private static final String START_ALL_URL_TEMPLATE ="http://{ip}:{port}/cmc/security/commonJob/startAllJob"; 
-	private static final String STOP_ALL_URL_TEMPLATE ="http://{ip}:{port}/cmc/security/commonJob/stopAllJob"; 
-	private static final String HEALTHCHECK_URL_TEMPLATE ="http://{ip}:{port}/cmc/security/commonJob/schedulerCheck";
-	*/
+    //定义常用任务调度请求模板（用户调用CommonJobController）
 	private static final String STOP_INSTANCE_URL_TEMPLATE ="http://{ip}:{port}{path}/stopJob"; 
 	private static final String START_INSTANCE_URL_TEMPLATE ="http://{ip}:{port}{path}/startJob"; 
 	private static final String START_ALL_URL_TEMPLATE ="http://{ip}:{port}{path}/startAllJob"; 
@@ -73,9 +65,9 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	
 	@RequiresPermissions("Scheduler:access")
 	@RequestMapping("access")  
-    public 	@ResponseBody Message access( HttpServletRequest request,HttpServletResponse response){  
+    public 	@ResponseBody Message access(){  
 		String returnUrl = "/module/admin/schedulerMnt.html";
-    	Map returnParams = new HashMap();
+    	Map<String, String> returnParams = new HashMap<String, String>();
     	returnParams.put("url", returnUrl);
 		this.message = new Message("",RequestStatusConstant.PAGE_NAVIGATION_ON, returnParams);
 		return this.message; 
@@ -91,11 +83,10 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	 */
 	@RequiresPermissions("Scheduler:getAll")
 	@RequestMapping(value="getAll", method=RequestMethod.POST)  
-    public 	@ResponseBody Message getAll(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
+    public 	@ResponseBody Message getAll(JobSearchCriteriaBean jobSearchCriteriaBean) throws Exception{  
 		message = new Message();
-		JobSearchCriteriaBean bean  = (JobSearchCriteriaBean)GocWebUtils.formatBeanFromRequest(request, JobSearchCriteriaBean.class);
 		message.setStatusCode(RequestStatusConstant.STATUS_CODE_SECCEED);
-		PaginationResult pr  = schedulerService.getPaginationAll(bean);
+		PaginationResult<JobDetailInfoBean> pr  = schedulerService.getPaginationAll(jobSearchCriteriaBean);
 		message.setMessageBody(pr);
 		return this.message;
 	}
@@ -110,10 +101,9 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	 */
 	@RequestMapping("add")  
 	@RequiresPermissions("Scheduler:add")
-    public 	@ResponseBody Message add( HttpServletRequest request,HttpServletResponse response) throws Exception{  
-		JobDetailInfoBean bean = (JobDetailInfoBean)GocWebUtils.formatBeanFromRequest(request, JobDetailInfoBean.class);
-		bean.setJobId(UUID.randomUUID().toString().replaceAll("-", ""));
-		schedulerService.add(bean);
+    public 	@ResponseBody Message add(JobDetailInfoBean jobDetailInfoBean) throws Exception{  
+		jobDetailInfoBean.setJobId(UUID.randomUUID().toString().replaceAll("-", ""));
+		schedulerService.add(jobDetailInfoBean);
 		this.message = new Message("",RequestStatusConstant.STATUS_CODE_SECCEED, "新增成功！");
 		return this.message; 
 	}
@@ -128,9 +118,8 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	 */
 	@RequestMapping("update")  
 	@RequiresPermissions("Scheduler:update")
-    public 	@ResponseBody Message update( HttpServletRequest request,HttpServletResponse response) throws Exception{  
-		JobDetailInfoBean bean = (JobDetailInfoBean)GocWebUtils.formatBeanFromRequest(request, JobDetailInfoBean.class);
-		schedulerService.update(bean);
+    public 	@ResponseBody Message update(JobDetailInfoBean jobDetailInfoBean) throws Exception{  
+		schedulerService.update(jobDetailInfoBean);
 		this.message = new Message("",RequestStatusConstant.STATUS_CODE_SECCEED, "更新成功！");
 		return this.message; 
 	}
@@ -145,9 +134,8 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	 */
 	@RequestMapping("delete")  
 	@RequiresPermissions("Scheduler:delete")
-    public 	@ResponseBody Message delete(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
-		JobDetailInfoBean bean = (JobDetailInfoBean)GocWebUtils.formatBeanFromRequest(request, JobDetailInfoBean.class);
-		schedulerService.delete(bean);
+    public 	@ResponseBody Message delete(JobDetailInfoBean jobDetailInfoBean) throws Exception{  
+		schedulerService.delete(jobDetailInfoBean);
 		this.message = new Message("",RequestStatusConstant.STATUS_CODE_SECCEED, "删除成功！");
 		return this.message; 
 	}
@@ -162,7 +150,7 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	 */
 	@RequestMapping("get/{jobId}")  
 	@RequiresPermissions("Scheduler:get")
-    public 	@ResponseBody Message get(@PathVariable("jobId") String  jobId,  HttpServletRequest request,HttpServletResponse response) throws Exception{  
+    public 	@ResponseBody Message get(@PathVariable("jobId") String  jobId) throws Exception{  
 		this.message = new Message("",RequestStatusConstant.STATUS_CODE_SECCEED,schedulerService.get(jobId));
 		return this.message; 
 	}
@@ -176,13 +164,13 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	 * @throws Exception
 	 */
 	@RequestMapping("checkCron")  
-    public 	@ResponseBody Message checkCron(@RequestParam("cronExp") String cronExp ,HttpServletRequest request,HttpServletResponse response) throws Exception{  
+    public 	@ResponseBody Message checkCron(@RequestParam("cronExp") String cronExp) throws Exception{  
 		List<String> resultList = new ArrayList<String>();
 		CronExpression exp = new CronExpression(cronExp);  
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd HH:mm:ss");  
         Date d = new Date();  
         int i = 0;  
-        // 循环得到接下来n此的触发时间点，供验证  
+        //循环得到接下来n此的触发时间点，供验证  
         while (i < 5) {  
             d = exp.getNextValidTimeAfter(d);  
             resultList.add(df.format(d));  
@@ -192,37 +180,37 @@ public class SchedulerController extends AbstractModuleCommonController  {
 		return this.message; 
 	}
 	
-	
-	@Deprecated
-	@RequestMapping("startJob")  
-	@RequiresPermissions("Scheduler:startJob")
-    public 	@ResponseBody Message startJob(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
-		//JobDetailInfoBean bean = (JobDetailInfoBean)CmcWebUtils.formatBeanFromRequest(request, JobDetailInfoBean.class);
-		this.message = new Message("",RequestStatusConstant.STATUS_CODE_FAILED, "接口已过期！");
-		return this.message; 
-	}
-	@Deprecated
-	@RequestMapping("stopJob")  
-	@RequiresPermissions("Scheduler:stopJob")
-    public 	@ResponseBody Message stopJob(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
-		JobDetailInfoBean bean = (JobDetailInfoBean)GocWebUtils.formatBeanFromRequest(request, JobDetailInfoBean.class);
-		this.message = new Message("",RequestStatusConstant.STATUS_CODE_FAILED, "接口已过期！");
-		return this.message; 
-	}
-	@Deprecated
-	@RequestMapping("startAllJob")  
-	@RequiresPermissions("Scheduler:startAllJob")
-    public 	@ResponseBody Message startAllJob(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
-		this.message = new Message("",RequestStatusConstant.STATUS_CODE_FAILED, "接口已过期！");
-		return this.message; 
-	}
-	@Deprecated
-	@RequestMapping("stopAllJob")  
-	@RequiresPermissions("Scheduler:stopAllJob")
-    public 	@ResponseBody Message stopAllJob(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
-		this.message = new Message("",RequestStatusConstant.STATUS_CODE_FAILED, "接口已过期！");
-		return this.message; 
-	}
+	//下列为过时方法，先注释掉
+//	@Deprecated
+//	@RequestMapping("startJob")  
+//	@RequiresPermissions("Scheduler:startJob")
+//    public 	@ResponseBody Message startJob(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
+//		//JobDetailInfoBean bean = (JobDetailInfoBean)CmcWebUtils.formatBeanFromRequest(request, JobDetailInfoBean.class);
+//		this.message = new Message("",RequestStatusConstant.STATUS_CODE_FAILED, "接口已过期！");
+//		return this.message; 
+//	}
+//	@Deprecated
+//	@RequestMapping("stopJob")  
+//	@RequiresPermissions("Scheduler:stopJob")
+//    public 	@ResponseBody Message stopJob(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
+//		JobDetailInfoBean bean = GocWebUtils.formatBeanFromRequest(request, JobDetailInfoBean.class);
+//		this.message = new Message("",RequestStatusConstant.STATUS_CODE_FAILED, "接口已过期！");
+//		return this.message; 
+//	}
+//	@Deprecated
+//	@RequestMapping("startAllJob")  
+//	@RequiresPermissions("Scheduler:startAllJob")
+//    public 	@ResponseBody Message startAllJob(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
+//		this.message = new Message("",RequestStatusConstant.STATUS_CODE_FAILED, "接口已过期！");
+//		return this.message; 
+//	}
+//	@Deprecated
+//	@RequestMapping("stopAllJob")  
+//	@RequiresPermissions("Scheduler:stopAllJob")
+//    public 	@ResponseBody Message stopAllJob(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
+//		this.message = new Message("",RequestStatusConstant.STATUS_CODE_FAILED, "接口已过期！");
+//		return this.message; 
+//	}
 	
 	/**
 	 * 获取调度工作执行的任务列表
@@ -234,10 +222,9 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	 */
 	@RequestMapping("listTasks")  
 	@RequiresPermissions("Scheduler:listTasks")
-    public 	@ResponseBody Message listTasks(@RequestParam("jobType") String jobType,  HttpServletRequest request,HttpServletResponse response) throws Exception{  
-		TaskSearchCriteriaBean bean = (TaskSearchCriteriaBean)GocWebUtils.formatBeanFromRequest(request, TaskSearchCriteriaBean.class);
+    public 	@ResponseBody Message listTasks(@RequestParam("jobType") String jobType, TaskSearchCriteriaBean taskSearchCriteriaBean) throws Exception{  
 		message.setStatusCode(RequestStatusConstant.STATUS_CODE_SECCEED);
-		PaginationResult pr  = indexService.getTasksByJobType(bean);
+		PaginationResult<TaskSearchCriteriaBean> pr  = indexService.getTasksByJobType(taskSearchCriteriaBean);
 		message.setMessageBody(pr);
 		return this.message;
 	}
@@ -251,10 +238,9 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	 */
 	@RequestMapping("finishTask")  
 	@RequiresPermissions("Scheduler:finishTask")
-    public 	@ResponseBody Message finishTask(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
-		TaskSearchCriteriaBean bean = (TaskSearchCriteriaBean)GocWebUtils.formatBeanFromRequest(request, TaskSearchCriteriaBean.class);
+    public 	@ResponseBody Message finishTask(TaskSearchCriteriaBean taskSearchCriteriaBean) throws Exception{  
 		this.message = new Message("",RequestStatusConstant.STATUS_CODE_FAILED, "中断任务成功！");
-		indexService.finishTask(bean);
+		indexService.finishTask(taskSearchCriteriaBean);
 		return this.message;
 	}
 	
@@ -268,11 +254,10 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	 */
 	@RequestMapping("listJobInstanceByJobId")  
 	@RequiresPermissions("Scheduler:listJobInstanceByJobId")
-    public 	@ResponseBody Message listJobInstanceByJobId( HttpServletRequest request,HttpServletResponse response) throws Exception{  
+    public 	@ResponseBody Message listJobInstanceByJobId(JobInstanceSearchBean jobInstanceSearchBean) throws Exception{  
 		message.setStatusCode(RequestStatusConstant.STATUS_CODE_SECCEED); 
-		JobInstanceSearchBean searchBean = GocWebUtils.formatBeanFromRequest(request, JobInstanceSearchBean.class);
-		List<JobInstanceBean> result  = schedulerService.selectJobInstanceByIpAndPort(searchBean);
-		PaginationResult pr = new PaginationResult();
+		List<JobInstanceBean> result  = schedulerService.selectJobInstanceByIpAndPort(jobInstanceSearchBean);
+		PaginationResult<JobInstanceBean> pr = new PaginationResult<JobInstanceBean>();
 		pr.setList(result);
 		message.setMessageBody(pr);
 		return this.message;
@@ -288,10 +273,9 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	 */
 	@RequestMapping("registerTartgetHostJob")  
 	@RequiresPermissions("Scheduler:registerTartgetHostJob")
-    public 	@ResponseBody Message addJobInstance(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
-		JobInstanceBean jobInstance =  (JobInstanceBean)GocWebUtils.formatBeanFromRequest(request, JobInstanceBean.class);
-		jobInstance.setJobInstanceId(UUID.randomUUID().toString());
-		schedulerService.addJobInstance(jobInstance);
+    public 	@ResponseBody Message addJobInstance(JobInstanceBean jobInstanceBean) throws Exception{  
+		jobInstanceBean.setJobInstanceId(UUID.randomUUID().toString());
+		schedulerService.addJobInstance(jobInstanceBean);
 		return this.message; 
 	}
 	
@@ -304,9 +288,8 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	 */
 	@RequestMapping("removeTartgetHostJob")  
 	@RequiresPermissions("Scheduler:registerTartgetHostJob")
-    public 	@ResponseBody Message removeJobInstance(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
-		JobInstanceBean jobInstance =  (JobInstanceBean)GocWebUtils.formatBeanFromRequest(request, JobInstanceBean.class);
-		schedulerService.deleteJobInstance(jobInstance);
+    public 	@ResponseBody Message removeJobInstance(JobInstanceBean jobInstanceBean) throws Exception{  
+		schedulerService.deleteJobInstance(jobInstanceBean);
 		return this.message; 
 	}
 	
@@ -319,12 +302,11 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	 */
 	@RequestMapping("startTartgetHostJob")  
 	@RequiresPermissions("Scheduler:startTartgetHostJob")
-    public 	@ResponseBody Message startTartgetHostJob(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
-		JobInstanceBean jobInstance =  (JobInstanceBean)GocWebUtils.formatBeanFromRequest(request, JobInstanceBean.class);
+    public 	@ResponseBody Message startTartgetHostJob(JobInstanceBean jobInstanceBean) throws Exception{  
 		// seq 1
 		//String url = START_INSTANCE_URL_TEMPLATE.replace("{ip}", jobInstance.getIpAddr()).replace("{port}", jobInstance.getPort() + "");
-		String url = START_INSTANCE_URL_TEMPLATE.replace("{ip}", jobInstance.getIpAddr()).replace("{port}", jobInstance.getPort() + "").replace("{path}", jobInstance.getPath());
-		String result = HttpClientUtil.post(url,BeanUtil.transBean2Map(jobInstance), false);
+		String url = START_INSTANCE_URL_TEMPLATE.replace("{ip}", jobInstanceBean.getIpAddr()).replace("{port}", jobInstanceBean.getPort() + "").replace("{path}", jobInstanceBean.getPath());
+		String result = HttpClientUtil.post(url,BeanUtil.transBean2Map(jobInstanceBean), false);
 		this.message = JacksonJsonUtil.jsonToBean(result, Message.class);
 		return this.message; 
 	}
@@ -338,12 +320,11 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	 */
 	@RequestMapping("pauseTartgetHostJob")  
 	@RequiresPermissions("Scheduler:pauseTartgetHostJob")
-    public 	@ResponseBody Message pauseTartgetHostJob(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
-		JobInstanceBean jobInstance =  (JobInstanceBean)GocWebUtils.formatBeanFromRequest(request, JobInstanceBean.class);
+    public 	@ResponseBody Message pauseTartgetHostJob(JobInstanceBean jobInstanceBean) throws Exception{  
 		// seq 1
 		//String url = STOP_INSTANCE_URL_TEMPLATE.replace("{ip}", jobInstance.getIpAddr()).replace("{port}", jobInstance.getPort() + "");
-		String url = STOP_INSTANCE_URL_TEMPLATE.replace("{ip}", jobInstance.getIpAddr()).replace("{port}", jobInstance.getPort() + "").replace("{path}", jobInstance.getPath());
-		String result = HttpClientUtil.post(url,BeanUtil.transBean2Map(jobInstance), false);
+		String url = STOP_INSTANCE_URL_TEMPLATE.replace("{ip}", jobInstanceBean.getIpAddr()).replace("{port}", jobInstanceBean.getPort() + "").replace("{path}", jobInstanceBean.getPath());
+		String result = HttpClientUtil.post(url,BeanUtil.transBean2Map(jobInstanceBean), false);
 		this.message = JacksonJsonUtil.jsonToBean(result, Message.class);
 		return this.message; 
 	}
@@ -357,12 +338,11 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	 */
 	@RequestMapping("startTartgetHostAllJob")  
 	@RequiresPermissions("Scheduler:startTartgetHostAllJob")
-    public 	@ResponseBody Message startTartgetHostAllJob(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
-		JobInstanceBean jobInstance =  (JobInstanceBean)GocWebUtils.formatBeanFromRequest(request, JobInstanceBean.class);
+    public 	@ResponseBody Message startTartgetHostAllJob(JobInstanceBean jobInstanceBean) throws Exception{  
 		// seq 1
 		//String url = START_ALL_URL_TEMPLATE.replace("{ip}", jobInstance.getIpAddr()).replace("{port}", jobInstance.getPort() + "");
-		String url = START_ALL_URL_TEMPLATE.replace("{ip}", jobInstance.getIpAddr()).replace("{port}", jobInstance.getPort() + "").replace("{path}", jobInstance.getPath());
-		String result = HttpClientUtil.post(url,BeanUtil.transBean2Map(jobInstance), false);
+		String url = START_ALL_URL_TEMPLATE.replace("{ip}", jobInstanceBean.getIpAddr()).replace("{port}", jobInstanceBean.getPort() + "").replace("{path}", jobInstanceBean.getPath());
+		String result = HttpClientUtil.post(url,BeanUtil.transBean2Map(jobInstanceBean), false);
 		this.message = JacksonJsonUtil.jsonToBean(result, Message.class);
 		return this.message; 
 	}
@@ -376,12 +356,11 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	 */
 	@RequestMapping("pauseTartgetHostAllJob")  
 	@RequiresPermissions("Scheduler:pauseTartgetHostAllJob")
-    public 	@ResponseBody Message pauseTartgetHostAllJob(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
-		JobInstanceBean jobInstance =  (JobInstanceBean)GocWebUtils.formatBeanFromRequest(request, JobInstanceBean.class);
+    public 	@ResponseBody Message pauseTartgetHostAllJob(JobInstanceBean jobInstanceBean) throws Exception{  
 		// seq 1
 		//String url = STOP_ALL_URL_TEMPLATE.replace("{ip}", jobInstance.getIpAddr()).replace("{port}", jobInstance.getPort() + "");
-		String url = STOP_ALL_URL_TEMPLATE.replace("{ip}", jobInstance.getIpAddr()).replace("{port}", jobInstance.getPort() + "").replace("{path}", jobInstance.getPath());
-		String result = HttpClientUtil.post(url,BeanUtil.transBean2Map(jobInstance), false);
+		String url = STOP_ALL_URL_TEMPLATE.replace("{ip}", jobInstanceBean.getIpAddr()).replace("{port}", jobInstanceBean.getPort() + "").replace("{path}", jobInstanceBean.getPath());
+		String result = HttpClientUtil.post(url,BeanUtil.transBean2Map(jobInstanceBean), false);
 		this.message = JacksonJsonUtil.jsonToBean(result, Message.class);
 		return this.message; 
 	}
@@ -395,11 +374,10 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	 */
 	@RequestMapping("schedulerCheck")  
 	@RequiresPermissions("Scheduler:schedulerCheck")
-    public 	@ResponseBody Message schedulerCheck(  HttpServletRequest request,HttpServletResponse response) throws Exception{  
-		JobInstanceBean jobInstance =  (JobInstanceBean)GocWebUtils.formatBeanFromRequest(request, JobInstanceBean.class);
+    public 	@ResponseBody Message schedulerCheck(JobInstanceBean jobInstanceBean) throws Exception{  
 		// seq 1
 		//String url = HEALTHCHECK_URL_TEMPLATE.replace("{ip}", jobInstance.getIpAddr()).replace("{port}", jobInstance.getPort() + "");
-		String url = HEALTHCHECK_URL_TEMPLATE.replace("{ip}", jobInstance.getIpAddr()).replace("{port}", jobInstance.getPort() + "").replace("{path}", jobInstance.getPath());
+		String url = HEALTHCHECK_URL_TEMPLATE.replace("{ip}", jobInstanceBean.getIpAddr()).replace("{port}", jobInstanceBean.getPort() + "").replace("{path}", jobInstanceBean.getPath());
 		try{
 			String result = HttpClientUtil.post(url, new HashMap<String,Object>(),false);
 			//System.out.println(result);
@@ -414,10 +392,9 @@ public class SchedulerController extends AbstractModuleCommonController  {
 	
 	@RequestMapping("runJobOne")
 	@RequiresPermissions("Scheduler:runJobOne")
-	public @ResponseBody Message runJobOne( HttpServletRequest request) throws Exception {
-		JobInstanceBean jobInstance =  (JobInstanceBean)GocWebUtils.formatBeanFromRequest(request, JobInstanceBean.class);
-		String url = RUNJOBONE_URL_TEMPLATE.replace("{ip}", jobInstance.getIpAddr()).replace("{port}", jobInstance.getPort() + "").replace("{path}", jobInstance.getPath());
-		String result = HttpClientUtil.post(url, BeanUtil.transBean2Map(jobInstance),false);
+	public @ResponseBody Message runJobOne(JobInstanceBean jobInstanceBean) throws Exception {
+		String url = RUNJOBONE_URL_TEMPLATE.replace("{ip}", jobInstanceBean.getIpAddr()).replace("{port}", jobInstanceBean.getPort() + "").replace("{path}", jobInstanceBean.getPath());
+		String result = HttpClientUtil.post(url, BeanUtil.transBean2Map(jobInstanceBean),false);
 		this.message = JacksonJsonUtil.jsonToBean(result, Message.class);
 		return message;
 	}
