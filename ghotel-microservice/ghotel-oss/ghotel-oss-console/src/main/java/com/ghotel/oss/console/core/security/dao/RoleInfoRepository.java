@@ -10,4 +10,6 @@ public interface RoleInfoRepository extends MongoRepository<RoleInfoBean, String
 
 	public List<RoleInfoBean> findByParentIdIsNull();
 
+	public List<RoleInfoBean> findByParentIdIsNullOrParentId(String string);
+
 }

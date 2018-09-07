@@ -49,8 +49,8 @@ public class RoleMaintenanceController extends AbstractModuleCommonController {
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@RequiresPermissions("Role:add")
 	public @ResponseBody Message add(RoleInfoBean bean) throws Exception {
-		roleMaintenanceService.add(bean);
 		bean.setText(bean.getRoleName());
+		roleMaintenanceService.add(bean);
 		Message message = new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, "新增记录请求成功!");
 		return message;
 	}

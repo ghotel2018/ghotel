@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ghotel.oss.console.core.common.service.ICommonPaginationService;
 import com.ghotel.oss.console.core.security.bean.MenuConfigInfoBean;
+import com.ghotel.oss.console.core.security.bean.MenuConfigSearchCriteriaBean;
 import com.ghotel.oss.console.core.security.bean.ResourceInfoBean;
 import com.ghotel.oss.console.modules.admin.bean.ModuleInfoBean;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
@@ -15,9 +16,9 @@ public interface ResourceMaintenanceService extends ICommonPaginationService<Res
 
 	public boolean addModule(ModuleInfoBean bean);
 
-	public boolean addMenuConfig(MenuConfigInfoBean menu);
+	public boolean addMenuConfig(MenuConfigSearchCriteriaBean bean) throws Exception;
 
-	public boolean updateMenuConfig(MenuConfigInfoBean menu);
+	public boolean updateMenuConfig(MenuConfigSearchCriteriaBean bean) throws Exception;
 
 	public boolean deleteMenuConfig(MenuConfigInfoBean menu);
 

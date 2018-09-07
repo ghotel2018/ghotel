@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ghotel.oss.console.core.common.bean.Message;
 import com.ghotel.oss.console.core.common.controller.AbstractModuleCommonController;
 import com.ghotel.oss.console.core.security.bean.MenuConfigInfoBean;
+import com.ghotel.oss.console.core.security.bean.MenuConfigSearchCriteriaBean;
 import com.ghotel.oss.console.core.security.bean.ResourceInfoBean;
 import com.ghotel.oss.console.core.utils.GocWebUtils;
 import com.ghotel.oss.console.core.utils.RequestStatusConstant;
@@ -111,13 +112,13 @@ public class ResourceMaintenanceController extends AbstractModuleCommonControlle
 		Message message = new Message();
 		message.setStatusCode(RequestStatusConstant.STATUS_CODE_SECCEED);
 		List<MenuConfigInfoBean> list = resourceMaintenanceService.getAllMenuConfig();
-		message.setMessageBody(GocWebUtils.treeMenuList(list, null));
+		message.setMessageBody(list);
 		return message;
 	}
 
 	@RequestMapping(value = "updateMenu", method = RequestMethod.POST)
 	@RequiresPermissions("Resource:updateMenu")
-	public @ResponseBody Message updateMenu(@RequestBody MenuConfigInfoBean bean) throws Exception {
+	public @ResponseBody Message updateMenu(@RequestBody MenuConfigSearchCriteriaBean bean) throws Exception {
 		resourceMaintenanceService.updateMenuConfig(bean);
 		Message message = new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, "更新菜单配置成功!");
 		return message;
@@ -133,7 +134,7 @@ public class ResourceMaintenanceController extends AbstractModuleCommonControlle
 
 	@RequestMapping(value = "addMenu", method = RequestMethod.POST)
 	@RequiresPermissions("Resource:addMenu")
-	public @ResponseBody Message addMenu(MenuConfigInfoBean bean, HttpServletResponse response) throws Exception {
+	public @ResponseBody Message addMenu(MenuConfigSearchCriteriaBean bean) throws Exception {
 		resourceMaintenanceService.addMenuConfig(bean);
 		Message message = new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, "添加菜单配置成功!");
 		return message;

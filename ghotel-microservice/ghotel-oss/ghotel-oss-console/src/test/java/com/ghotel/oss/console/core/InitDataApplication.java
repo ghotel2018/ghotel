@@ -5,10 +5,13 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import com.ghotel.oss.console.core.security.bean.GroupInfoBean;
 import com.ghotel.oss.console.core.security.bean.MenuConfigInfoBean;
@@ -29,42 +32,48 @@ import com.ghotel.oss.console.modules.dictionary.bean.DictionaryTypeBean;
 import com.ghotel.oss.console.modules.dictionary.dao.DictionaryDetailRepository;
 import com.ghotel.oss.console.modules.dictionary.dao.DictionaryTypeRepository;
 
-@SpringBootApplication
-@EnableAutoConfiguration
-@ComponentScan(basePackages = "com.ghotel.oss")
+@ComponentScan(basePackages = "com.ghotel.oss", excludeFilters = {
+		@Filter(type = FilterType.ANNOTATION, value = Controller.class),
+		@Filter(type = FilterType.ANNOTATION, value = Service.class) })
 public class InitDataApplication {
 	public static void main(String[] args) {
 		ApplicationContext ac = SpringApplication.run(InitDataApplication.class, args);
-		UserInfoRepository userInfoRepository = ac.getBean(UserInfoRepository.class);
-		GroupInfoRepository groupInfoRepository = ac.getBean(GroupInfoRepository.class);
-		RoleInfoRepository roleInfoRepository = ac.getBean(RoleInfoRepository.class);
-		PermissionInfoRepository permissionInfoRepository = ac.getBean(PermissionInfoRepository.class);
-		ResourceInfoRepository resourceInfoRepository = ac.getBean(ResourceInfoRepository.class);
-		ModuleInfoRepository moduleInfoRepository = ac.getBean(ModuleInfoRepository.class);
-		MenuConfigRepository menuConfigRepository = ac.getBean(MenuConfigRepository.class);
-		DictionaryTypeRepository dictionaryTypeRepository = ac.getBean(DictionaryTypeRepository.class);
-		DictionaryDetailRepository dictionaryDetailRepository = ac.getBean(DictionaryDetailRepository.class);
+		try {
+			UserInfoRepository userInfoRepository = ac.getBean(UserInfoRepository.class);
+			GroupInfoRepository groupInfoRepository = ac.getBean(GroupInfoRepository.class);
+			RoleInfoRepository roleInfoRepository = ac.getBean(RoleInfoRepository.class);
+			PermissionInfoRepository permissionInfoRepository = ac.getBean(PermissionInfoRepository.class);
+			ResourceInfoRepository resourceInfoRepository = ac.getBean(ResourceInfoRepository.class);
+			ModuleInfoRepository moduleInfoRepository = ac.getBean(ModuleInfoRepository.class);
+			MenuConfigRepository menuConfigRepository = ac.getBean(MenuConfigRepository.class);
+			DictionaryTypeRepository dictionaryTypeRepository = ac.getBean(DictionaryTypeRepository.class);
+			DictionaryDetailRepository dictionaryDetailRepository = ac.getBean(DictionaryDetailRepository.class);
 
-		UserInfoBean user = new UserInfoBean();
-		user.setUserLoginId("admin");
-		user.setUserName("管理员");
-		user.setPassword("1");
-		user.setIsAdmin(true);
-		userInfoRepository.save(user);
+			UserInfoBean user = new UserInfoBean();
+			user.setUserLoginId("admin");
+			user.setUserName("管理员");
+			user.setPassword("1");
+			user.setIsAdmin(true);
+			userInfoRepository.save(user);
 
-		groupInfoRepository.saveAll(initGroups());
-		roleInfoRepository.saveAll(initRoles());
-		permissionInfoRepository.saveAll(initPerms());
-		resourceInfoRepository.saveAll(initResources());
-		moduleInfoRepository.saveAll(initModule());
-		menuConfigRepository.saveAll(initMenu(resourceInfoRepository));
-		dictionaryTypeRepository.saveAll(initDictionaryType());
+			groupInfoRepository.saveAll(initGroups());
+			roleInfoRepository.saveAll(initRoles());
+			permissionInfoRepository.saveAll(initPerms());
+			resourceInfoRepository.saveAll(initResources());
+			moduleInfoRepository.saveAll(initModule());
+			menuConfigRepository.saveAll(initMenu(resourceInfoRepository));
+			dictionaryTypeRepository.saveAll(initDictionaryType());
 
-		initGroupAndRole(ac);
-		initPermAndRole(ac);
-		initPermsAndRes(ac);
-		initParentMenu(ac);
-		initDictionaryDetail(dictionaryTypeRepository, dictionaryDetailRepository);
+			initGroupAndRole(ac);
+			initPermAndRole(ac);
+			initPermsAndRes(ac);
+			initParentMenu(ac);
+			initDictionaryDetail(dictionaryTypeRepository, dictionaryDetailRepository);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			((ConfigurableApplicationContext) ac).close();
+		}
 
 	}
 

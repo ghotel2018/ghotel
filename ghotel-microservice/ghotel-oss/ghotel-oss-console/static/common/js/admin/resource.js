@@ -383,30 +383,23 @@ var toolbar;
 		$("#updateForm").form("disableValidation");
 		var record = CMC.grid.datagrid("getSelected");
 		if (record) {
-			CMC
-					.request({
-						url : Resource.getUrl + record["id"],
-						method : 'get',
-						success : function(result) {
-							$("#" + id)
-									.form(
-											"load",
-											{
-												'id' : result.messageBody['id'],
-												'resourceUrl' : result.messageBody['resource'] ? result.messageBody['resource']['resourceUrl']
-														: "",
-												'resourceDesc' : result.messageBody['resource'] ? result.messageBody['resource']['resourceDesc']
-														: "",
-												'resourceName' : result.messageBody['resource'] ? result.messageBody['resource']['resourceName']
-														: "",
-												'category' : result.messageBody['category'],
-												'module' : result.messageBody['module'],
-												'actionCode' : result.messageBody['actionCode'],
-												'resourceType' : result.messageBody['resourceType']
-											});
-							CMC.dialog(id, 'open');
-						}
+			CMC.request({
+				url : Resource.getUrl + record["id"],
+				method : 'get',
+				success : function(result) {
+					$("#" + id).form("load", {
+						'id' : result.messageBody['id'],
+						'resourceUrl' : result.messageBody['resourceUrl'],
+						'resourceDesc' : result.messageBody['resourceDesc'],
+						'resourceName' : result.messageBody['resourceName'],
+						'category' : result.messageBody['category'],
+						'module' : result.messageBody['module'],
+						'actionCode' : result.messageBody['actionCode'],
+						'resourceType' : result.messageBody['resourceType']
 					});
+					CMC.dialog(id, 'open');
+				}
+			});
 		} else {
 			CMC.alertMessage("请先选中一条记录！", 'warning');
 			return;

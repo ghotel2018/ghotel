@@ -162,7 +162,7 @@ public class GocGroupMaintenanceServiceImpl extends AbstractCommonServiceWrapper
 
 	@Override
 	public List<RoleInfoBean> getRoles() {
-		return roleInfoRepository.findByParentIdIsNull();
+		return roleInfoRepository.findByParentIdIsNullOrParentId("0");
 	}
 
 	// @Override
