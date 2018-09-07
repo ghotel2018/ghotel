@@ -97,8 +97,8 @@ var Notice = {
 	                //data: [{"value":"Permission","label":"Permission"},{"value":"User","label":"User"},{"value":"Role","label":"Role"},{"value":"Resource","label":"Resource"},{"value":"Group","label":"Group"}],
 	                data: message.messageBody,
 	                panelHeight: '180px',
-	                valueField:'MODULE_ID',
-	                textField:'MODULE_NAME'
+	                valueField:'moduleId',
+	                textField:'moduleName'
 	            });
 	    }});
 	}

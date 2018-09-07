@@ -505,8 +505,8 @@ var toolbar;
 			method:'get',
 			toolbar:toolbar,
 			columns:  [[
-		           {field: 'MODULE_ID', title:'模块标识' , width: '30%' , align: 'center'},
-		           {field: 'MODULE_NAME', title:'模块描述' , width: '60%' , align: 'center'}
+		           {field: 'moduleId', title:'模块标识' , width: '30%' , align: 'center'},
+		           {field: 'moduleName', title:'模块描述' , width: '60%' , align: 'center'}
 	           ]]
 		});
 		//检索数据
@@ -519,30 +519,30 @@ var toolbar;
 					//data: [{"value":"Permission","label":"Permission"},{"value":"User","label":"User"},{"value":"Role","label":"Role"},{"value":"Resource","label":"Resource"},{"value":"Group","label":"Group"}],
 					data: message.messageBody,
 					panelHeight: '180px',
-					valueField:'MODULE_ID',
-					textField:'MODULE_NAME' 
+					valueField:'moduleId',
+					textField:'moduleName'
 				});
 				
 				$("#searchModuleMenu").combobox({
 					//data: [{"value":"Permission","label":"Permission"},{"value":"User","label":"User"},{"value":"Role","label":"Role"},{"value":"Resource","label":"Resource"},{"value":"Group","label":"Group"}],
 					data: message.messageBody,
 					panelHeight: '180px',
-					valueField:'MODULE_ID',
-					textField:'MODULE_NAME' 
+					valueField:'moduleId',
+					textField:'moduleName'
 				});
 				$("#updateModule").combobox({
 					//data: [{"value":"Permission","label":"Permission"},{"value":"User","label":"User"},{"value":"Role","label":"Role"},{"value":"Resource","label":"Resource"},{"value":"Group","label":"Group"}],
 					data: message.messageBody,
 					panelHeight: '180px',
-					valueField:'MODULE_ID',
-					textField:'MODULE_NAME' 
+					valueField:'moduleId',
+					textField:'moduleName'
 				});
 				$("#addModule").combobox({
-					//data: [{"value":"Permission","label":"Permission"},{"value":"User","label":"User"},{"value":"Role","label":"Role"},{"value":"Resource","label":"Resource"},{"value":"Group","label":"Group"}],
-					data: message.messageBody,
+					data: [{"value":"Permission","label":"Permission"},{"value":"User","label":"User"},{"value":"Role","label":"Role"},{"value":"Resource","label":"Resource"},{"value":"Group","label":"Group"}],
+					//data: message.messageBody,
 					panelHeight: '180px',
-					valueField:'MODULE_ID',
-					textField:'MODULE_NAME' 
+					valueField:'moduleId',
+					textField:'moduleName'
 				});
 				
 				
