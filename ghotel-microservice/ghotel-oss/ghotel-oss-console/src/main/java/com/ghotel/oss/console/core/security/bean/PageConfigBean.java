@@ -12,7 +12,7 @@ public class PageConfigBean {
 
 	private List<ResourceInfoBean> menuResoucre = new ArrayList<ResourceInfoBean>();
 
-	private List<? extends TreeBean> menuConfig = new ArrayList<MenuConfigInfoBean>();
+	private List<MenuConfigInfoBean> menuConfig = new ArrayList<MenuConfigInfoBean>();
 
 	private List<Map<String, Object>> dictionaryList = new ArrayList<Map<String, Object>>();
 
@@ -40,11 +40,11 @@ public class PageConfigBean {
 		this.pageElementPerms = pageElementPerms;
 	}
 
-	public List<? extends TreeBean> getMenuConfig() {
+	public List<MenuConfigInfoBean> getMenuConfig() {
 		return menuConfig;
 	}
 
-	public void setMenuConfig(List<? extends TreeBean> menuConfig) {
+	public void setMenuConfig(List<MenuConfigInfoBean> menuConfig) {
 		this.menuConfig = menuConfig;
 	}
 

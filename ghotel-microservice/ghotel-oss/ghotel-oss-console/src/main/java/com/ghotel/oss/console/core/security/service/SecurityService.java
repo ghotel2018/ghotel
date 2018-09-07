@@ -19,7 +19,7 @@ public interface SecurityService {
 
 	public UserInfoBean getUserByUserId(String userId);
 
-	public PageConfigBean getMenuConfig(String userId, String module);
+	public PageConfigBean getMenuConfig(UserInfoBean user, String module) throws Exception;
 
 	// public boolean updateLastLoginTime(String userId);
 

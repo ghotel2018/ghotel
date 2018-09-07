@@ -41,7 +41,7 @@ public abstract class AbstractModuleCommonController {
 	 * request,HttpServletResponse response);
 	 */
 
-	 protected Message message;
+	protected Message message;
 
 	protected FileHandler handler;
 

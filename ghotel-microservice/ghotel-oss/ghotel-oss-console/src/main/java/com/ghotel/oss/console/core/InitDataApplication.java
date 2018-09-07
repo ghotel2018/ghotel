@@ -1800,21 +1800,6 @@ public class InitDataApplication {
 	private static List<GroupInfoBean> initGroups() {
 		List<GroupInfoBean> groupList = new ArrayList<>();
 		GroupInfoBean group = new GroupInfoBean();
-		group.setGroupDesc("用户组管理");
-		group.setGroupName("用户组管理");
-		group.setText("用户组管理");
-		group.setGroupType("BA");
-		group.setLevel(2);
-		groupList.add(group);
-
-		group = new GroupInfoBean();
-		group.setGroupDesc("用户管理");
-		group.setGroupName("用户管理");
-		group.setText("用户管理");
-		group.setGroupType("BA");
-		group.setLevel(2);
-		groupList.add(group);
-
 		group = new GroupInfoBean();
 		group.setGroupDesc("技术管理员组，管理用户组，权限，角色，资源等功能");
 		group.setGroupName("技术管理员组");
@@ -1837,6 +1822,22 @@ public class InitDataApplication {
 		group.setText("功能管理员组");
 		group.setGroupType("OP");
 		group.setLevel(1);
+		groupList.add(group);
+
+		group = new GroupInfoBean();
+		group.setGroupDesc("用户组管理");
+		group.setGroupName("用户组管理");
+		group.setText("用户组管理");
+		group.setGroupType("BA");
+		group.setLevel(2);
+		groupList.add(group);
+
+		group = new GroupInfoBean();
+		group.setGroupDesc("用户管理");
+		group.setGroupName("用户管理");
+		group.setText("用户管理");
+		group.setGroupType("BA");
+		group.setLevel(2);
 		groupList.add(group);
 
 		group = new GroupInfoBean();
@@ -2050,14 +2051,6 @@ public class InitDataApplication {
 		roleList.add(role);
 
 		role = new RoleInfoBean();
-		role.setRoleDesc("用户组绑定用户管理");
-		role.setRoleName("用户组绑定用户管理");
-		role.setText("用户组绑定用户管理");
-		role.setLevel(5);
-		role.setRoleType("null");
-		roleList.add(role);
-
-		role = new RoleInfoBean();
 		role.setRoleDesc("运价券与用户关系管理员角色");
 		role.setRoleName("运价券与用户关系管理员");
 		role.setText("运价券与用户关系管理员");
@@ -2127,6 +2120,14 @@ public class InitDataApplication {
 		role.setText("调度任务管理员");
 		role.setLevel(5);
 		role.setRoleType("IT");
+		roleList.add(role);
+
+		role = new RoleInfoBean();
+		role.setRoleDesc("用户组绑定用户管理");
+		role.setRoleName("用户组绑定用户管理");
+		role.setText("用户组绑定用户管理");
+		role.setLevel(5);
+		role.setRoleType("null");
 		roleList.add(role);
 
 		int id = 1;

@@ -13,7 +13,6 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 
 import com.ghotel.oss.console.core.common.bean.PaginationBean;
-import com.ghotel.oss.console.core.security.bean.PermissionInfoBean;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
 
 public abstract class AbstractPaginationCommonServiceWrapper<T> extends AbstractCommonServiceWrapper<T> {
@@ -49,9 +48,6 @@ public abstract class AbstractPaginationCommonServiceWrapper<T> extends Abstract
 	protected PaginationResult<T> getPaginationResult(Class<T> clazz, PaginationBean paginationBean) throws Exception {
 		T t = parseSearchObjToEnity(paginationBean, clazz);
 
-		if (t instanceof PermissionInfoBean) {
-			((PermissionInfoBean) t).setRelateResource(null);
-		}
 		return getPaginationResult(Example.of(t, getDefaultExampleMatcher()), paginationBean.getStart(),
 				paginationBean.getEnd());
 	}
@@ -65,6 +61,16 @@ public abstract class AbstractPaginationCommonServiceWrapper<T> extends Abstract
 		List<T> result = getRepository().findAll(example);
 
 		int total = (int) getRepository().count(example);
+		return getPaginationResult(result, total, start, end);
+	}
+
+	protected PaginationResult<T> getPaginationResult(List<T> result, int start, int end) {
+
+		return getPaginationResult(result, result.size(), start, end);
+	}
+
+	protected PaginationResult<T> getPaginationResult(List<T> result, int total, int start, int end) {
+
 		if (result.size() < end) {
 			end = result.size();
 		}

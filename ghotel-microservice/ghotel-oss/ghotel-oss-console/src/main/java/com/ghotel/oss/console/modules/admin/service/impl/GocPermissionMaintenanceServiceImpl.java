@@ -3,6 +3,7 @@ package com.ghotel.oss.console.modules.admin.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
+import com.ghotel.oss.console.core.common.bean.PaginationBean;
 import com.ghotel.oss.console.core.common.service.AbstractPaginationCommonServiceWrapper;
 import com.ghotel.oss.console.core.logging.annotation.GocLogAnnotation;
 import com.ghotel.oss.console.core.security.bean.PermissionInfoBean;
@@ -131,5 +133,24 @@ public class GocPermissionMaintenanceServiceImpl extends AbstractPaginationCommo
 		ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreCase().withStringMatcher(StringMatcher.CONTAINING)
 				.withIgnoreNullValues();
 		return super.getPaginationResult(Example.of(p, matcher), bean);
+	}
+
+	@Override
+	public PaginationResult<PermissionInfoBean> getPaginationAll(PaginationBean paginationBean) throws Exception {
+		PermissionSearchCriteriaBean bean = (PermissionSearchCriteriaBean) paginationBean;
+		PermissionInfoBean permission = parseSearchObjToEnity(bean, PermissionInfoBean.class);
+		int start = paginationBean.getStart();
+		int end = paginationBean.getEnd();
+		List<PermissionInfoBean> perms = null;
+
+		if (StringUtils.isNotBlank(bean.getRoleId())) {
+			perms = roleInfoRepository.findById(bean.getRoleId()).map(role -> {
+				return role.getPermissions();
+			}).orElse(new ArrayList<>());
+			return super.getPaginationResult(perms, start, end);
+		} else {
+			permission.setRelateResource(null);
+			return super.getPaginationResult(Example.of(permission, getDefaultExampleMatcher()), bean);
+		}
 	}
 }

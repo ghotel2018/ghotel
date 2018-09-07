@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.collections.IteratorUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
+import com.ghotel.oss.console.core.common.bean.PaginationBean;
 import com.ghotel.oss.console.core.common.service.AbstractPaginationCommonServiceWrapper;
 import com.ghotel.oss.console.core.logging.annotation.GocLogAnnotation;
 import com.ghotel.oss.console.core.security.bean.GroupInfoBean;
@@ -60,6 +62,23 @@ public class GocUserMaintenanceServiceImpl extends AbstractPaginationCommonServi
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public PaginationResult<UserInfoBean> getPaginationAll(PaginationBean paginationBean) throws Exception {
+		UserSearchCriteriaBean bean = (UserSearchCriteriaBean) paginationBean;
+		UserInfoBean user = parseSearchObjToEnity(bean, UserInfoBean.class);
+		List<GroupInfoBean> groups = null;
+
+		if (StringUtils.isNotBlank(bean.getGroupId())) {
+			groups = groupInfoRepository.findById(bean.getGroupId()).map(group -> {
+				List<GroupInfoBean> result = new ArrayList<>();
+				result.add(group);
+				return result;
+			}).orElse(null);
+		}
+		user.setGroups(groups);
+		return super.getPaginationResult(Example.of(user, getDefaultExampleMatcher()), bean);
 	}
 
 	// @CmcLogginAnnotation(description = "删除")
