@@ -3,11 +3,12 @@ package com.ghotel.oss.console.modules.scheduler.service;
 import java.util.List;
 
 import com.ghotel.oss.console.core.common.service.ICommonPaginationService;
+import com.ghotel.oss.console.modules.scheduler.bean.JobDetailInfoBean;
 import com.ghotel.oss.console.modules.scheduler.bean.JobInstanceBean;
 import com.ghotel.oss.console.modules.scheduler.bean.JobInstanceSearchBean;
 
 
-public interface SchedulerService extends ICommonPaginationService   {
+public interface SchedulerService extends ICommonPaginationService<JobDetailInfoBean>   {
 
 	public void updateToStartJob(JobInstanceBean bean) throws Exception  ;
 	

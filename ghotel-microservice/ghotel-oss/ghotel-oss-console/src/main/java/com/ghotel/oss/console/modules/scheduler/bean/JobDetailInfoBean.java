@@ -1,8 +1,13 @@
 package com.ghotel.oss.console.modules.scheduler.bean;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "jobDetailInfo")
 public class JobDetailInfoBean   {
-
+	@Id
+	@Indexed(unique = true)
 	private String jobId;
 	
 	private String jobName;
@@ -13,7 +18,7 @@ public class JobDetailInfoBean   {
 	
 	private String jobType;
 	
-	private int jobStatus;
+	private Integer jobStatus;
 	
 	private String jobStatusStr;
 	
@@ -21,7 +26,7 @@ public class JobDetailInfoBean   {
 	
 	private String jobAutoStartIdStr;
 	
-	private int jobEnableInd;
+	private Integer jobEnableInd;
 	
 	private String jobEnableIndStr;
 	
@@ -29,9 +34,9 @@ public class JobDetailInfoBean   {
 
 	private String originalStatus;
 	
-	private int handlerType;
+	private Integer handlerType;
 	
-	private int isSingleton; // 0不是, 1是 ， 不是单例的任务， 可以支持分布式部署  
+	private Integer isSingleton; // 0不是, 1是 ， 不是单例的任务， 可以支持分布式部署  
 	
 	public String getJobId() {
 		return jobId;

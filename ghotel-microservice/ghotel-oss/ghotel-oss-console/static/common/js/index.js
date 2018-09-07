@@ -160,14 +160,14 @@ var Index = {
 			singleSelect : true,
 			pagination : true,
 			columns : [ [ {
-				field : 'NOTICE_SUBJECT',
+				field : 'noticeSubject',
 				width : '80%',
 				title : "通知主题",
 				formatter:function(value,row,index){
 					return "<a href=\"javascript:;\" onclick=\"Index.showNoticeDetails("+index+")\">"+value+"</a>";
 				}
 			}, {
-				field : 'NOTICE_TYPE',
+				field : 'noticeType',
 				width : '20%',
 				title : "通知类型",
 				formatter : function(value) {
@@ -183,8 +183,8 @@ var Index = {
 			onSelectPage : function(pageNum, pageSize) {
 				// 初始化查询分页参数
 				$("#noticeSearchForm").form('load', {
-					start : (pageNum - 1) * pageSize + 1,
-					end : pageNum * pageSize
+					start : pageNum,
+					end : pageSize
 				});
 				Index.searchNotice();
 
@@ -387,7 +387,7 @@ var Index = {
 				$('#noticeTable').datagrid("loadData",result.messageBody.list);
 				$('#noticeTable').datagrid("getPager").pagination({
 					total : result.messageBody.total,
-					pageNumber : result.messageBody.num/ (result.messageBody.num- result.messageBody.start + 1)
+					pageNumber :  result.messageBody.start
 				});
 			}
 		});

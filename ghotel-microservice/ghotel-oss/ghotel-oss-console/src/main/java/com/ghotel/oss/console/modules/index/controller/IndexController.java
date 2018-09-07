@@ -79,8 +79,8 @@ public class IndexController extends AbstractModuleCommonController {
 			message.setStatusCode(RequestStatusConstant.STATUS_CODE_SECCEED);
 			NoticeSearchCriteria noticeSearchCriteria = (NoticeSearchCriteria) GocWebUtils
 					.formatBeanFromRequest(request, NoticeSearchCriteria.class);
-			noticeSearchCriteria.setTableName("CMC_USER_NOTICE");
-			noticeSearchCriteria.setSentTo(request.getSession().getAttribute("userLoginId").toString());
+//			noticeSearchCriteria.setTableName("CMC_USER_NOTICE");
+//			noticeSearchCriteria.setSentTo(request.getSession().getAttribute("userLoginId").toString());
 			PaginationResult pr = indexService.getNotices(noticeSearchCriteria);
 			message.setMessageBody(pr);
 		} else {
@@ -207,23 +207,23 @@ public class IndexController extends AbstractModuleCommonController {
 		Message message = new Message();
 		Subject currentUser = SecurityUtils.getSubject();
 		// TODO
-		// if (currentUser.isAuthenticated()) {
-		// Map<String, Object> returnMap = new HashMap<String, Object>();
-		// returnMap.put("statistic", indexService.getStatistics());
-		// returnMap.put("message", systemMessageService.getPaginationAll(sysMsg));
-		// noticeSearchCriteria.setTableName("CMC_USER_NOTICE");
-		// noticeSearchCriteria.setSentTo(UserUtils.getUserId());
-		// // returnMap.put("notice", indexService.getNotices(noticeSearchCriteria));
-		// TaskSearchCriteriaBean bean = taskSearchCriteriaBean;
-		// bean.setTaskCreateBy(UserUtils.getUserId());
-		// returnMap.put("task", indexService.getTasks(bean));
-		// message.setMessageBody(returnMap);
-		// }
+//		 if (currentUser.isAuthenticated()) {
+//		 Map<String, Object> returnMap = new HashMap<String, Object>();
+//		 returnMap.put("statistic", indexService.getStatistics());
+//		 returnMap.put("message", systemMessageService.getPaginationAll(sysMsg));
+//		 noticeSearchCriteria.setTableName("CMC_USER_NOTICE");
+//		 noticeSearchCriteria.setSentTo(UserUtils.getUserId());
+//		  returnMap.put("notice", indexService.getNotices(noticeSearchCriteria));
+//		 TaskSearchCriteriaBean bean = taskSearchCriteriaBean;
+//		 bean.setTaskCreateBy(UserUtils.getUserId());
+//		 returnMap.put("task", indexService.getTasks(bean));
+//		 message.setMessageBody(returnMap);
+//		 }
 		if (currentUser.isAuthenticated()) {
 			Map<String, Object> returnMap = new HashMap<String, Object>();
 			returnMap.put("statistic", new PaginationResult());
 			returnMap.put("message", new PaginationResult<SystemMessageBean>());
-			returnMap.put("notice", new PaginationResult());
+			returnMap.put("notice", indexService.getNotices(noticeSearchCriteria));
 			returnMap.put("task", new PaginationResult<TaskBean>());
 			message.setMessageBody(returnMap);
 		}

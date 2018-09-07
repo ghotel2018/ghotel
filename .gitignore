@@ -4,3 +4,5 @@
 /**/target
 /.idea
 /**/.idea
+/ghotel-microservice/ghotel-oss/ghotel-oss-console/static/
+/ghotel-microservice/ghotel-oss/ghotel-oss-console/src/main/resources/static/
