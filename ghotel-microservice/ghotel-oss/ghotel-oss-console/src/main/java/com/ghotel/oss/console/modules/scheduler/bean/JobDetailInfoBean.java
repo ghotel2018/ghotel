@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "jobDetailInfo")
 public class JobDetailInfoBean   {
 	@Id
-	@Indexed(unique = true)
 	private String jobId;
 	
 	private String jobName;
