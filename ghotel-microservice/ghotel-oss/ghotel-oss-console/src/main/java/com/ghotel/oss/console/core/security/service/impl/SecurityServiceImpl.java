@@ -1,10 +1,11 @@
 package com.ghotel.oss.console.core.security.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.shiro.util.AntPathMatcher;
-import org.apache.shiro.util.PatternMatcher;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,14 @@ import com.ghotel.oss.console.core.security.dao.PermissionInfoRepository;
 import com.ghotel.oss.console.core.security.dao.ResourceInfoRepository;
 import com.ghotel.oss.console.core.security.dao.UserInfoRepository;
 import com.ghotel.oss.console.core.security.service.SecurityService;
-import com.ghotel.oss.console.core.utils.StringUtil;
 import com.ghotel.oss.console.core.utils.GocUserUtils;
+import com.ghotel.oss.console.core.utils.StringUtil;
+import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
 import com.ghotel.oss.console.modules.admin.util.AdminModuleConstant;
+import com.ghotel.oss.console.modules.dictionary.bean.DictionaryDetailBean;
 import com.ghotel.oss.console.modules.dictionary.bean.DictionaryTypeBean;
+import com.ghotel.oss.console.modules.dictionary.bean.DictionaryTypeSearchCriteriaBean;
+import com.ghotel.oss.console.modules.dictionary.service.DictionaryTypeService;
 import com.ghotel.oss.console.modules.statedata.service.CmcStaticDataService;
 
 /**
@@ -49,8 +54,8 @@ public class SecurityServiceImpl implements SecurityService {
 	@Autowired
 	MenuConfigRepository menuConfigRepository;
 
-	// @Autowired
-	// private DictionaryTypeService dictionaryTypeService;
+	@Autowired
+	private DictionaryTypeService dictionaryTypeService;
 	// @Autowired
 	// private DictionaryDetailService dictionaryDetailService;
 
@@ -137,10 +142,10 @@ public class SecurityServiceImpl implements SecurityService {
 	}
 
 	@Override
-	public PageConfigBean getMenuConfig(String userId, String Module) {
+	public PageConfigBean getMenuConfig(UserInfoBean user, String module) throws Exception {
 		PageConfigBean config = new PageConfigBean();
-		UserInfoBean user = getUserByUserId(userId);
-		List<ResourceInfoBean> oldMenuResourceList = null;
+		//  可访问资源列表
+		List<ResourceInfoBean> menuResourceList = new ArrayList<>();
 		// TODO
 		// if (user.getUserId().equals("0")) {
 
@@ -154,114 +159,81 @@ public class SecurityServiceImpl implements SecurityService {
 		// strStatus = rtnObj.getStatus();
 		// }
 		if (GocUserUtils.isAdminUser(user)) {
-			user.setUserName("超级管理员管理员");
-			user.setGroupType(String.join(",", AdminModuleConstant.USER_GROUP_CATEGORY_IT,
-					AdminModuleConstant.USER_GROUP_CATEGORY_BA, AdminModuleConstant.USER_GROUP_CATEGORY_OP));
+			user.setUserName("超级管理员");
+			// 管理员获取所有权限
 			config.setPageElementPerms(getItAndBaAdminPermission());
-			oldMenuResourceList = resourceInfoRepository
-					.findByCategoryInAndResourceTypeIn(new String[] { "menu", "all" }, new String[] {
-							AdminModuleConstant.USER_GROUP_CATEGORY_IT, AdminModuleConstant.USER_GROUP_CATEGORY_BA });
+
+			menuResourceList = resourceInfoRepository.findByCategoryInAndResourceTypeIn(new String[] { "menu", "all" },
+					new String[] { AdminModuleConstant.USER_GROUP_CATEGORY_IT,
+							AdminModuleConstant.USER_GROUP_CATEGORY_BA });
 
 		} else {
-			List<GroupInfoBean> groups = user.getGroups();
-			String groupTypeExp = null;
-			if (groups != null && groups.size() > 0) {
-				groupTypeExp = groups.get(0).getGroupType();
-				if (groups.size() == 2) {
-					groupTypeExp += "," + groups.get(1).getGroupType();
-				}
-			}
-			user.setGroupType(groupTypeExp);
-			List<PermissionInfoBean> perms = getPermissionByUserId(userId, Module);
+			List<PermissionInfoBean> perms = getPermissionByUserId(user.getUserId(), module);
 			config.setPageElementPerms(perms);
-			oldMenuResourceList = resourceInfoRepository.findByCategoryIn(new String[] { "menu", "all" });
-
-			for (GroupInfoBean group : user.getGroups()) {
-				for (RoleInfoBean role : group.getRoles()) {
-					for (PermissionInfoBean permission : role.getPermissions()) {
-						oldMenuResourceList.addAll(permission.getRelateResource());
-					}
-				}
+			// 将用户名下权限相关的资源添加入列表中
+			for (PermissionInfoBean perm : perms) {
+				menuResourceList.addAll(perm.getRelateResource());
 			}
 
 		}
 
-		config.setMenuResoucre(oldMenuResourceList);
+		config.setMenuResoucre(menuResourceList);
 		List<MenuConfigInfoBean> allMenuConfigs = menuConfigRepository.findByParentIdIsNull();
-		List<MenuConfigInfoBean> authorizedMenuConfig = removeUnauthorizedMenu(allMenuConfigs, oldMenuResourceList);
-		try {
-			// config.setMenuConfig(GocWebUtils.treeMenuList(allMenuConfigs, null));
-			config.setMenuConfig(authorizedMenuConfig);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		List<MenuConfigInfoBean> authorizedMenuConfig = removeUnauthorizedMenu(allMenuConfigs, menuResourceList);
+		config.setMenuConfig(authorizedMenuConfig);
+
 		config.setUser(user);
-		DictionaryTypeBean type = new DictionaryTypeBean();
-		type.setNum(100);
-		type.setTypeKey(Module + ":_");// 冒号有用 不要删掉 如果只使用下划线 则like内下划线表示任意单一字符 需要转义 冒号配合escape 具体百度escape
-		// try {
-		// PaginationResult<DictionaryTypeBean> pr =
-		// dictionaryTypeService.getPaginationAll(type);
-		// List<Map<String, Object>> dictionaryList = new ArrayList<Map<String,
-		// Object>>();
-		// Map<String, Object> innerMap = null;
-		// for (Object t : pr.getList()) {
-		// DictionaryTypeBean tp = (DictionaryTypeBean) t;
-		// innerMap = new HashMap<String, Object>();
-		// innerMap.put("type", t);
-		// List<DictionaryDetailBean> details = new ArrayList<DictionaryDetailBean>();
-		// DictionaryDetailBean d = new DictionaryDetailBean();
-		// d.setDetailName("");
-		// d.setDetailValue("");
-		// details.add(d);
-		// details.addAll(dictionaryDetailService.getDetailByTypeId(tp.getTypeId()));
-		// innerMap.put("detail", details);
-		// dictionaryList.add(innerMap);
-		// }
-		// config.setDictionaryList(dictionaryList);
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
+		config.setDictionaryList(getDictionaryList(module));
 		return config;
+	}
+
+	private List<Map<String, Object>> getDictionaryList(String module) throws Exception {
+		DictionaryTypeSearchCriteriaBean bean = new DictionaryTypeSearchCriteriaBean();
+		bean.setNum(100);
+		bean.setTypeKey(module + ":_");// 冒号有用 不要删掉 如果只使用下划线 则like内下划线表示任意单一字符 需要转义 冒号配合escape 具体百度escape
+		PaginationResult<DictionaryTypeBean> pr = dictionaryTypeService.getPaginationAll(bean);
+		List<Map<String, Object>> dictionaryList = new ArrayList<Map<String, Object>>();
+		Map<String, Object> innerMap = null;
+		for (Object t : pr.getList()) {
+			DictionaryTypeBean tp = (DictionaryTypeBean) t;
+			innerMap = new HashMap<String, Object>();
+			innerMap.put("type", t);
+			List<DictionaryDetailBean> details = new ArrayList<DictionaryDetailBean>();
+			DictionaryDetailBean d = new DictionaryDetailBean();
+			d.setDetailName("");
+			d.setDetailValue("");
+			details.add(d);
+			details.addAll(tp.getDetails());
+			innerMap.put("detail", details);
+			dictionaryList.add(innerMap);
+		}
+		return dictionaryList;
 	}
 
 	private List<MenuConfigInfoBean> removeUnauthorizedMenu(List<MenuConfigInfoBean> allMenuConfigs,
 			List<ResourceInfoBean> oldMenuResourceList) {
 		List<MenuConfigInfoBean> result = new ArrayList<>();
-		for (MenuConfigInfoBean config : allMenuConfigs) {
-
-			if (config.getResource() == null) {// 父节点无需鉴权
-				result.add(config);
+		for (MenuConfigInfoBean menuConfig : allMenuConfigs) {
+			if (menuConfig.getResource() != null) {
+				String permissionExp = menuConfig.getResource().getModule() + ":"
+						+ menuConfig.getResource().getActionCode();
+				if (SecurityUtils.getSubject().isPermitted(permissionExp)) {
+					result.add(menuConfig);
+					log.info("add {} to user's menu", menuConfig);
+				}
 			} else {
-				for (ResourceInfoBean resource : oldMenuResourceList) {
-					if (isAuthorizedResource(config.getResource(), resource)) {
-						// 如果存在则处理子节点并添加到结果集中
-						// 处理子节点
-						if (!config.getChildren().isEmpty()) {
-							config.setChildren(removeUnauthorizedMenu(config.getChildren(), oldMenuResourceList));
-						}
-						result.add(config);
-						break;
+				if (!menuConfig.getChildren().isEmpty()) {
+					List<MenuConfigInfoBean> children = removeUnauthorizedMenu(menuConfig.getChildren(),
+							oldMenuResourceList);
+					if (!children.isEmpty()) {// 子菜单可用时把该菜单加进结果集中
+						menuConfig.setChildren(children);
+						result.add(menuConfig);
 					}
 				}
 			}
-
 		}
 		return result;
 	}
-
-	private boolean isAuthorizedResource(ResourceInfoBean judgeResource, ResourceInfoBean record) {
-		PatternMatcher pathMatcher = new AntPathMatcher();
-		return (judgeResource.getId() == record.getId())
-				|| pathMatcher.matches(record.getActionCode(), judgeResource.getModule());
-		// return judgeResource.getId() == record.getId()
-		// || (judgeResource.getModule().equals(record.getModule()) &&
-		// "*".equals(record.getActionCode()));
-	}
-	// @Override
-	// public boolean updateLastLoginTime(String userId) {
-	// return 1 == cmcAuthAndAuthDao.updateLastLoginTime(userId);
-	// }
 
 	@Override
 	@GocLogAnnotation(description = "更新用户信息")

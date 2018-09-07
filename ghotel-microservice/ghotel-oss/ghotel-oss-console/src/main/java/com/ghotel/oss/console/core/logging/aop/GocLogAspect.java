@@ -27,8 +27,8 @@ import java.util.UUID;
 /**
  * 操作日志切点类
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class GocLogAspect {
 
     @Autowired

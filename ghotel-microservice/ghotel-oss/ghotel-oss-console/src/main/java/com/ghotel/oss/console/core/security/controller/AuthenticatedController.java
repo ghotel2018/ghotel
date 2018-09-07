@@ -17,7 +17,6 @@ import com.ghotel.oss.console.core.security.bean.UserInfoBean;
 import com.ghotel.oss.console.core.security.service.SecurityService;
 import com.ghotel.oss.console.core.utils.GocWebUtils;
 import com.ghotel.oss.console.core.utils.RequestStatusConstant;
-import com.ghotel.oss.console.core.utils.GocUserUtils;
 
 @Controller
 @RequestMapping("authenticated")
@@ -27,11 +26,11 @@ public class AuthenticatedController extends AbstractModuleCommonController {
 	private SecurityService securityService;
 
 	@RequestMapping(value = "getPageConfig/{module}", method = RequestMethod.GET)
-	public @ResponseBody Message getPageConfig(@PathVariable("module") String module) {
+	public @ResponseBody Message getPageConfig(@PathVariable("module") String module) throws Exception {
 		Message message;
 		Subject currentUser = SecurityUtils.getSubject();
 		if (currentUser.isAuthenticated()) {
-			PageConfigBean config = securityService.getMenuConfig(GocUserUtils.getLoginUserId(), module);
+			PageConfigBean config = securityService.getMenuConfig(GocWebUtils.getSessionUser().get(), module);
 			// GocWebUtils.updateUserSession(config.getUser());
 			// Clear the password in case of exposing it to the Browser.
 			config.getUser().setPassword(null);
@@ -63,13 +62,13 @@ public class AuthenticatedController extends AbstractModuleCommonController {
 	}
 
 	@RequestMapping(value = "pwdReset", method = RequestMethod.POST)
-	public @ResponseBody Message pwdReset(@RequestParam String oldPw, @RequestParam String newPwd) {
+	public @ResponseBody Message pwdReset(@RequestParam String oldPwd, @RequestParam String newPwd) {
 		Message message;
 		Subject currentUser = SecurityUtils.getSubject();
 		if (currentUser.isAuthenticated()) {
 			UserInfoBean cacheUser = GocWebUtils.getSessionUser().get();
 			cacheUser.setPassword(newPwd);
-			if (securityService.resetPassword(cacheUser, oldPw)) {
+			if (securityService.resetPassword(cacheUser, oldPwd)) {
 				GocWebUtils.updateUserSession(cacheUser);
 				message = new Message(null, RequestStatusConstant.STATUS_CODE_SECCEED, "密码重置成功!");
 			} else {

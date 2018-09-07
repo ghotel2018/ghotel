@@ -9,7 +9,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -103,13 +102,12 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
 				int statusCode = 0;
 
 				log.info("用户[" + username + "]登录时输入的验证码为[" + submitCode + "],HttpSession中的验证码为[" + verifyCode + "]");
-				if (!"0000".equals(submitCode)) {
-					if (null == verifyCode || !verifyCode.equals(submitCode)) {
-						messageBody = "验证码不正确，请重新输入！";
-						statusCode = RequestStatusConstant.VERIFICATION_CODE_NOT_MATCH;
-						sendResponseToClient(response, new Message(null, statusCode, messageBody));
-						return false;
-					}
+				if (null == verifyCode || !verifyCode.equals(submitCode)) {
+					messageBody = "验证码不正确，请重新输入！";
+					statusCode = RequestStatusConstant.VERIFICATION_CODE_NOT_MATCH;
+					httpRequest.getSession().setAttribute("AVVerifyCode", null);
+					sendResponseToClient(response, new Message(null, statusCode, messageBody));
+					return false;
 				}
 
 				if (StringUtil.isNullOrBlank(username) || StringUtil.isNullOrBlank(password)) {
@@ -129,13 +127,6 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
 				return true;
 			}
 		} else {
-			// if (log.isTraceEnabled()) {
-			// log.trace(
-			// "Attempting to access a path which requires authentication. Forwarding to the
-			// Authentication url ["
-			// + this.getLoginUrl() + "]");
-			// }
-			// this.saveRequestAndRedirectToLogin(request, response);
 			return true;
 		}
 	}

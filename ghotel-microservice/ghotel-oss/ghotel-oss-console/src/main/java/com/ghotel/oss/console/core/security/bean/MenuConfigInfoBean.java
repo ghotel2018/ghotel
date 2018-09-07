@@ -12,13 +12,13 @@ public class MenuConfigInfoBean extends TreeBean<MenuConfigInfoBean> {
 	@DBRef
 	private ResourceInfoBean resource;
 
-	private String resourceUrl;
+//	private String resourceUrl;
 
 	private Integer menuOrder;
 
 	private String state;
 
-	private String resourceModule;
+//	private String resourceModule;
 
 	public ResourceInfoBean getResource() {
 		return resource;
@@ -28,13 +28,13 @@ public class MenuConfigInfoBean extends TreeBean<MenuConfigInfoBean> {
 		this.resource = resource;
 	}
 
-	public String getResourceUrl() {
-		return resourceUrl;
-	}
-
-	public void setResourceUrl(String resourceUrl) {
-		this.resourceUrl = resourceUrl;
-	}
+//	public String getResourceUrl() {
+//		return resourceUrl;
+//	}
+//
+//	public void setResourceUrl(String resourceUrl) {
+//		this.resourceUrl = resourceUrl;
+//	}
 
 	public Integer getMenuOrder() {
 		return menuOrder;
@@ -57,12 +57,12 @@ public class MenuConfigInfoBean extends TreeBean<MenuConfigInfoBean> {
 		this.state = state;
 	}
 
-	public String getResourceModule() {
-		return resourceModule;
-	}
-
-	public void setResourceModule(String resourceModule) {
-		this.resourceModule = resourceModule;
-	}
+//	public String getResourceModule() {
+//		return resourceModule;
+//	}
+//
+//	public void setResourceModule(String resourceModule) {
+//		this.resourceModule = resourceModule;
+//	}
 
 }

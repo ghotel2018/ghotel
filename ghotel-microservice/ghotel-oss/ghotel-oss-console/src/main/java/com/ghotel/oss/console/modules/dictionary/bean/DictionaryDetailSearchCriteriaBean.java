@@ -1,6 +1,6 @@
 package com.ghotel.oss.console.modules.dictionary.bean;
 
-public class DictionaryDetailBean {
+public class DictionaryDetailSearchCriteriaBean {
 
 	private String detailId;
 	private String detailName;

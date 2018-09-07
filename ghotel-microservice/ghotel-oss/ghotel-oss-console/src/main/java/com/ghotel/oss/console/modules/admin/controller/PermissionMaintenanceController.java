@@ -114,7 +114,7 @@ public class PermissionMaintenanceController extends AbstractModuleCommonControl
 		Message message = new Message();
 		message.setStatusCode(RequestStatusConstant.STATUS_CODE_SECCEED);
 		List<RoleInfoBean> list = permissionMaintenanceService.getRoles();
-		message.setMessageBody(GocWebUtils.treeMenuList(list, null));
+		message.setMessageBody(list);
 		return message;
 	}
 	// 查询需要的permission

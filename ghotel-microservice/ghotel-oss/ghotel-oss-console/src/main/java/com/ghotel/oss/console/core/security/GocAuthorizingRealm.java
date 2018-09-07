@@ -1,6 +1,7 @@
 package com.ghotel.oss.console.core.security;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +17,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,7 @@ import com.ghotel.oss.console.core.security.bean.RoleInfoBean;
 import com.ghotel.oss.console.core.security.dao.PermissionInfoRepository;
 import com.ghotel.oss.console.core.security.dao.UserInfoRepository;
 import com.ghotel.oss.console.core.security.service.SecurityService;
+import com.ghotel.oss.console.modules.admin.util.AdminModuleConstant;
 
 public class GocAuthorizingRealm extends AuthorizingRealm {
 
@@ -54,8 +54,15 @@ public class GocAuthorizingRealm extends AuthorizingRealm {
 
 			if (user.getIsAdmin()) {
 				permissionList = securityService.getItAndBaAdminPermission();
+				user.setGroupType(String.join(",", AdminModuleConstant.USER_GROUP_CATEGORY_IT,
+						AdminModuleConstant.USER_GROUP_CATEGORY_BA, AdminModuleConstant.USER_GROUP_CATEGORY_OP));
 			} else {
 				permissionList = securityService.getPermissionByUserId(user.getUserId());
+				List<String> groupTypes = new ArrayList<>();
+				for (GroupInfoBean group : groupList) {
+					groupTypes.add(group.getGroupType());
+				}
+				user.setGroupType(String.join(",", groupTypes));
 			}
 
 			for (GroupInfoBean group : groupList) {
@@ -77,56 +84,6 @@ public class GocAuthorizingRealm extends AuthorizingRealm {
 			}
 		});
 		return simpleAuthorInfo;
-		// return authorizationInfo;
-		// authorizationInfo.setRoles(userService.findRoles(username));
-		// authorizationInfo.setStringPermissions(userService.findPermissions(username));
-		// return authorizationInfo;
-		//
-		// String currentUsername = (String) super.getAvailablePrincipal(principals);
-		// // //为当前用户设置角色和权限
-		// SimpleAuthorizationInfo simpleAuthorInfo = null;
-		// UserInfoBean user = userInfoRepository.findFirstByUserName(currentUsername);
-		//
-		// boolean flag = false;
-		//
-		// if ("root".equals(currentUsername)) {// admin user
-		// flag = true;
-		// }
-		//
-		// // 实际中可能会像上面注释的那样从数据库取得
-		// if (null != currentUsername && flag) {
-		// // 添加一个角色,不是配置意义上的添加,而是证明该用户拥有admin角色
-		// simpleAuthorInfo = new SimpleAuthorizationInfo();
-		// // RESOURCE_TYPE = 'IT' or RESOURCE_TYPE = 'BA'
-		// List<PermissionInfoBean> list =
-		// ListUtils.union(securityService.getItAdminPermission(),
-		// securityService.getBaAdminPermission());
-		// for (PermissionInfoBean p : list) {
-		// simpleAuthorInfo.addStringPermission(p.getPermissionExp());
-		// }
-		// return simpleAuthorInfo;
-		// }
-		// if (null != currentUsername) {
-		// simpleAuthorInfo = new SimpleAuthorizationInfo();
-		// List<GroupInfoBean> groupList = user.getGroups();
-		// List<PermissionInfoBean> permissionList = new
-		// ArrayList<PermissionInfoBean>();
-		//
-		// for (GroupInfoBean group : groupList) {
-		// for (RoleInfoBean role : group.getRoles()) {
-		// simpleAuthorInfo.addRole(role.getRoleName());
-		// permissionList = ListUtils.union(permissionList, role.getPermissions());
-		// }
-		// }
-		// for (PermissionInfoBean p : permissionList) {
-		// simpleAuthorInfo.addStringPermission(p.getPermissionExp());
-		// }
-		// return simpleAuthorInfo;
-		// }
-		// //
-		// 若该方法什么都不做直接返回null的话,就会导致任何用户访问/admin/listUser.jsp时都会自动跳转到unauthorizedUrl指定的地址
-		// // 详见applicationContext.xml中的<bean id="shiroFilter">的配置
-		// return null;
 	}
 
 	/**
@@ -139,64 +96,26 @@ public class GocAuthorizingRealm extends AuthorizingRealm {
 			throws AuthenticationException {
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 		return userInfoRepository.findFirstByUserLoginId(token.getUsername()).map(user -> {
-			if (user.getPassword().equals(new String(token.getPassword()))) {
+			String password = user.getPassword();
+			boolean firstLogin = false;
+			if (password == null) {
+				password = user.getInitPassword();
+				firstLogin = true;
+			}
+			if (password.equals(new String(token.getPassword()))) {
+				if (firstLogin) {
+					user.setPassword(password);
+					user.setStatus(AdminModuleConstant.USER_STATUS_NORMAL);
+				}
+				user.setLastLoginTime(new Date());
+				userInfoRepository.save(user);
 				return new SimpleAuthenticationInfo(token.getUsername(), new String(token.getPassword()),
 						this.getName());
 			} else {
+				log.info("{} login failed with wrong password!", token);
 				throw new IncorrectCredentialsException("你输入的密码不正确！");
 			}
 		}).orElseThrow(() -> new UnknownAccountException("您输入的的账号不存在"));
-		// AuthenticationInfo authcInfo = new
-		// SimpleAuthenticationInfo(token.getUsername(),
-		// new String(token.getPassword()), this.getName());
-		//
-		// String strAdministrator_id = "";
-		// boolean blnSameUserName = false;
-		//
-		// strAdministrator_id = "admin";
-		//
-		// if (strAdministrator_id.equals(token.getUsername())) {
-		// blnSameUserName = true;
-		// }
-		// try {
-		// if (user == null) {
-		// Check IF BA supper admin login
-		// if (null != strAdministrator_id && blnSameUserName) {
-		// if ("password".equals(new String(token.getPassword()))) {
-		// }
-		// return authcInfo;
-		// }
-		// throw new UnknownAccountException("您输入的的账号不存在");
-		// } else {
-		// if ((user.getPassword() != null
-		// && !user.getPassword().equals(MD5.getMd5(new String(token.getPassword()))))
-		// || (user.getPassword() == null
-		// && !user.getInitPassword().equals(new String(token.getPassword())))) {
-		// throw new IncorrectCredentialsException("你输入的密码不正确！");
-		// } else {
-		// return authcInfo;
-		// }
-		// }
-		// } catch (AuthenticationException e) {
-		// throw new AuthenticationException(e.getMessage());
-		// }
-
-		// 没有返回登录用户名对应的SimpleAuthenticationInfo对象时,就会在LoginController中抛出UnknownAccountException异常
-	}
-
-	/**
-	 * 将一些数据放到ShiroSession中,以便于其它地方使用
-	 * 
-	 * @see 比如Controller,使用时直接用HttpSession.getAttribute(key)就可以取到
-	 */
-	private void setSession(Object key, Object value) {
-		Subject currentUser = SecurityUtils.getSubject();
-		if (null != currentUser) {
-			Session session = currentUser.getSession();
-			if (null != session) {
-				session.setAttribute(key, value);
-			}
-		}
 	}
 
 	public void clearCached() {

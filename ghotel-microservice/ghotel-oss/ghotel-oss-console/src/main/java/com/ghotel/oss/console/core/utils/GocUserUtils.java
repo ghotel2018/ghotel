@@ -49,6 +49,6 @@ public class GocUserUtils {
 	}
 
 	public static boolean isAdminUser(UserInfoBean user) {
-		return user.getIsAdmin();
+		return user.getIsAdmin() == null ? false : user.getIsAdmin();
 	}
 }

@@ -28,7 +28,7 @@ import com.ghotel.oss.console.core.security.GocAuthorizingRealm;
 import com.ghotel.oss.console.core.security.filter.ExtendFormAuthenticationFilter;
 
 @Configuration
-public class GoCConfig extends BaseConfig {
+public class GocShiroConfig extends BaseConfig {
 
 	@Bean
 	public GocAuthorizingRealm getGoAuthorizingRealm() {
@@ -156,7 +156,7 @@ public class GoCConfig extends BaseConfig {
 		filterChainDefinitions.put("/cmc/*", "anon");
 		filterChainDefinitions.put("/security/*", "authc");
 		// filterChainDefinitions.put("/security/ajaxLogin", "authc");
-		 filterChainDefinitions.put("/authenticated/*", "authc");
+		filterChainDefinitions.put("/authenticated/*", "authc");
 		// filterChainDefinitions.put("/authorized/*", "perms");
 		bean.setFilterChainDefinitionMap(filterChainDefinitions);
 		return bean;
