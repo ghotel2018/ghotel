@@ -1,6 +1,7 @@
 package com.ghotel.oss.console.core.security;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,8 @@ import com.ghotel.oss.console.core.security.bean.RoleInfoBean;
 import com.ghotel.oss.console.core.security.dao.PermissionInfoRepository;
 import com.ghotel.oss.console.core.security.dao.UserInfoRepository;
 import com.ghotel.oss.console.core.security.service.SecurityService;
+import com.ghotel.oss.console.core.utils.GocWebUtils;
+import com.ghotel.oss.console.modules.admin.util.AdminModuleConstant;
 
 public class GocAuthorizingRealm extends AuthorizingRealm {
 
@@ -139,7 +142,19 @@ public class GocAuthorizingRealm extends AuthorizingRealm {
 			throws AuthenticationException {
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 		return userInfoRepository.findFirstByUserLoginId(token.getUsername()).map(user -> {
-			if (user.getPassword().equals(new String(token.getPassword()))) {
+			String password = user.getPassword();
+			boolean firstLogin = false;
+			if (password == null) {
+				password = user.getInitPassword();
+				firstLogin = true;
+			}
+			if (password.equals(new String(token.getPassword()))) {
+				if (firstLogin) {
+					user.setPassword(password);
+					user.setStatus(AdminModuleConstant.USER_STATUS_NORMAL);
+				}
+				user.setLastLoginTime(new Date());
+				userInfoRepository.save(user);
 				return new SimpleAuthenticationInfo(token.getUsername(), new String(token.getPassword()),
 						this.getName());
 			} else {

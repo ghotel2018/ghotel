@@ -11,9 +11,8 @@ function addNav(menuConfigs, id) {
 
 	function findLeaf(config) {
 		var hasLeaf = false;
-		for ( var i = 0; config && i < config['children'].length; i++) {
-			if (config['children'][i]
-					&& config['children'][i]['resourceUrl'] != '#') {
+		for (var i = 0; config && i < config['children'].length; i++) {
+			if (config['children'][i] && config['children'][i]['resource']) {
 				hasLeaf = true;
 				break;
 			} else {
@@ -28,75 +27,80 @@ function addNav(menuConfigs, id) {
 
 	function deleteUselessNav(menuConfigs) {
 		var size = menuConfigs.length;
-		while(size > 0){
+		while (size > 0) {
 			size--;
 			for (var index = 0; index < menuConfigs.length; index++) {
-	            var item = menuConfigs[index];
-	            if (item['resourceUrl'] == '#') {//不是叶子
+				var item = menuConfigs[index];
+				if (item['resource'] == null) {// 不是叶子
 					if (!findLeaf(item)) {// 找不到的 url为【#】 节点隐藏掉
-						menuConfigs.splice(index,1);
+						menuConfigs.splice(index, 1);
 						break;
 					}
 				}
-	            if(item['children'].length > 0){//存在子节点
-	        		var subMenuId = "";
-	    			if (!item['resourceModule']) {
-	    				subMenuId = "subMenu_" + item['id'];
-	    			} else {
-	    				subMenuId = "subMenu_" + item['resourceModule'];
-	    			}
-	    			deleteUselessNav(item['children'], subMenuId);
-	        	}
-	        }
+				if (item['children'].length > 0) {// 存在子节点
+					var subMenuId = "";
+					if (item['resource'] == null) {
+						subMenuId = "subMenu_" + item['id'];
+					} else {
+						subMenuId = "subMenu_" + item['resource']['module'];
+					}
+					deleteUselessNav(item['children'], subMenuId);
+				}
+			}
 		}
 	}
 	deleteUselessNav(menuConfigs);
 
-	$(menuConfigs).each(function(index,item){
-		
-		$('#wnav').accordion('add', {
-			title : item['text'], 
-			id : "subMenu_" + item.id 
-		});
-	 
-		$('#subMenu_' + item.id).html('<ul id="ctrltree' + item.id + '"></ul>');
-	 
-		var abc = item["children"];
-		$('#ctrltree' + item.id).tree({
-			data : item["children"] 
-		}); 
-		
-		$('#ctrltree' + item.id).tree({ 
-			onLoadSuccess : function() {
-			}, 
-			onClick : function(node) {
-				$._ajax({
-					url:CMC.projectAbbr+node.resourceUrl,
-					dataType:'json',
-					success: function(message){
-						if(message && message.statusCode==2){
-							var newurl= message.messageBody.url.trim();
-							 if(newurl.indexOf("/")!=0){
-								 newurl="/"+newurl
-							 }
-							addTab(node.text,"/"+CMC.resource+ newurl, "icon-save")//'module/admin/roleMaintenance.html'
-						}else if(message.statusCode==-5){
-							CMC.alertMessage("您的会话已经过期或身份没有经过认证，请重新登陆！",'error',CMC.showLoginDialog);
+	$(menuConfigs).each(
+			function(index, item) {
+
+				$('#wnav').accordion('add', {
+					title : item['text'],
+					id : "subMenu_" + item.id
+				});
+
+				$('#subMenu_' + item.id).html(
+						'<ul id="ctrltree' + item.id + '"></ul>');
+
+				var abc = item["children"];
+				$('#ctrltree' + item.id).tree({
+					data : item["children"]
+				});
+				$('#ctrltree' + item.id).tree({
+					onLoadSuccess : function() {
+					},
+					onClick : function(node) {
+						$._ajax({
+							url : CMC.projectAbbr + node.resource.resourceUrl,
+							dataType : 'json',
+							success : function(message) {
+								if (message) {
+									if (message.statusCode == 2) {
+										var newurl = message.messageBody.url.trim();
+										if (newurl.indexOf("/") != 0) {
+											newurl = "/" + newurl;
+										}
+										addTab(node.text,"/"+ CMC.resource+ newurl,"icon-save");
+									} else if (message.statusCode == -5) {
+										CMC.alertMessage(
+												"您的会话已经过期或身份没有经过认证，请重新登陆！",
+												'error',
+												CMC.showLoginDialog);
+									}
+								}
+							}
+						});
+					},
+					onDblClick : function(node) {
+						if (node.state == 'closed') {
+							$(this).tree('expand', node.target);
+						} else {
+							$(this).tree('collapse', node.target);
 						}
 					}
 				});
-			}, 
-			onDblClick : function(node) { 
-				if (node.state == 'closed') { 
-					$(this).tree('expand', node.target); 
-				} else {
-					$(this).tree('collapse', node.target); 
-				}
-			}
-		});
-		
-		$('#ctrltree' + item.id).tree('collapseAll');  
-	});
+				$('#ctrltree' + item.id).tree('collapseAll');
+			});
 }
 
 function addTab(subtitle, url, icon) {
@@ -110,7 +114,7 @@ function addTab(subtitle, url, icon) {
 		});
 	} else {
 		$('#tabs').tabs('select', subtitle);
-		//$('#mm-tabupdate').click();//更新点击的页面
+		// $('#mm-tabupdate').click();//更新点击的页面
 	}
 	tabClose();
 }
@@ -146,18 +150,18 @@ function tabCloseEven() {
 	// 刷新
 	$('#mm-tabupdate').click(function() {
 		var currTab = $('#tabs').tabs('getSelected');
-		 var id=currTab.panel('options').id;
-		 if(id=='home'){
-			 Index.initSearch();
-		 }else{
-			 var url = $(currTab.panel('options').content).attr('src');
-				$('#tabs').tabs('update', {
-					tab : currTab,
-					options : {
-						content : createFrame(url)
-					}
-				}); 
-		 }
+		var id = currTab.panel('options').id;
+		if (id == 'home') {
+			Index.initSearch();
+		} else {
+			var url = $(currTab.panel('options').content).attr('src');
+			$('#tabs').tabs('update', {
+				tab : currTab,
+				options : {
+					content : createFrame(url)
+				}
+			});
+		}
 	});
 	// 关闭当前
 	$('#mm-tabclose').click(function() {

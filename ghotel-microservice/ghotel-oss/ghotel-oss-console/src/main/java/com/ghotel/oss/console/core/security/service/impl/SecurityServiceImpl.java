@@ -1,7 +1,9 @@
 package com.ghotel.oss.console.core.security.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.shiro.util.AntPathMatcher;
 import org.apache.shiro.util.PatternMatcher;
@@ -24,10 +26,14 @@ import com.ghotel.oss.console.core.security.dao.PermissionInfoRepository;
 import com.ghotel.oss.console.core.security.dao.ResourceInfoRepository;
 import com.ghotel.oss.console.core.security.dao.UserInfoRepository;
 import com.ghotel.oss.console.core.security.service.SecurityService;
-import com.ghotel.oss.console.core.utils.StringUtil;
 import com.ghotel.oss.console.core.utils.GocUserUtils;
+import com.ghotel.oss.console.core.utils.StringUtil;
+import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
 import com.ghotel.oss.console.modules.admin.util.AdminModuleConstant;
+import com.ghotel.oss.console.modules.dictionary.bean.DictionaryDetailBean;
 import com.ghotel.oss.console.modules.dictionary.bean.DictionaryTypeBean;
+import com.ghotel.oss.console.modules.dictionary.bean.DictionaryTypeSearchCriteriaBean;
+import com.ghotel.oss.console.modules.dictionary.service.DictionaryTypeService;
 import com.ghotel.oss.console.modules.statedata.service.CmcStaticDataService;
 
 /**
@@ -49,8 +55,8 @@ public class SecurityServiceImpl implements SecurityService {
 	@Autowired
 	MenuConfigRepository menuConfigRepository;
 
-	// @Autowired
-	// private DictionaryTypeService dictionaryTypeService;
+	@Autowired
+	private DictionaryTypeService dictionaryTypeService;
 	// @Autowired
 	// private DictionaryDetailService dictionaryDetailService;
 
@@ -174,7 +180,7 @@ public class SecurityServiceImpl implements SecurityService {
 			user.setGroupType(groupTypeExp);
 			List<PermissionInfoBean> perms = getPermissionByUserId(userId, Module);
 			config.setPageElementPerms(perms);
-			oldMenuResourceList = resourceInfoRepository.findByCategoryIn(new String[] { "menu", "all" });
+			oldMenuResourceList = new ArrayList<>();// .findByCategoryIn(new String[] { "menu", "all" });
 
 			for (GroupInfoBean group : user.getGroups()) {
 				for (RoleInfoBean role : group.getRoles()) {
@@ -196,32 +202,30 @@ public class SecurityServiceImpl implements SecurityService {
 			throw new RuntimeException(e);
 		}
 		config.setUser(user);
-		DictionaryTypeBean type = new DictionaryTypeBean();
+		DictionaryTypeSearchCriteriaBean type = new DictionaryTypeSearchCriteriaBean();
 		type.setNum(100);
 		type.setTypeKey(Module + ":_");// 冒号有用 不要删掉 如果只使用下划线 则like内下划线表示任意单一字符 需要转义 冒号配合escape 具体百度escape
-		// try {
-		// PaginationResult<DictionaryTypeBean> pr =
-		// dictionaryTypeService.getPaginationAll(type);
-		// List<Map<String, Object>> dictionaryList = new ArrayList<Map<String,
-		// Object>>();
-		// Map<String, Object> innerMap = null;
-		// for (Object t : pr.getList()) {
-		// DictionaryTypeBean tp = (DictionaryTypeBean) t;
-		// innerMap = new HashMap<String, Object>();
-		// innerMap.put("type", t);
-		// List<DictionaryDetailBean> details = new ArrayList<DictionaryDetailBean>();
-		// DictionaryDetailBean d = new DictionaryDetailBean();
-		// d.setDetailName("");
-		// d.setDetailValue("");
-		// details.add(d);
-		// details.addAll(dictionaryDetailService.getDetailByTypeId(tp.getTypeId()));
-		// innerMap.put("detail", details);
-		// dictionaryList.add(innerMap);
-		// }
-		// config.setDictionaryList(dictionaryList);
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
+		try {
+			PaginationResult<DictionaryTypeBean> pr = dictionaryTypeService.getPaginationAll(type);
+			List<Map<String, Object>> dictionaryList = new ArrayList<Map<String, Object>>();
+			Map<String, Object> innerMap = null;
+			for (Object t : pr.getList()) {
+				DictionaryTypeBean tp = (DictionaryTypeBean) t;
+				innerMap = new HashMap<String, Object>();
+				innerMap.put("type", t);
+				List<DictionaryDetailBean> details = new ArrayList<DictionaryDetailBean>();
+				DictionaryDetailBean d = new DictionaryDetailBean();
+				d.setDetailName("");
+				d.setDetailValue("");
+				details.add(d);
+				details.addAll(tp.getDetails());
+				innerMap.put("detail", details);
+				dictionaryList.add(innerMap);
+			}
+			config.setDictionaryList(dictionaryList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return config;
 	}
 
@@ -231,16 +235,19 @@ public class SecurityServiceImpl implements SecurityService {
 		for (MenuConfigInfoBean config : allMenuConfigs) {
 
 			if (config.getResource() == null) {// 父节点无需鉴权
-				result.add(config);
+				MenuConfigInfoBean mcBean = config;
+				config.setChildren(removeUnauthorizedMenu(config.getChildren(), oldMenuResourceList));
+				result.add(mcBean);
 			} else {
 				for (ResourceInfoBean resource : oldMenuResourceList) {
 					if (isAuthorizedResource(config.getResource(), resource)) {
 						// 如果存在则处理子节点并添加到结果集中
 						// 处理子节点
+						MenuConfigInfoBean mcBean = config;
 						if (!config.getChildren().isEmpty()) {
-							config.setChildren(removeUnauthorizedMenu(config.getChildren(), oldMenuResourceList));
+							mcBean.setChildren(removeUnauthorizedMenu(config.getChildren(), oldMenuResourceList));
 						}
-						result.add(config);
+						result.add(mcBean);
 						break;
 					}
 				}

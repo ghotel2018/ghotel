@@ -231,7 +231,6 @@ var currentNode;
 		CMC.request({
 			url : Role.getAllUrl,
 			success: function(response){
-				debugger;
 				$("#tree").tree({
 					data: [{
 							"id":0,

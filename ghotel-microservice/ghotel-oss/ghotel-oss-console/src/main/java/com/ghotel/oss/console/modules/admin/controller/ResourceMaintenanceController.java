@@ -12,6 +12,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -116,7 +117,7 @@ public class ResourceMaintenanceController extends AbstractModuleCommonControlle
 
 	@RequestMapping(value = "updateMenu", method = RequestMethod.POST)
 	@RequiresPermissions("Resource:updateMenu")
-	public @ResponseBody Message updateMenu(MenuConfigInfoBean bean) throws Exception {
+	public @ResponseBody Message updateMenu(@RequestBody MenuConfigInfoBean bean) throws Exception {
 		resourceMaintenanceService.updateMenuConfig(bean);
 		Message message = new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, "更新菜单配置成功!");
 		return message;

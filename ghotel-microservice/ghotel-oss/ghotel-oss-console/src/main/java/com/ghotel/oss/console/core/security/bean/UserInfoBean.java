@@ -1,6 +1,7 @@
 package com.ghotel.oss.console.core.security.bean;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -49,7 +50,7 @@ public class UserInfoBean {
 
 	private String groupType; // Delimited by ,
 
-	private String lastLoginTime;
+	private Date lastLoginTime;
 
 	private String personalMail;
 
@@ -159,11 +160,11 @@ public class UserInfoBean {
 		this.groupType = groupType;
 	}
 
-	public String getLastLoginTime() {
+	public Date getLastLoginTime() {
 		return lastLoginTime;
 	}
 
-	public void setLastLoginTime(String lastLoginTime) {
+	public void setLastLoginTime(Date lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
 	}
 
@@ -184,7 +185,7 @@ public class UserInfoBean {
 	}
 
 	public Boolean getIsAdmin() {
-		return isAdmin;
+		return isAdmin == null ? false : isAdmin;
 	}
 
 	public void setIsAdmin(Boolean isAdmin) {

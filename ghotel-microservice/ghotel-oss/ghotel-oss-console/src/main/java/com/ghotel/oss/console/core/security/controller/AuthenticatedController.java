@@ -63,13 +63,13 @@ public class AuthenticatedController extends AbstractModuleCommonController {
 	}
 
 	@RequestMapping(value = "pwdReset", method = RequestMethod.POST)
-	public @ResponseBody Message pwdReset(@RequestParam String oldPw, @RequestParam String newPwd) {
+	public @ResponseBody Message pwdReset(@RequestParam String oldPwd, @RequestParam String newPwd) {
 		Message message;
 		Subject currentUser = SecurityUtils.getSubject();
 		if (currentUser.isAuthenticated()) {
 			UserInfoBean cacheUser = GocWebUtils.getSessionUser().get();
 			cacheUser.setPassword(newPwd);
-			if (securityService.resetPassword(cacheUser, oldPw)) {
+			if (securityService.resetPassword(cacheUser, oldPwd)) {
 				GocWebUtils.updateUserSession(cacheUser);
 				message = new Message(null, RequestStatusConstant.STATUS_CODE_SECCEED, "密码重置成功!");
 			} else {

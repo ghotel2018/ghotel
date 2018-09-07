@@ -6,7 +6,12 @@ import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
-public class DictionaryTypeBean {
+import com.ghotel.oss.console.core.common.bean.PaginationBean;
+
+public class DictionaryTypeSearchCriteriaBean extends PaginationBean {
+
+	// private int start = 0;
+	private int num = 10;
 
 	private String typeId;
 	private String typeName;
@@ -39,6 +44,22 @@ public class DictionaryTypeBean {
 
 	public void setTypeKey(String typeKey) {
 		this.typeKey = typeKey;
+	}
+
+	public int getStart() {
+		return start;
+	}
+
+	public void setStart(int start) {
+		this.start = start;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
 	}
 
 	public Date getCreateTime() {

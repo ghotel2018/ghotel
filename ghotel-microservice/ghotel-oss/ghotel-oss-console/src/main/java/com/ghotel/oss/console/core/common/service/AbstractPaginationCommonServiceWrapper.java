@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -25,6 +27,7 @@ public abstract class AbstractPaginationCommonServiceWrapper<T> extends Abstract
 				map.put(key, null);
 			}
 		}
+		ConvertUtils.register(new DateConverter(null), java.util.Date.class);
 		BeanUtils.populate(t, map);
 		return t;
 	}
@@ -37,15 +40,20 @@ public abstract class AbstractPaginationCommonServiceWrapper<T> extends Abstract
 
 	}
 
+	protected ExampleMatcher getDefaultExampleMatcher() {
+		return ExampleMatcher.matching().withIgnoreCase().withStringMatcher(StringMatcher.CONTAINING)
+				.withIgnoreNullValues();
+
+	}
+
 	protected PaginationResult<T> getPaginationResult(Class<T> clazz, PaginationBean paginationBean) throws Exception {
 		T t = parseSearchObjToEnity(paginationBean, clazz);
 
 		if (t instanceof PermissionInfoBean) {
 			((PermissionInfoBean) t).setRelateResource(null);
 		}
-		ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreCase().withStringMatcher(StringMatcher.CONTAINING)
-				.withIgnoreNullValues();
-		return getPaginationResult(Example.of(t, matcher), paginationBean.getStart(), paginationBean.getEnd());
+		return getPaginationResult(Example.of(t, getDefaultExampleMatcher()), paginationBean.getStart(),
+				paginationBean.getEnd());
 	}
 
 	protected PaginationResult<T> getPaginationResult(Example<T> example, PaginationBean bean) {
@@ -63,7 +71,7 @@ public abstract class AbstractPaginationCommonServiceWrapper<T> extends Abstract
 
 		PaginationResult<T> bean = new PaginationResult<T>();
 		bean.setTotal(total);
-		if (!(total < end)) {
+		if (!(total < end) && total > 0) {
 			result = result.subList(start - 1, end);
 		}
 		bean.setList(result);
