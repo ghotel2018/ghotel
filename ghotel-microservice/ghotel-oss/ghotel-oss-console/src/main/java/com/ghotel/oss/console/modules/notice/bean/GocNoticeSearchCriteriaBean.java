@@ -4,7 +4,7 @@ import com.ghotel.oss.console.core.common.bean.PaginationBean;
 
 
 /**
- * @author KunfengWang
+ * @author kekon
  */
 public class GocNoticeSearchCriteriaBean extends PaginationBean {
 

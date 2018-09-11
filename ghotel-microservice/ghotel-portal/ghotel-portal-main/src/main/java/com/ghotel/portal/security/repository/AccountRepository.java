@@ -1,10 +1,8 @@
 package com.ghotel.portal.security.repository;
 
-import java.util.Optional;
-
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.ghotel.model.po.Account;
+import com.ghotel.model.po.user.Account;
 
 public interface AccountRepository extends MongoRepository<Account, String> {
 

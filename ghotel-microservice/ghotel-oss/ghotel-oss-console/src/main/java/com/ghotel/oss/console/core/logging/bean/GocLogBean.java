@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.io.Serializable;
 
 /**
- * @author KunfengWang
+ * @author kekon
  */
 @Document(collection = "ghotel_operation_log")
 public class GocLogBean implements Serializable {

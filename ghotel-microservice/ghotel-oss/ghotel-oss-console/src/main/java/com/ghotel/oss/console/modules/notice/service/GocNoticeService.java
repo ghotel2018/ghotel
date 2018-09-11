@@ -8,7 +8,7 @@ import com.ghotel.oss.console.modules.notice.bean.GocNoticeSearchCriteriaBean;
 import java.util.List;
 
 /**
- * @author KunfengWang
+ * @author kekon
  */
 public interface GocNoticeService extends ICommonPaginationService {
 

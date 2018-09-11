@@ -170,7 +170,7 @@ public class StaticDataController extends AbstractModuleCommonController {
 //			CmcStaticData bean = (CmcStaticData) CmcWebUtils
 //					.formatBeanFromRequest(request,CmcStaticData.class);
 //			bean.setCreateBy(UserUtils.getUserLoginId());
-//			bean.setCreateDate(new Date());
+//			bean.setCreateTime(new Date());
 //			bean.setStatus("2");
 //			checkData( bean);
 //			service.add(bean);

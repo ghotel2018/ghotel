@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  * 通知类操作Bean
- * @author KunfengWang
+ * @author kekon
  */
 public interface GocNoticeRepository extends MongoRepository<GocNoticeBean, String> {
 }

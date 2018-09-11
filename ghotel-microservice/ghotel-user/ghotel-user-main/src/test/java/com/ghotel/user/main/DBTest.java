@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.ghotel.model.po.Account;
-import com.ghotel.model.po.User;
+import com.ghotel.model.po.user.Account;
+import com.ghotel.model.po.user.User;
 import com.ghotel.user.data.main.repository.AccountRepository;
 
 @RunWith(SpringRunner.class)

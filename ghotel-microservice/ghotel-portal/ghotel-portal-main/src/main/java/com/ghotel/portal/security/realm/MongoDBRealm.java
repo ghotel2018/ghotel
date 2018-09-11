@@ -14,7 +14,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ghotel.model.po.Account;
+import com.ghotel.model.po.user.Account;
 import com.ghotel.portal.security.repository.AccountRepository;
 
 public class MongoDBRealm extends AuthorizingRealm {
