@@ -27,6 +27,8 @@ public interface GroupMaintenanceService extends ICommonService<GroupInfoBean> {
 
 	public List<GroupInfoBean> getParentGroupsInfo(String id);
 
+	public void updateGroupInfo(GroupInfoBean groupInfoBean);
+
 	// public List<GroupInfoBean> getGroupsByGroupType(List<String> groupTypes)
 	// throws Exception;
 

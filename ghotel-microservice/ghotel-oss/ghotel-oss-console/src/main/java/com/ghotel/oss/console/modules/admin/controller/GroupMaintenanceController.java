@@ -68,7 +68,7 @@ public class GroupMaintenanceController extends AbstractModuleCommonController {
 
 		Message message = new Message();
 		groupInfoBean.setText(groupInfoBean.getGroupName());
-		groupMaintenanceService.update(groupInfoBean);
+		groupMaintenanceService.updateGroupInfo(groupInfoBean);
 		message = new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, "更新记录请求成功！");
 		return message;
 	}

@@ -195,7 +195,8 @@ Resource.Menu = {
 		CMC.request({
 			url : Resource.deleteMenuUrl,
 			method : "POST",
-			data : row,
+			contentType : "application/json; charset=utf-8",
+			data : JSON.stringify(row),
 			success : function(data) {
 				var menuOrder = row['menuOrder'];
 				var parentRow = $('#menutree').treegrid('getParent', row.id);

@@ -59,7 +59,7 @@ public class RoleMaintenanceController extends AbstractModuleCommonController {
 	@RequiresPermissions("Role:update")
 	public @ResponseBody Message update(RoleInfoBean bean) throws Exception {
 		bean.setText(bean.getRoleName());
-		roleMaintenanceService.update(bean);
+		roleMaintenanceService.updateResource(bean);
 		Message message = new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, "更新记录请求成功！");
 		return message;
 	}

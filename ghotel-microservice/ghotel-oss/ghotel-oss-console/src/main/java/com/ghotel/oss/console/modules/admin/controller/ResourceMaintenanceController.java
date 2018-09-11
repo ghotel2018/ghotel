@@ -67,9 +67,12 @@ public class ResourceMaintenanceController extends AbstractModuleCommonControlle
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	@RequiresPermissions("Resource:delete")
 	public @ResponseBody Message deleteResource(ResourceInfoBean bean) throws Exception {
-		resourceMaintenanceService.delete(bean);
-		Message message = new Message("", 1, "删除记录请求成功！");
-		return message;
+		int result = resourceMaintenanceService.delete(bean);
+		if (result == RequestStatusConstant.STATUS_CODE_CONSTRAINT_EXISTS) {
+			return new Message("", result, "请先删除关联的权限信息！");
+		} else {
+			return new Message("", 1, "删除记录请求成功！");
+		}
 	}
 
 	@RequestMapping(value = "getAll", method = RequestMethod.POST)
@@ -126,7 +129,7 @@ public class ResourceMaintenanceController extends AbstractModuleCommonControlle
 
 	@RequestMapping(value = "deleteMenu", method = RequestMethod.POST)
 	@RequiresPermissions("Resource:deleteMenu")
-	public @ResponseBody Message deleteMenu(MenuConfigInfoBean bean) throws Exception {
+	public @ResponseBody Message deleteMenu(@RequestBody MenuConfigInfoBean bean) throws Exception {
 		resourceMaintenanceService.deleteMenuConfig(bean);
 		Message message = new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, "删除菜单配置成功!");
 		return message;

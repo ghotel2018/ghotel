@@ -15,4 +15,6 @@ public interface roleMaintenanceService extends ICommonService<RoleInfoBean> {
 
 	public List<PermissionInfoBean> getBindingPermission(String roleId);
 
+	public void updateResource(RoleInfoBean bean);
+
 }

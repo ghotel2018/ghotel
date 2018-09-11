@@ -73,4 +73,12 @@ public class GocRoleMaintenanceServiceImpl extends AbstractCommonServiceWrapper<
 		return roleinfoRepository;
 	}
 
+	@Override
+	public void updateResource(RoleInfoBean bean) {
+		roleinfoRepository.findById(bean.getId()).ifPresent(role -> {
+			bean.setPermissions(role.getPermissions());
+			roleinfoRepository.save(bean);
+		});
+	}
+
 }

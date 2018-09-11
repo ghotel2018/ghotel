@@ -38,10 +38,10 @@ public class GocUserMaintenanceServiceImpl extends AbstractPaginationCommonServi
 
 	@GocLogAnnotation(description = "新增")
 	public UserInfoBean add(UserInfoBean bean) throws Exception {
-		if (bean.getUserType() != null && AdminModuleConstant.USER_TYPE_LOCAL.equals(bean.getUserType())) {
-			bean.setResetPwdInd(AdminModuleConstant.RESET_PWD_IND_REQUIRED); // 要求重置密码
-			bean.setInitPassword(UUID.randomUUID().toString().split("-")[0]);// 赋值初始化密码
-		}
+//		if (bean.getUserType() != null && AdminModuleConstant.USER_TYPE_LOCAL.equals(bean.getUserType())) {
+		bean.setResetPwdInd(AdminModuleConstant.RESET_PWD_IND_REQUIRED); // 要求重置密码
+		bean.setInitPassword(UUID.randomUUID().toString().split("-")[0]);// 赋值初始化密码
+//		}
 		return super.add(bean);
 	}
 

@@ -1,9 +1,11 @@
 package com.ghotel.oss.console.core.security.filter;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +18,7 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -127,6 +130,7 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
 				return true;
 			}
 		} else {
+//			sendResponseToClient(response, new Message(null, RequestStatusConstant.STATUS_CODE_NOT_AUTHENTICATED));
 			return true;
 		}
 	}
@@ -238,4 +242,18 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
 
 		return false;
 	}
+
+//	@Override
+//	protected void cleanup(ServletRequest request, ServletResponse response, Exception existing)
+//			throws ServletException, IOException {
+//		if (existing instanceof UnauthenticatedException) {
+//			try {
+//				sendResponseToClient(response, new Message(null, RequestStatusConstant.STATUS_CODE_NOT_AUTHENTICATED));
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		super.cleanup(request, response, existing);
+//	}
 }
