@@ -25,7 +25,7 @@ import com.ghotel.oss.console.modules.admin.service.ResourceMaintenanceService;
 
 @GocLogAnnotation(moduleId = "Resource")
 @Service
-public class GoResourceMaintenanceServiceImpl extends AbstractPaginationCommonServiceWrapper<ResourceInfoBean>
+public class GocResourceMaintenanceServiceImpl extends AbstractPaginationCommonServiceWrapper<ResourceInfoBean>
 		implements ResourceMaintenanceService {
 	@Autowired
 	ResourceInfoRepository resourceInfoRepository;
