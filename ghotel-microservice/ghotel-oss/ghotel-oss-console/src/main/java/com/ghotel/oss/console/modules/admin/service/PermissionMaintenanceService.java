@@ -25,4 +25,6 @@ public interface PermissionMaintenanceService extends ICommonPaginationService<P
 	public PaginationResult<PermissionInfoBean> getPermissionByPagination(PermissionSearchCriteriaBean bean)
 			throws Exception;
 
+	public void updatePermission(PermissionInfoBean bean);
+
 }

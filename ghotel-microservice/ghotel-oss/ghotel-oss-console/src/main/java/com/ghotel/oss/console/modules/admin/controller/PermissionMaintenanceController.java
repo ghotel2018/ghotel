@@ -65,9 +65,8 @@ public class PermissionMaintenanceController extends AbstractModuleCommonControl
 	// 更新permission需要的资源
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@RequiresPermissions("Permission:update")
-	public @ResponseBody Message updatePermission(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		permissionMaintenanceService.update(GocWebUtils.formatBeanFromRequest(request, PermissionInfoBean.class));
+	public @ResponseBody Message updatePermission(PermissionInfoBean bean) throws Exception {
+		permissionMaintenanceService.updatePermission(bean);
 		Message message = new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, "更新记录请求成功！");
 		return message;
 	}

@@ -26,6 +26,7 @@ import org.springframework.context.annotation.Configuration;
 import com.ghotel.core.config.BaseConfig;
 import com.ghotel.oss.console.core.security.GocAuthorizingRealm;
 import com.ghotel.oss.console.core.security.filter.ExtendFormAuthenticationFilter;
+import com.ghotel.oss.console.core.security.filter.GocPermissionAnnotationMethodInterceptor;
 
 @Configuration
 public class GocShiroConfig extends BaseConfig {
@@ -175,6 +176,7 @@ public class GocShiroConfig extends BaseConfig {
 	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(
 			@Autowired SecurityManager securityManager) {
 		AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+		authorizationAttributeSourceAdvisor.setAdvice(new GocPermissionAnnotationMethodInterceptor());
 		authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
 		return authorizationAttributeSourceAdvisor;
 	}

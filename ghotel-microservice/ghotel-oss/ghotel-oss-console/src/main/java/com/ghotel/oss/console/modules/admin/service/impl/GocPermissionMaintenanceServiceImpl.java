@@ -153,4 +153,12 @@ public class GocPermissionMaintenanceServiceImpl extends AbstractPaginationCommo
 			return super.getPaginationResult(Example.of(permission, getDefaultExampleMatcher()), bean);
 		}
 	}
+
+	@Override
+	public void updatePermission(PermissionInfoBean bean) {
+		permissionInfoRepository.findById(bean.getId()).ifPresent(permission -> {
+			bean.setRelateResource(permission.getRelateResource());
+			permissionInfoRepository.save(bean);
+		});
+	}
 }

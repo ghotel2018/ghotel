@@ -194,4 +194,12 @@ public class GocGroupMaintenanceServiceImpl extends AbstractCommonServiceWrapper
 		return groupInfoRepository;
 	}
 
+	@Override
+	public void updateGroupInfo(GroupInfoBean groupInfoBean) {
+		groupInfoRepository.findById(groupInfoBean.getId()).ifPresent(group -> {
+			groupInfoBean.setRoles(group.getRoles());
+			groupInfoRepository.save(groupInfoBean);
+		});
+	}
+
 }
