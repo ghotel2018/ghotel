@@ -243,17 +243,4 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
 		return false;
 	}
 
-//	@Override
-//	protected void cleanup(ServletRequest request, ServletResponse response, Exception existing)
-//			throws ServletException, IOException {
-//		if (existing instanceof UnauthenticatedException) {
-//			try {
-//				sendResponseToClient(response, new Message(null, RequestStatusConstant.STATUS_CODE_NOT_AUTHENTICATED));
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//		super.cleanup(request, response, existing);
-//	}
 }

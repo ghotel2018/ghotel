@@ -130,11 +130,16 @@
 	                    		CMC.alertMessage("当前请求发生错误，请联系系统管理员！",'error');
 	                    	}
 	                	}else if(data.statusCode == 2){
-	                		if(data.messageBody.errorMessage){
-	                    		alert(data.messageBody.errorMessage);
+	                		if(data.messageBody.messageBody){
+	                    		alert(data.messageBody.messageBody);
 	                    		return;
 	                    	}
 	                    	window.location.href = window.location.protocol+"//"+window.location.host+"/cmc" + data.messageBody.url;
+	                	}else if(data.statusCode < 0){
+	                		if(data.messageBody){
+	                    		alert(data.messageBody);
+	                    		return;
+	                    	}
 	                	}
 	            	}
 	            },

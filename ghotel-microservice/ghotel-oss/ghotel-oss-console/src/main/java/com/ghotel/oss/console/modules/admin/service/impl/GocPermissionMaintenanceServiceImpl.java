@@ -50,8 +50,7 @@ public class GocPermissionMaintenanceServiceImpl extends AbstractPaginationCommo
 			PermissionInfoBean bean = new PermissionInfoBean();
 			bean.setPermissionDesc(object.getPermissionDesc());
 			bean.setPermissionExp(object.getPermissionExp());
-			List<ResourceInfoBean> resourceList = new ArrayList<ResourceInfoBean>();
-			resourceList.add(resource);
+			bean.getRelateResource().add(resource);
 			return permissionInfoRepository.save(bean).getId();
 		}).orElse(null);
 	}
