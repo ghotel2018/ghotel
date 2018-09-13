@@ -31,6 +31,8 @@ import com.ghotel.oss.console.modules.dictionary.bean.DictionaryDetailBean;
 import com.ghotel.oss.console.modules.dictionary.bean.DictionaryTypeBean;
 import com.ghotel.oss.console.modules.dictionary.dao.DictionaryDetailRepository;
 import com.ghotel.oss.console.modules.dictionary.dao.DictionaryTypeRepository;
+import com.ghotel.oss.console.modules.scheduler.bean.JobDetailInfoBean;
+import com.ghotel.oss.console.modules.scheduler.dao.JobDetailInfoRepository;
 
 @ComponentScan(basePackages = "com.ghotel.oss", excludeFilters = {
 		@Filter(type = FilterType.ANNOTATION, value = Controller.class),
@@ -48,7 +50,9 @@ public class InitDataApplication {
 			MenuConfigRepository menuConfigRepository = ac.getBean(MenuConfigRepository.class);
 			DictionaryTypeRepository dictionaryTypeRepository = ac.getBean(DictionaryTypeRepository.class);
 			DictionaryDetailRepository dictionaryDetailRepository = ac.getBean(DictionaryDetailRepository.class);
-
+			JobDetailInfoRepository jobDetailInfoRepository = ac.getBean(JobDetailInfoRepository.class);
+			
+			
 			UserInfoBean user = new UserInfoBean();
 			user.setUserLoginId("admin");
 			user.setUserName("管理员");
@@ -63,6 +67,7 @@ public class InitDataApplication {
 			moduleInfoRepository.saveAll(initModule());
 			menuConfigRepository.saveAll(initMenu(resourceInfoRepository));
 			dictionaryTypeRepository.saveAll(initDictionaryType());
+			jobDetailInfoRepository.save(initJobInfo());
 
 			initGroupAndRole(ac);
 			initPermAndRole(ac);
@@ -2791,5 +2796,24 @@ public class InitDataApplication {
 			r.setId((id++) + "");
 		}
 		return resourceList;
+	}
+	
+	private static JobDetailInfoBean initJobInfo() {
+		JobDetailInfoBean bean = new JobDetailInfoBean ();
+		bean.setJobId("0b7c9f1761f44bb1ae101f9998072ea21");
+		bean.setJobName("初始化测试job");
+		bean.setJobDesc("初始化job数据");
+		bean.setJobCronExp("0 0/10 * * * ?");
+		bean.setJobType("sendMsg");
+		bean.setJobStatus(0);
+		bean.setJobStatusStr("未启动");
+		bean.setJobAutoStartId(0);
+		bean.setJobAutoStartIdStr("不自动启动");
+		bean.setJobEnableInd(1);
+		bean.setJobEnableIndStr("已启用");
+		bean.setHandler("com.csair.b2c.cmc.core.job.handler.CouponBindSendEmailHandler");
+		bean.setHandlerType(0);
+		bean.setIsSingleton("1");
+		return bean;
 	}
 }
