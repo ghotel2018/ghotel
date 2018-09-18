@@ -17,7 +17,7 @@ import com.ghotel.oss.console.core.security.dao.MenuConfigRepository;
 import com.ghotel.oss.console.core.security.dao.ModuleInfoRepository;
 import com.ghotel.oss.console.core.security.dao.PermissionInfoRepository;
 import com.ghotel.oss.console.core.security.dao.ResourceInfoRepository;
-import com.ghotel.oss.console.core.utils.RequestStatusConstant;
+import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.modules.admin.bean.ModuleInfoBean;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
 import com.ghotel.oss.console.modules.admin.bean.ResourceSearchCriteriaBean;

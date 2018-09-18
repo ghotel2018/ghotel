@@ -18,7 +18,7 @@ import com.ghotel.oss.console.core.common.controller.AbstractModuleCommonControl
 import com.ghotel.oss.console.core.security.bean.PermissionInfoBean;
 import com.ghotel.oss.console.core.security.bean.RoleInfoBean;
 import com.ghotel.oss.console.core.utils.GocWebUtils;
-import com.ghotel.oss.console.core.utils.RequestStatusConstant;
+import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
 import com.ghotel.oss.console.modules.admin.bean.PermissionSearchCriteriaBean;
 import com.ghotel.oss.console.modules.admin.bean.RoleNPermissionBean;

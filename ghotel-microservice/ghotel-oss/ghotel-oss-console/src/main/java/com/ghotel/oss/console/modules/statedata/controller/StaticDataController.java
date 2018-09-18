@@ -1,35 +1,11 @@
 package com.ghotel.oss.console.modules.statedata.controller;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ghotel.oss.console.core.common.bean.Message;
 import com.ghotel.oss.console.core.common.controller.AbstractModuleCommonController;
-import com.ghotel.oss.console.core.utils.GocWebUtils;
-import com.ghotel.oss.console.core.utils.RequestStatusConstant;
-import com.ghotel.oss.console.core.utils.StringUtil;
-import com.ghotel.oss.console.core.utils.GocUserUtils;
-import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
-import com.ghotel.oss.console.modules.statedata.bean.CmcStaticData;
-import com.ghotel.oss.console.modules.statedata.bean.CmcStaticDataSearchCriteria;
-import com.ghotel.oss.console.modules.statedata.service.CmcStaticDataService;
 
 @Controller
 @RequestMapping("/authorized/staticData")

@@ -25,8 +25,8 @@ import com.ghotel.oss.console.core.job.bean.ResultBean;
 import com.ghotel.oss.console.core.job.bean.TaskBean;
 import com.ghotel.oss.console.core.job.dao.SchedulerJobMapper;
 import com.ghotel.oss.console.core.job.proceedor.IReportTaskProceedor;
-import com.ghotel.oss.console.core.utils.JacksonJsonUtil;
-import com.ghotel.oss.console.core.utils.SystemHelper;
+import com.ghotel.oss.console.core.utils.GocJsonUtil;
+import com.ghotel.oss.console.core.utils.GocSystemHelper;
 import com.ghotel.oss.console.modules.scheduler.bean.JobInstanceBean;
 
 public class ReportTaskHandler extends AbstractHandler implements Job {
@@ -43,7 +43,7 @@ public class ReportTaskHandler extends AbstractHandler implements Job {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SimpleDateFormat dateF = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
-		String localIp = SystemHelper.getIp();
+		String localIp = GocSystemHelper.getIp();
 		try {
 			int maxRecordLimit = Integer
 					.parseInt(getProperties().getProperty("record_no_of_report_schedule_job").trim());
@@ -88,7 +88,7 @@ public class ReportTaskHandler extends AbstractHandler implements Job {
 							logger.info(task.getTaskCreateBy() + "的任务" + task.getTaskName() + "已经被完成！");
 							continue;
 						}
-						final ReportGenerationInfoBean bean = (ReportGenerationInfoBean) JacksonJsonUtil
+						final ReportGenerationInfoBean bean = (ReportGenerationInfoBean) GocJsonUtil
 								.jsonToBean(task.getTaskParams(), ReportGenerationInfoBean.class);
 						IReportTaskProceedor proceedor = (IReportTaskProceedor) getBeanFactry()
 								.getBean(bean.getProceedor());

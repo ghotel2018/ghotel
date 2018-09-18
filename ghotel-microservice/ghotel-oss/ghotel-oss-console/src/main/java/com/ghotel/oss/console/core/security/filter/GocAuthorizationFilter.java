@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ghotel.oss.console.core.common.bean.Message;
-import com.ghotel.oss.console.core.utils.RequestStatusConstant;
+import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 
 public class GocAuthorizationFilter extends PermissionsAuthorizationFilter {
 

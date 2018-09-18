@@ -23,7 +23,7 @@ import com.ghotel.oss.console.core.security.bean.MenuConfigInfoBean;
 import com.ghotel.oss.console.core.security.bean.MenuConfigSearchCriteriaBean;
 import com.ghotel.oss.console.core.security.bean.ResourceInfoBean;
 import com.ghotel.oss.console.core.utils.GocWebUtils;
-import com.ghotel.oss.console.core.utils.RequestStatusConstant;
+import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.modules.admin.bean.ModuleInfoBean;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
 import com.ghotel.oss.console.modules.admin.bean.ResourceSearchCriteriaBean;

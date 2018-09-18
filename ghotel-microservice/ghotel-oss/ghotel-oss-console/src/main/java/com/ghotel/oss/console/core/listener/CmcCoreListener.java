@@ -13,7 +13,7 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.ghotel.oss.console.core.job.QuartzJobManager;
-import com.ghotel.oss.console.core.utils.SystemHelper;
+import com.ghotel.oss.console.core.utils.GocSystemHelper;
 import com.ghotel.oss.console.modules.scheduler.bean.JobDetailInfoBean;
 import com.ghotel.oss.console.modules.scheduler.bean.JobInstanceBean;
 import com.ghotel.oss.console.modules.scheduler.bean.JobInstanceSearchBean;
@@ -65,8 +65,8 @@ public class CmcCoreListener extends ContextLoaderListener {
 		try {
 			searchBean.setEnd(9999);
 			searchBean.setStart(1);
-			searchBean.setPort(SystemHelper.getPort());
-			searchBean.setIpAddr(SystemHelper.getIp());
+			searchBean.setPort(GocSystemHelper.getPort());
+			searchBean.setIpAddr(GocSystemHelper.getIp());
 			// reset execution task status as 0
 			service.resetTaskStatus(searchBean);
 			// Get automatically starting job and put them into scheduler

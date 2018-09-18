@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,6 @@ import com.ghotel.oss.console.core.security.dao.ResourceInfoRepository;
 import com.ghotel.oss.console.core.security.dao.UserInfoRepository;
 import com.ghotel.oss.console.core.security.service.SecurityService;
 import com.ghotel.oss.console.core.utils.GocUserUtils;
-import com.ghotel.oss.console.core.utils.StringUtil;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
 import com.ghotel.oss.console.modules.admin.util.AdminModuleConstant;
 import com.ghotel.oss.console.modules.dictionary.bean.DictionaryDetailBean;
@@ -133,7 +133,7 @@ public class SecurityServiceImpl implements SecurityService {
 
 	@Override
 	public UserInfoBean getUserByUserId(String userId) {
-		if (StringUtil.isNullOrBlank(userId)) {
+		if (StringUtils.isBlank(userId)) {
 			return null;
 		}
 		return userInfoRepository.findById(userId).map(u -> {

@@ -110,7 +110,7 @@ public class GocWebUtils {
 		}
 		// if(log.isDebugEnabled()){
 		try {
-			log.info(JacksonJsonUtil.beanToJson(bean));
+			log.info(GocJsonUtil.beanToJson(bean));
 		} catch (Exception e) {
 		}
 		// }

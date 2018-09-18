@@ -11,7 +11,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ghotel.oss.console.core.common.bean.Message;
-import com.ghotel.oss.console.core.utils.RequestStatusConstant;
+import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 
 public class GoExceptionHandler implements HandlerExceptionResolver {
 

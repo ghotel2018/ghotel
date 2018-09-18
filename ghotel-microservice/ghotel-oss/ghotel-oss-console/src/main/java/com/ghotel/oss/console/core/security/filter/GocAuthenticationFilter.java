@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 
 import com.ghotel.oss.console.core.common.bean.Message;
-import com.ghotel.oss.console.core.utils.RequestStatusConstant;
+import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 
 /**
  * 

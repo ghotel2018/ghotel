@@ -1,16 +1,15 @@
 package com.ghotel.oss.console.core.security.filter;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -18,7 +17,6 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -27,12 +25,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ghotel.oss.console.core.common.bean.Message;
+import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.core.security.GocSecurityConstant;
 import com.ghotel.oss.console.core.security.dao.UserInfoRepository;
+import com.ghotel.oss.console.core.utils.GocJsonUtil;
 import com.ghotel.oss.console.core.utils.GocWebUtils;
-import com.ghotel.oss.console.core.utils.JsonUtil;
-import com.ghotel.oss.console.core.utils.RequestStatusConstant;
-import com.ghotel.oss.console.core.utils.StringUtil;
 
 public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
 
@@ -63,7 +60,7 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
 		HttpServletResponse httpServletResponse = WebUtils.toHttp(response);
 		httpServletResponse.setCharacterEncoding("UTF-8");
 		PrintWriter out = httpServletResponse.getWriter();
-		out.println(JsonUtil.tojson(message));
+		out.println(GocJsonUtil.beanToJson(message));
 		out.flush();
 		out.close();
 	}
@@ -113,7 +110,7 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
 					return false;
 				}
 
-				if (StringUtil.isNullOrBlank(username) || StringUtil.isNullOrBlank(password)) {
+				if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
 					messageBody = "亲~ 请输入用户名或密码！";
 					statusCode = RequestStatusConstant.LOGIN_FAILED;
 					sendResponseToClient(response, new Message(null, statusCode, messageBody));

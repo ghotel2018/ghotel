@@ -2,7 +2,7 @@ package com.ghotel.oss.console.core.common.bean;
 
 import java.io.Serializable;
 
-import com.ghotel.oss.console.core.utils.JacksonJsonUtil;
+import com.ghotel.oss.console.core.utils.GocJsonUtil;
 
 
 /**
@@ -67,7 +67,7 @@ public class Message implements Serializable{
 
 	public String toString(){
 		try {
-			return JacksonJsonUtil.beanToJson(this);
+			return GocJsonUtil.beanToJson(this);
 		} catch (Exception e) {
 			return "{ statusCode :" + 1 + ", messageCode: " +"'"+messageCode+"'}";
 		}

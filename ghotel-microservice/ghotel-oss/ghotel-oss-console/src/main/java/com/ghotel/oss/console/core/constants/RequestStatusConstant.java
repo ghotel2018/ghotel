@@ -1,4 +1,4 @@
-package com.ghotel.oss.console.core.utils;
+package com.ghotel.oss.console.core.constants;
 
 public class RequestStatusConstant {
 

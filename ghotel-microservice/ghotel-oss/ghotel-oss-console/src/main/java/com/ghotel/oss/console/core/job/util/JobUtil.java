@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
@@ -20,8 +21,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 import com.ghotel.oss.console.core.job.bean.ReportAndColumnMappingBean;
 import com.ghotel.oss.console.core.job.bean.TaskBean;
 import com.ghotel.oss.console.core.job.dao.SchedulerJobMapper;
-import com.ghotel.oss.console.core.utils.StringUtil;
-import com.ghotel.oss.console.core.utils.SystemHelper;
+import com.ghotel.oss.console.core.utils.GocSystemHelper;
 
 public class JobUtil {
 
@@ -137,11 +137,11 @@ public class JobUtil {
 	 */
 
 	public static synchronized String getLoalServerIp() {
-		if (StringUtil.isNotBlank(localIp)) {
+		if (StringUtils.isNotBlank(localIp)) {
 			return localIp;
 		} else {
 			try {
-				InetAddress inet = SystemHelper.getSystemLocalIp();
+				InetAddress inet = GocSystemHelper.getSystemLocalIp();
 				if (inet != null) {
 					localIp = inet.getHostAddress();
 				}
@@ -150,7 +150,7 @@ public class JobUtil {
 				logger.error("", e2);
 			}
 		}
-		if (!StringUtil.isNotBlank(localIp)) {
+		if (!StringUtils.isNotBlank(localIp)) {
 			localIp = getProperties().getProperty("report_default_ip").toString();
 		}
 		return localIp;

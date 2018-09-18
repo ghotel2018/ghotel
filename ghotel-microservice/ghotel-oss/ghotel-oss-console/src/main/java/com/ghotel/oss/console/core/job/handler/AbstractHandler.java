@@ -11,7 +11,7 @@ import org.quartz.JobExecutionException;
 
 import com.ghotel.oss.console.core.job.QuartzJobManager;
 import com.ghotel.oss.console.core.job.dao.SchedulerJobMapper;
-import com.ghotel.oss.console.core.utils.SystemHelper;
+import com.ghotel.oss.console.core.utils.GocSystemHelper;
 import com.ghotel.oss.console.modules.scheduler.bean.JobInstanceBean;
 import com.ghotel.oss.console.modules.scheduler.bean.JobInstanceSearchBean;
 import com.ghotel.oss.console.modules.scheduler.utils.JobInstanceConstant;
@@ -26,8 +26,8 @@ public abstract class AbstractHandler  {
 		SchedulerJobMapper jobMapper  = (SchedulerJobMapper)(getBeanFactry().getBean("jobMapper"));
 		JobInstanceSearchBean searchBean = new JobInstanceSearchBean();
 		searchBean.setJobId(jobID);
-		searchBean.setIpAddr(SystemHelper.getIp());
-		searchBean.setPort(SystemHelper.getPort());
+		searchBean.setIpAddr(GocSystemHelper.getIp());
+		searchBean.setPort(GocSystemHelper.getPort());
 		JobInstanceBean instance = jobMapper.selectJobInstanceId(searchBean);
 		if( instance==null || JobInstanceConstant.JOB_INSTANCE_STATUS_RUNNING != instance.getStatus() ){
 			QuartzJobManager.removeJob(jobID); 

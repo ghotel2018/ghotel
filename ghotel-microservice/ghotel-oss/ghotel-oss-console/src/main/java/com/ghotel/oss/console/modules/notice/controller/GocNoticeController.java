@@ -3,7 +3,7 @@ package com.ghotel.oss.console.modules.notice.controller;
 import com.ghotel.oss.console.core.common.bean.Message;
 import com.ghotel.oss.console.core.common.controller.AbstractModuleCommonController;
 import com.ghotel.oss.console.core.utils.GocWebUtils;
-import com.ghotel.oss.console.core.utils.RequestStatusConstant;
+import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
 import com.ghotel.oss.console.modules.admin.service.ResourceMaintenanceService;
 import com.ghotel.oss.console.modules.notice.bean.GocNoticeSearchCriteriaBean;

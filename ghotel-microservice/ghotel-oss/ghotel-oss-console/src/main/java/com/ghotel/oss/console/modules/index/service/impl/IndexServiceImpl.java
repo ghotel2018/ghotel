@@ -1,7 +1,7 @@
 package com.ghotel.oss.console.modules.index.service.impl;
 
 import com.ghotel.oss.console.core.logging.dao.GocNoticeRepository;
-import com.ghotel.oss.console.core.utils.BeanUtil;
+import com.ghotel.oss.console.core.utils.GocBeanUtil;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
 import com.ghotel.oss.console.modules.index.bean.NoticeSearchCriteria;
 import com.ghotel.oss.console.modules.index.bean.TaskSearchCriteriaBean;
@@ -24,7 +24,7 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     public PaginationResult getTasks(TaskSearchCriteriaBean object) throws Exception {
-        Map map = BeanUtil.transBean2Map(object);
+        Map map = GocBeanUtil.transBean2Map(object);
         PaginationResult result = new PaginationResult();
         result.setStart(object.getStart());
         result.setNum(object.getEnd());
@@ -35,7 +35,7 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     public PaginationResult getNotices(NoticeSearchCriteria object) throws Exception {
-        Map map = BeanUtil.transBean2Map(object);
+        Map map = GocBeanUtil.transBean2Map(object);
         PaginationResult result = new PaginationResult();
         result.setStart(object.getStart());
         result.setNum(object.getEnd());

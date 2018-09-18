@@ -14,7 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.ghotel.oss.console.core.job.bean.PaxInsuranceUpdateTypeBean;
 import com.ghotel.oss.console.core.job.bean.PaxInsuranceUpdateTypeList;
-import com.ghotel.oss.console.core.utils.JacksonJsonUtil;
+import com.ghotel.oss.console.core.utils.GocJsonUtil;
 
 /**
  * 更新保险表字段的内容工具类
@@ -41,7 +41,7 @@ public class PaxInsuranceUpdateTypeUtil {
 		StringBuffer errorSb = new StringBuffer();
 		StringBuffer successSb = new StringBuffer();
 		String result = StringUtils.EMPTY;
-		PaxInsuranceUpdateTypeList paxInsuranceUpdateTypes = JacksonJsonUtil.jsonToBean(dealSet,
+		PaxInsuranceUpdateTypeList paxInsuranceUpdateTypes = GocJsonUtil.jsonToBean(dealSet,
 				PaxInsuranceUpdateTypeList.class);
 		if (paxInsuranceUpdateTypes != null) {
 			List<PaxInsuranceUpdateTypeBean> beans = paxInsuranceUpdateTypes.getPlans();

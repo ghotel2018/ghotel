@@ -1,12 +1,12 @@
 package com.ghotel.oss.console.core.utils;
 
-import java.beans.BeanInfo;  
-import java.beans.Introspector;  
-import java.beans.PropertyDescriptor;  
-import java.lang.reflect.Method;  
-import java.util.HashMap;  
-import java.util.Map;  
-  
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.beanutils.BeanUtils;  
   
 /** 
@@ -18,7 +18,7 @@ import org.apache.commons.beanutils.BeanUtils;
  * This allows tools and applications to dynamically create new instances of your bean, <br> 
  * without necessarily knowing what Java class name will be used ahead of time 
  */  
-public class BeanUtil {  
+public class GocBeanUtil {  
   
     // Map --> Bean 2: 利用org.apache.commons.beanutils 工具类实现 Map --> Bean  
     public static void transMap2Bean2(Map<String, Object> map, Object obj) {  

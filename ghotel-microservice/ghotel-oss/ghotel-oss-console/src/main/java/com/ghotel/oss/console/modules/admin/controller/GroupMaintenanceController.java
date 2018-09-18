@@ -20,7 +20,7 @@ import com.ghotel.oss.console.core.security.bean.GroupInfoBean;
 import com.ghotel.oss.console.core.security.bean.RoleInfoBean;
 import com.ghotel.oss.console.core.security.bean.UserInfoBean;
 import com.ghotel.oss.console.core.utils.GocWebUtils;
-import com.ghotel.oss.console.core.utils.RequestStatusConstant;
+import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.modules.admin.bean.GroupNRoleBindingBean;
 import com.ghotel.oss.console.modules.admin.bean.GroupNUserBindingBean;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;

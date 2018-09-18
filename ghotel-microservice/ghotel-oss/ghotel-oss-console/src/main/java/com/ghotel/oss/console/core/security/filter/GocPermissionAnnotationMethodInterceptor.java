@@ -6,7 +6,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor;
 
 import com.ghotel.oss.console.core.common.bean.Message;
-import com.ghotel.oss.console.core.utils.RequestStatusConstant;
+import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 
 public class GocPermissionAnnotationMethodInterceptor extends AopAllianceAnnotationsAuthorizingMethodInterceptor {
 

@@ -14,7 +14,7 @@ import com.ghotel.oss.console.core.common.bean.Message;
 import com.ghotel.oss.console.core.common.controller.AbstractModuleCommonController;
 import com.ghotel.oss.console.core.job.QuartzJobManager;
 import com.ghotel.oss.console.core.utils.GocWebUtils;
-import com.ghotel.oss.console.core.utils.RequestStatusConstant;
+import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.modules.scheduler.bean.JobDetailInfoBean;
 import com.ghotel.oss.console.modules.scheduler.bean.JobInstanceBean;
 import com.ghotel.oss.console.modules.scheduler.service.SchedulerService;

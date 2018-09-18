@@ -28,7 +28,7 @@ import com.ghotel.oss.console.core.security.GocAuthorizingRealm;
 import com.ghotel.oss.console.core.security.bean.PageConfigBean;
 import com.ghotel.oss.console.core.security.service.SecurityService;
 import com.ghotel.oss.console.core.utils.GocWebUtils;
-import com.ghotel.oss.console.core.utils.RequestStatusConstant;
+import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 
 @Controller
 @RequestMapping("security")

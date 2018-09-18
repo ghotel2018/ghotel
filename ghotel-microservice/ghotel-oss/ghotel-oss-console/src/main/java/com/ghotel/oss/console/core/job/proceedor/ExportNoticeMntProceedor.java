@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ghotel.oss.console.core.job.bean.ReportGenerationInfoBean;
 import com.ghotel.oss.console.core.job.util.JobUtil;
-import com.ghotel.oss.console.core.utils.BeanUtil;
+import com.ghotel.oss.console.core.utils.GocBeanUtil;
 import com.ghotel.oss.console.modules.notice.bean.GocNoticeSearchCriteriaBean;
 import com.ghotel.oss.console.modules.notice.dao.NoticeMapper;
 
@@ -23,7 +23,7 @@ public class ExportNoticeMntProceedor extends AbstractTaskProceedor {
 	@Override
 	public void proceed(ReportGenerationInfoBean bean, PrintStream fio) {
 		GocNoticeSearchCriteriaBean searchBean = new GocNoticeSearchCriteriaBean();
-		BeanUtil.transMap2Bean(bean.getReportParams(), searchBean);
+		GocBeanUtil.transMap2Bean(bean.getReportParams(), searchBean);
 		try {
 			fio.println(JobUtil.formatReportHeader(bean.getReportTableHead()));
 			long total = noticeMapper.countAll(searchBean);

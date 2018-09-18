@@ -19,8 +19,8 @@ import com.ghotel.oss.console.core.job.util.JobUtil;
  * @author longgangbai
  * 
  */
-public final class SystemHelper {
-	private static final Logger logger = LoggerFactory.getLogger(SystemHelper.class);
+public final class GocSystemHelper {
+	private static final Logger logger = LoggerFactory.getLogger(GocSystemHelper.class);
 
 	// 获得系统属性集
 	public static Properties props = System.getProperties();
@@ -176,7 +176,7 @@ public final class SystemHelper {
 		}
 		InetAddress ip;
 		try {
-			ip = SystemHelper.getSystemLocalIp();
+			ip = GocSystemHelper.getSystemLocalIp();
 			if (ip != null) {
 				ipAddr = ip.getHostAddress();
 			}
