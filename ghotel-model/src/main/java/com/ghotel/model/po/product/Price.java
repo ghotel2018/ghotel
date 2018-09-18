@@ -16,10 +16,10 @@ import java.io.Serializable;
  * 价格表
  */
 @Document(collection = DBConstant.COLLECTION_NAME_PRICE)
-@CompoundIndexes({
-        @CompoundIndex(name = "idx_price_saleDate", def = "{'saleDate': 1}"),
-        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
-})
+//@CompoundIndexes({
+//        @CompoundIndex(name = "idx_price_saleDate", def = "{'saleDate': 1}"),
+//        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
+//})
 public class Price implements Serializable {
 
     private static final long serialVersionUID = -1983285308953961552L;

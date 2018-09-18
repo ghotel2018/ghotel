@@ -15,11 +15,11 @@ import java.util.Date;
  * 房型表
  */
 @Document(collection = DBConstant.COLLECTION_NAME_ROOM)
-@CompoundIndexes({
-        @CompoundIndex(name = "idx_room_code", def = "{'code': 1}", unique = true),
-        @CompoundIndex(name = "idx_room_name", def = "{'name': 1}"),
-        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
-})
+//@CompoundIndexes({
+//        @CompoundIndex(name = "idx_room_code", def = "{'code': 1}", unique = true),
+//        @CompoundIndex(name = "idx_room_name", def = "{'name': 1}"),
+//        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
+//})
 public class Room implements Serializable {
 
     private static final long serialVersionUID = 8970847849037684470L;

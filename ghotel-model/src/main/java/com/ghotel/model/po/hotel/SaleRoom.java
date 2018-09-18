@@ -19,10 +19,10 @@ import java.util.Date;
  * @author kekon
  */
 @Document(collection = DBConstant.COLLECTION_NAME_SALE_ROOM)
-@CompoundIndexes({
-        @CompoundIndex(name = "idx_sale_room_name", def = "{'name': 1}"),
-        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
-})
+//@CompoundIndexes({
+//        @CompoundIndex(name = "idx_sale_room_name", def = "{'name': 1}"),
+//        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
+//})
 public class SaleRoom implements Serializable {
 
     private static final long serialVersionUID = 2255777985859064437L;

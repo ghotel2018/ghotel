@@ -17,10 +17,10 @@ import java.io.Serializable;
  * 供应商表
  */
 @Document(collection = DBConstant.COLLECTION_NAME_SUPPLIER)
-@CompoundIndexes({
-        @CompoundIndex(name = "idx_supplier_name", def = "{'name': 1}"),
-        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
-})
+//@CompoundIndexes({
+//        @CompoundIndex(name = "idx_supplier_name", def = "{'name': 1}"),
+//        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
+//})
 public class Supplier implements Serializable {
 
     private static final long serialVersionUID = 7148758851695835224L;

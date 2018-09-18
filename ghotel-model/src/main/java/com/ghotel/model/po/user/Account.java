@@ -16,10 +16,10 @@ import java.io.Serializable;
  * 用户账号表
  */
 @Document(collection = DBConstant.COLLECTION_NAME_ACCOUNT)
-@CompoundIndexes({
-        @CompoundIndex(name = "idx_account_name", def = "{'name': 1}", unique = true),
-        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
-})
+//@CompoundIndexes({
+//        @CompoundIndex(name = "idx_account_name", def = "{'name': 1}", unique = true),
+//        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
+//})
 public class Account implements Serializable {
 
     private static final long serialVersionUID = -5772682191556046789L;

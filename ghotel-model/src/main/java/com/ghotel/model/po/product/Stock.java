@@ -16,10 +16,10 @@ import java.io.Serializable;
  * 库存表
  */
 @Document(collection = DBConstant.COLLECTION_NAME_STOCK)
-@CompoundIndexes({
-        @CompoundIndex(name = "idx_stack_saleDate", def = "{'saleDate': 1}"),
-        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
-})
+//@CompoundIndexes({
+//        @CompoundIndex(name = "idx_stack_saleDate", def = "{'saleDate': 1}"),
+//        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
+//})
 public class Stock implements Serializable {
 
     private static final long serialVersionUID = -838631497172367373L;

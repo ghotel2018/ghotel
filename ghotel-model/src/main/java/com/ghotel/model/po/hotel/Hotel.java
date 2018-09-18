@@ -16,14 +16,14 @@ import java.util.List;
  * 酒店Bean
  */
 @Document(collection = DBConstant.COLLECTION_NAME_HOTEL)
-@CompoundIndexes({
-        @CompoundIndex(name = "idx_hotel_name", def = "{'name': 1}"),
-        @CompoundIndex(name = "idx_hotel_cityAndArea", def = "{'city': 1,'area':1}"),
-        @CompoundIndex(name = "idx_hotel_longitude", def = "{'longitude': 1}"),
-        @CompoundIndex(name = "idx_hotel_latitude", def = "{'latitude': 1}"),
-        @CompoundIndex(name = "idx_hotel_tags", def = "{'tags': 1}"),
-        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
-})
+//@CompoundIndexes({
+//        @CompoundIndex(name = "idx_hotel_name", def = "{'name': 1}"),
+//        @CompoundIndex(name = "idx_hotel_cityAndArea", def = "{'city': 1,'area':1}"),
+//        @CompoundIndex(name = "idx_hotel_longitude", def = "{'longitude': 1}"),
+//        @CompoundIndex(name = "idx_hotel_latitude", def = "{'latitude': 1}"),
+//        @CompoundIndex(name = "idx_hotel_tags", def = "{'tags': 1}"),
+//        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
+//})
 public class Hotel implements Serializable {
 
     private static final long serialVersionUID = 3093675456474044960L;

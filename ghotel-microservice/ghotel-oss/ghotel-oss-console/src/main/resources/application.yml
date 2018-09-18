@@ -3,9 +3,14 @@ server:
 spring:
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      database: ghotel-oss-console
+      ghotel: 
+        host: localhost
+        port: 27017
+        database: ghotel
+      oss: 
+        host: localhost
+        port: 27017
+        database: ghotel-oss-console
   mvc:
     static-path-pattern: /cmc/** 
   resources:

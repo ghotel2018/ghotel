@@ -18,10 +18,10 @@ import java.util.List;
  * 用户表
  */
 @Document(collection = DBConstant.COLLECTION_NAME_USER)
-@CompoundIndexes({
-        @CompoundIndex(name = "idx_user_name", def = "{'name': 1}", unique = true),
-        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
-})
+//@CompoundIndexes({
+//        @CompoundIndex(name = "idx_user_name", def = "{'name': 1}", unique = true),
+//        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
+//})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 8390243233988184211L;

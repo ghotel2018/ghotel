@@ -25,10 +25,10 @@ import com.ghotel.model.constant.DBConstant;
  * 订单表
  */
 @Document(collection = DBConstant.COLLECTION_NAME_ORDER)
-@CompoundIndexes({
-		@CompoundIndex(name = "idx_order_orderNo", def = "{'orderNo': 1}"),
-		@CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
-})
+//@CompoundIndexes({
+//		@CompoundIndex(name = "idx_order_orderNo", def = "{'orderNo': 1}"),
+//		@CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
+//})
 public class Order implements Serializable {
 
 	private static final long serialVersionUID = -5602583636664663538L;

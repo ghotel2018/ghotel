@@ -15,11 +15,11 @@ import java.util.Date;
  * 支付单表
  */
 @Document(collection = DBConstant.COLLECTION_NAME_PAYMENT)
-@CompoundIndexes({
-        @CompoundIndex(name = "idx_payment_orderNo", def = "{'orderNo': 1}"),
-        @CompoundIndex(name = "idx_payment_payNo", def = "{'payNo': 1}"),
-        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
-})
+//@CompoundIndexes({
+//        @CompoundIndex(name = "idx_payment_orderNo", def = "{'orderNo': 1}"),
+//        @CompoundIndex(name = "idx_payment_payNo", def = "{'payNo': 1}"),
+//        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
+//})
 public class Payment implements Serializable {
 
     private static final long serialVersionUID = -1725202125084709667L;

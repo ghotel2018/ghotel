@@ -19,10 +19,10 @@ import java.util.Arrays;
  * @author kekon
  */
 @Document(collection = DBConstant.COLLECTION_NAME_HOTEL_SERVICE)
-@CompoundIndexes({
-        @CompoundIndex(name = "idx_hotel_service_name", def = "{'name': 1}"),
-        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
-})
+//@CompoundIndexes({
+//        @CompoundIndex(name = "idx_hotel_service_name", def = "{'name': 1}"),
+//        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
+//})
 public class HotelService implements Serializable {
 
     private static final long serialVersionUID = -3210322301288300165L;

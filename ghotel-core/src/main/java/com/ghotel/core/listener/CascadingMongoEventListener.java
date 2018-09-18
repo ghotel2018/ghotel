@@ -2,7 +2,6 @@ package com.ghotel.core.listener;
 
 import java.lang.reflect.Field;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mapping.MappingException;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -14,8 +13,21 @@ import org.springframework.util.ReflectionUtils;
 import com.ghotel.model.annotation.CascadeSave;
 
 public class CascadingMongoEventListener extends AbstractMongoEventListener<Object> {
-	@Autowired
+
 	private MongoOperations mongoOperations;
+
+	public CascadingMongoEventListener(MongoOperations mongoOperations) {
+		super();
+		this.mongoOperations = mongoOperations;
+	}
+
+	public MongoOperations getMongoOperations() {
+		return mongoOperations;
+	}
+
+	public void setMongoOperations(MongoOperations mongoOperations) {
+		this.mongoOperations = mongoOperations;
+	}
 
 	@Override
 	public void onBeforeConvert(BeforeConvertEvent<Object> event) {

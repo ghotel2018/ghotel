@@ -16,10 +16,10 @@ import java.util.List;
  * 产品表
  */
 @Document(collection = DBConstant.COLLECTION_NAME_PRODUCT)
-@CompoundIndexes({
-        @CompoundIndex(name = "idx_product_name", def = "{'name': 1}"),
-        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
-})
+//@CompoundIndexes({
+//        @CompoundIndex(name = "idx_product_name", def = "{'name': 1}"),
+//        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
+//})
 public class Product<T> implements Serializable {
 
     private static final long serialVersionUID = 2614969406410812366L;

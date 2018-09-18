@@ -18,11 +18,11 @@ import java.util.Arrays;
  * 增值服务
  */
 @Document(collection = DBConstant.COLLECTION_NAME_VALUE_ADDED_SERVICE)
-@CompoundIndexes({
-        @CompoundIndex(name = "idx_value_added_service_name", def = "{'name': 1}"),
-        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
-})
-public class ValueAddedService implements Serializable {
+//@CompoundIndexes({
+//        @CompoundIndex(name = "idx_value_added_service_name", def = "{'name': 1}"),
+//        @CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
+//})
+public class ExtraService implements Serializable {
 
     private static final long serialVersionUID = -2685902137185104904L;
 
