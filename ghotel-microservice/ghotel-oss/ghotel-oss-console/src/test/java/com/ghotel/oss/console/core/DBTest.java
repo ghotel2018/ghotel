@@ -12,9 +12,11 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.ghotel.model.po.user.Account;
 import com.ghotel.model.po.user.ContactInfo;
 import com.ghotel.model.po.user.ContactInfoType;
 import com.ghotel.model.po.user.User;
+import com.ghotel.oss.console.modules.user.dao.AccountRepository;
 import com.ghotel.oss.console.modules.user.dao.UserRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -23,9 +25,14 @@ import com.ghotel.oss.console.modules.user.dao.UserRepository;
 public class DBTest {
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	AccountRepository accountRepository;
 
 	@Test
 	public void testSaveObjWithEmun() {
+		Account account = new Account();
+		account.setName("name");
+
 		List<ContactInfo> cl = new ArrayList<>();
 		ContactInfo ci = new ContactInfo();
 		ci.setType(ContactInfoType.ADDRESS);
@@ -33,10 +40,12 @@ public class DBTest {
 		cl.add(ci);
 
 		User user = new User();
-		user.setName("123");
+		user.setName("32132123");
 		user.setContacts(cl);
 
-		userRepository.save(user);
+		account.setAssociateUser(user);
+
+		accountRepository.save(account);
 	}
 
 }

@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -37,6 +40,7 @@ import com.ghotel.oss.console.modules.scheduler.dao.JobDetailInfoRepository;
 @ComponentScan(basePackages = "com.ghotel.oss", excludeFilters = {
 		@Filter(type = FilterType.ANNOTATION, value = Controller.class),
 		@Filter(type = FilterType.ANNOTATION, value = Service.class) })
+@EnableAutoConfiguration(exclude = { MongoAutoConfiguration.class, MongoDataAutoConfiguration.class })
 public class InitDataApplication {
 	public static void main(String[] args) {
 		ApplicationContext ac = SpringApplication.run(InitDataApplication.class, args);
@@ -51,8 +55,7 @@ public class InitDataApplication {
 			DictionaryTypeRepository dictionaryTypeRepository = ac.getBean(DictionaryTypeRepository.class);
 			DictionaryDetailRepository dictionaryDetailRepository = ac.getBean(DictionaryDetailRepository.class);
 			JobDetailInfoRepository jobDetailInfoRepository = ac.getBean(JobDetailInfoRepository.class);
-			
-			
+
 			UserInfoBean user = new UserInfoBean();
 			user.setUserLoginId("admin");
 			user.setUserName("管理员");
@@ -2797,9 +2800,9 @@ public class InitDataApplication {
 		}
 		return resourceList;
 	}
-	
+
 	private static JobDetailInfoBean initJobInfo() {
-		JobDetailInfoBean bean = new JobDetailInfoBean ();
+		JobDetailInfoBean bean = new JobDetailInfoBean();
 		bean.setJobId("0b7c9f1761f44bb1ae101f9998072ea21");
 		bean.setJobName("初始化测试job");
 		bean.setJobDesc("初始化job数据");

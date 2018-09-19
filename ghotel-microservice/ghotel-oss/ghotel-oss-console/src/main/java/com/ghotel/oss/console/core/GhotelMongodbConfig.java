@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScanner;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.data.annotation.Persistent;
 import org.springframework.data.mapping.model.FieldNamingStrategy;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -21,13 +23,15 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import com.ghotel.core.annotation.OSSDataSource;
 import com.ghotel.core.listener.CascadingMongoEventListener;
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
 
 @Configuration
 @EnableConfigurationProperties(GhotelMongoProperties.class)
-@EnableMongoRepositories(basePackages = "com.ghotel.abc", mongoTemplateRef = "ghotelMongoTemplate")
+@EnableMongoRepositories(basePackages = "com.ghotel.oss", excludeFilters = {
+		@Filter(type = FilterType.ANNOTATION, value = OSSDataSource.class) }, mongoTemplateRef = "ghotelMongoTemplate")
 public class GhotelMongodbConfig {
 
 	private final ApplicationContext applicationContext;

@@ -6,11 +6,11 @@ spring:
       ghotel: 
         host: localhost
         port: 27017
-        database: ghotel
+        database: g
       oss: 
         host: localhost
         port: 27017
-        database: ghotel-oss-console
+        database: o
   mvc:
     static-path-pattern: /cmc/** 
   resources:

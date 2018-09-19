@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import com.ghotel.core.annotation.OSSDataSource;
 import com.ghotel.oss.console.core.security.bean.GroupInfoBean;
 
+@OSSDataSource
 public interface GroupInfoRepository extends MongoRepository<GroupInfoBean, String> {
 
 	public List<GroupInfoBean> findByGroupTypeIn(List<String> groupTypes);
