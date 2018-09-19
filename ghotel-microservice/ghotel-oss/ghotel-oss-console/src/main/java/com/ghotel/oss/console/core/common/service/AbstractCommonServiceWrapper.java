@@ -5,10 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Example;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.ghotel.oss.console.core.common.bean.PaginationBean;
 import com.ghotel.oss.console.core.logging.annotation.GocLogAnnotation;
-import com.ghotel.oss.console.core.security.bean.PermissionInfoBean;
-import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
 
 public abstract class AbstractCommonServiceWrapper<T> implements ICommonService<T> {
 

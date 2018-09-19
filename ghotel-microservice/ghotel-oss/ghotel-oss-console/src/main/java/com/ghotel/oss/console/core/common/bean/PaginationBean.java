@@ -3,7 +3,7 @@ package com.ghotel.oss.console.core.common.bean;
 public class PaginationBean {
 
 	protected int start;
-	
+
 	protected int end;
 
 	public int getStart() {
@@ -21,7 +21,5 @@ public class PaginationBean {
 	public void setEnd(int end) {
 		this.end = end;
 	}
-	
-	
-	
+
 }

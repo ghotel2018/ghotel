@@ -1,4 +1,4 @@
-package com.ghotel.oss.console.core;
+package com.ghotel.oss.console;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;

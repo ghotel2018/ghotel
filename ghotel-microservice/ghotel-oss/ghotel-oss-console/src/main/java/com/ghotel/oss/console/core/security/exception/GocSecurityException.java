@@ -1,13 +1,13 @@
 package com.ghotel.oss.console.core.security.exception;
 
-public class CmcSecurityException extends Exception {
+public class GocSecurityException extends Exception {
 
 	/**
 	 * Frame work security exception
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public  CmcSecurityException(String message){
+	public  GocSecurityException(String message){
 		super(message);
 	}
 	

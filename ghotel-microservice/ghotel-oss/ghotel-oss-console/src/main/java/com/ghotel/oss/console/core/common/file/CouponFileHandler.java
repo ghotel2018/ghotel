@@ -8,12 +8,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class CouponFileHandler implements FileHandler {
 
 	@Override
-	public void proceedFileUpload(MultipartFile file,HttpServletRequest request,  HttpServletResponse response) {
+	public void proceedFileUpload(MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
 
 	}
 
 	@Override
-	public void proceedFileDownload(HttpServletRequest request,  HttpServletResponse response) {
+	public void proceedFileDownload(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 
 	}

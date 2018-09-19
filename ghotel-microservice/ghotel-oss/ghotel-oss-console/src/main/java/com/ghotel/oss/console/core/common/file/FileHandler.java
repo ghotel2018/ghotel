@@ -7,8 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface FileHandler {
 
-	public void proceedFileUpload(MultipartFile file, HttpServletRequest request,  HttpServletResponse response);
-	
-	public void proceedFileDownload(HttpServletRequest request,  HttpServletResponse response);
-	
+	public void proceedFileUpload(MultipartFile file, HttpServletRequest request, HttpServletResponse response);
+
+	public void proceedFileDownload(HttpServletRequest request, HttpServletResponse response);
+
 }

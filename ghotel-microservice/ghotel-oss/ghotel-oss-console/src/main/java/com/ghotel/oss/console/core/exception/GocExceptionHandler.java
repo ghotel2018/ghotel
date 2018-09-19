@@ -13,9 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ghotel.oss.console.core.common.bean.Message;
 import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 
-public class GoExceptionHandler implements HandlerExceptionResolver {
+public class GocExceptionHandler implements HandlerExceptionResolver {
 
-	private static final Logger logger = LoggerFactory.getLogger(GoExceptionHandler.class);
+	private static final Logger logger = LoggerFactory.getLogger(GocExceptionHandler.class);
 
 	// 本地异常日志记录对象
 	// private static final Logger logger =

@@ -1,4 +1,4 @@
-package com.ghotel.oss.console.core;
+package com.ghotel.oss.console.config;
 
 import java.util.LinkedHashMap;
 
@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.ghotel.core.config.BaseConfig;
 import com.ghotel.oss.console.core.security.GocAuthorizingRealm;
-import com.ghotel.oss.console.core.security.filter.ExtendFormAuthenticationFilter;
+import com.ghotel.oss.console.core.security.filter.GocExtendFormAuthenticationFilter;
 import com.ghotel.oss.console.core.security.filter.GocPermissionAnnotationMethodInterceptor;
 
 @Configuration
@@ -37,9 +37,9 @@ public class GocShiroConfig extends BaseConfig {
 	}
 
 	@Bean
-	public FilterRegistrationBean<ExtendFormAuthenticationFilter> gocAuthenticationFilterRegistration(
-			@Qualifier("gocAuthenticationFilter") ExtendFormAuthenticationFilter filter) {
-		FilterRegistrationBean<ExtendFormAuthenticationFilter> registration = new FilterRegistrationBean<ExtendFormAuthenticationFilter>(
+	public FilterRegistrationBean<GocExtendFormAuthenticationFilter> gocAuthenticationFilterRegistration(
+			@Qualifier("gocAuthenticationFilter") GocExtendFormAuthenticationFilter filter) {
+		FilterRegistrationBean<GocExtendFormAuthenticationFilter> registration = new FilterRegistrationBean<GocExtendFormAuthenticationFilter>(
 				filter);
 		registration.setEnabled(false);
 		return registration;
@@ -63,7 +63,7 @@ public class GocShiroConfig extends BaseConfig {
 
 	@Bean("gocAuthenticationFilter")
 	public AuthenticatingFilter gocAuthenticationFilter() {
-		ExtendFormAuthenticationFilter result = new ExtendFormAuthenticationFilter();
+		GocExtendFormAuthenticationFilter result = new GocExtendFormAuthenticationFilter();
 
 		result.setLoginUrls(new String[] { "/security/login", "/security/ajaxLogin" });
 		return result;

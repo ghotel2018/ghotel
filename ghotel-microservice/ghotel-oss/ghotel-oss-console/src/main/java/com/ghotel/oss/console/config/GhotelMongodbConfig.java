@@ -1,8 +1,9 @@
-package com.ghotel.oss.console.core;
+package com.ghotel.oss.console.config;
 
 import java.util.Collections;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.domain.EntityScanner;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.annotation.Persistent;
 import org.springframework.data.mapping.model.FieldNamingStrategy;
+import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.core.convert.DbRefResolver;
@@ -28,66 +30,73 @@ import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
 
 @Configuration
-@EnableConfigurationProperties(GhotelOSSMongoProperties.class)
-@EnableMongoRepositories(basePackages = "com.ghotel.oss", includeFilters = {
-		@Filter(type = FilterType.ANNOTATION, value = OSSDataSource.class) }, mongoTemplateRef = "ghotelOSSMongoTemplate")
-public class GhotelOSSMongodbConfig {
+@EnableConfigurationProperties(GhotelMongoProperties.class)
+@EnableMongoRepositories(basePackages = "com.ghotel.oss", excludeFilters = {
+		@Filter(type = FilterType.ANNOTATION, value = OSSDataSource.class) }, mongoTemplateRef = "ghotelMongoTemplate")
+public class GhotelMongodbConfig {
 
 	private final ApplicationContext applicationContext;
 
-	private final GhotelOSSMongoProperties properties;
+	private final GhotelMongoProperties properties;
 
-	public GhotelOSSMongodbConfig(ApplicationContext applicationContext, GhotelOSSMongoProperties properties) {
+	public GhotelMongodbConfig(ApplicationContext applicationContext, GhotelMongoProperties properties) {
 		this.applicationContext = applicationContext;
 		this.properties = properties;
 	}
 
-	@Bean
-	public MongoClient ghotelOSSMongoClient() {
+	@Bean("ghotelMongoClient")
+	public MongoClient ghotelMongoClient() {
 		return new MongoClient(new ServerAddress(this.properties.getHost(), this.properties.getPort()));
 	}
 
-	@Bean
-	public SimpleMongoDbFactory ghotelOSSMongoDbFactory() {
+	@Bean("ghotelMongoDbFactory")
+	public SimpleMongoDbFactory ghotelMongoDbFactory(@Qualifier("ghotelMongoClient") MongoClient ghotelMongoClient) {
 		String database = this.properties.getMongoClientDatabase();
-		return new SimpleMongoDbFactory(ghotelOSSMongoClient(), database);
+		return new SimpleMongoDbFactory(ghotelMongoClient, database);
 	}
 
-	@Bean
-	public MongoTemplate ghotelOSSMongoTemplate() {
-		MongoTemplate bean = new MongoTemplate(ghotelOSSMongoDbFactory());
+	@Bean("ghotelMongoTemplate")
+	public MongoTemplate ghotelMongoTemplate(@Qualifier("ghotelMongoDbFactory") MongoDbFactory ghotelMongoDbFactory) {
+		MongoTemplate bean = new MongoTemplate(ghotelMongoDbFactory);
 		new CascadingMongoEventListener(bean);
 		return bean;
 	}
 
 	@Bean
-	public CascadingMongoEventListener ghotelCascadingMongoEventListener() {
-		return new CascadingMongoEventListener(ghotelOSSMongoTemplate());
+	public CascadingMongoEventListener ghotelCascadingMongoEventListener(
+			@Qualifier("ghotelMongoTemplate") MongoTemplate ghotelMongoTemplate) {
+		return new CascadingMongoEventListener(ghotelMongoTemplate);
 	}
 
-	@Bean
-	public MongoCustomConversions ghotelOSSMongoCustomConversions() {
+	@Bean("ghotelMongoCustomConversions")
+	public MongoCustomConversions ghotelMongoCustomConversions() {
 		return new MongoCustomConversions(Collections.emptyList());
 	}
 
 	@Bean
-	public MappingMongoConverter ghotelOSSMappingMongoConverter() throws Exception {
-		DbRefResolver dbRefResolver = new DefaultDbRefResolver(ghotelOSSMongoDbFactory());
-		MappingMongoConverter mappingConverter = new MappingMongoConverter(dbRefResolver,
-				ghotelOSSMongoMappingContext());
-		mappingConverter.setCustomConversions(ghotelOSSMongoCustomConversions());
+	public MappingMongoConverter ghotelMappingMongoConverter(
+			@Qualifier("ghotelMongoDbFactory") MongoDbFactory ghotelMongoDbFactory,
+			@Qualifier("ghotelMongoMappingContext") MongoMappingContext ghotelMongoMappingContext,
+			@Qualifier("ghotelMongoCustomConversions") MongoCustomConversions ghotelMongoCustomConversions)
+			throws Exception {
+		DbRefResolver dbRefResolver = new DefaultDbRefResolver(ghotelMongoDbFactory);
+		MappingMongoConverter mappingConverter = new MappingMongoConverter(dbRefResolver, ghotelMongoMappingContext);
+		mappingConverter.setCustomConversions(ghotelMongoCustomConversions);
 		return mappingConverter;
 	}
 
-	@Bean
-	public MongoMappingContext ghotelOSSMongoMappingContext() throws ClassNotFoundException {
+	@Bean("ghotelMongoMappingContext")
+	public MongoMappingContext ghotelMongoMappingContext(
+			@Qualifier("ghotelMongoCustomConversions") MongoCustomConversions ghotelMongoCustomConversions)
+			throws ClassNotFoundException {
 		MongoMappingContext context = new MongoMappingContext();
 		context.setInitialEntitySet(new EntityScanner(this.applicationContext).scan(Document.class, Persistent.class));
 		Class<?> strategyClass = this.properties.getFieldNamingStrategy();
 		if (strategyClass != null) {
 			context.setFieldNamingStrategy((FieldNamingStrategy) BeanUtils.instantiateClass(strategyClass));
 		}
-		context.setSimpleTypeHolder(ghotelOSSMongoCustomConversions().getSimpleTypeHolder());
+		context.setSimpleTypeHolder(ghotelMongoCustomConversions.getSimpleTypeHolder());
 		return context;
 	}
+
 }

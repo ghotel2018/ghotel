@@ -1,4 +1,4 @@
-package com.ghotel.oss.console.core;
+package com.ghotel.oss.console.config;
 
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;

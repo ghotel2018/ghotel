@@ -18,7 +18,7 @@ import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ghotel.oss.console.core.exception.GoBeanFormatException;
+import com.ghotel.oss.console.core.exception.GocBeanFormatException;
 import com.ghotel.oss.console.core.security.GocSecurityConstant;
 import com.ghotel.oss.console.core.security.bean.TreeBean;
 import com.ghotel.oss.console.core.security.bean.UserInfoBean;
@@ -34,7 +34,7 @@ public class GocWebUtils {
 	@Deprecated
 	// 此方法用于从request中获取数据并填充到指定的Bean
 	public static <T> T formatBeanFromRequest(HttpServletRequest request, Class<T> beanClazz)
-			throws GoBeanFormatException {
+			throws GocBeanFormatException {
 		T bean = null;
 
 		SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -101,12 +101,12 @@ public class GocWebUtils {
 
 		} catch (InstantiationException e) {
 			log.error("face error:", e);
-			throw new GoBeanFormatException("无法创建对象： " + beanClazz.getName() + " " + e.getMessage());
+			throw new GocBeanFormatException("无法创建对象： " + beanClazz.getName() + " " + e.getMessage());
 		} catch (IllegalAccessException e) {
 			// TODO Auto-generated catch block
-			throw new GoBeanFormatException("无法访问构造方法：" + beanClazz.getName() + " " + e.getMessage());
+			throw new GocBeanFormatException("无法访问构造方法：" + beanClazz.getName() + " " + e.getMessage());
 		} catch (Exception e) {
-			throw new GoBeanFormatException("无法处理对象的属性赋值：" + e.getMessage());
+			throw new GocBeanFormatException("无法处理对象的属性赋值：" + e.getMessage());
 		}
 		// if(log.isDebugEnabled()){
 		try {

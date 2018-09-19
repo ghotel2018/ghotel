@@ -31,7 +31,7 @@ import com.ghotel.oss.console.core.security.dao.UserInfoRepository;
 import com.ghotel.oss.console.core.utils.GocJsonUtil;
 import com.ghotel.oss.console.core.utils.GocWebUtils;
 
-public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
+public class GocExtendFormAuthenticationFilter extends FormAuthenticationFilter {
 
 	private static final Logger log = LoggerFactory.getLogger(FormAuthenticationFilter.class);
 
