@@ -135,7 +135,7 @@ public class GocPermissionMaintenanceServiceImpl extends AbstractPaginationCommo
 	}
 
 	@Override
-	public PaginationResult<PermissionInfoBean> getPaginationAll(PaginationBean paginationBean) throws Exception {
+	public PaginationResult<PermissionInfoBean> getPaginationResult(PaginationBean paginationBean) throws Exception {
 		PermissionSearchCriteriaBean bean = (PermissionSearchCriteriaBean) paginationBean;
 		PermissionInfoBean permission = parseSearchObjToEnity(bean, PermissionInfoBean.class);
 		int start = paginationBean.getStart();

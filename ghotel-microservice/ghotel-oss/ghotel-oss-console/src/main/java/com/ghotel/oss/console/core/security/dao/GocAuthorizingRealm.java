@@ -1,4 +1,4 @@
-package com.ghotel.oss.console.core.security;
+package com.ghotel.oss.console.core.security.dao;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,8 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ghotel.oss.console.core.security.bean.GroupInfoBean;
 import com.ghotel.oss.console.core.security.bean.PermissionInfoBean;
 import com.ghotel.oss.console.core.security.bean.RoleInfoBean;
-import com.ghotel.oss.console.core.security.dao.PermissionInfoRepository;
-import com.ghotel.oss.console.core.security.dao.UserInfoRepository;
 import com.ghotel.oss.console.core.security.service.SecurityService;
 import com.ghotel.oss.console.modules.admin.util.AdminModuleConstant;
 
@@ -53,7 +51,8 @@ public class GocAuthorizingRealm extends AuthorizingRealm {
 			List<PermissionInfoBean> permissionList = new ArrayList<PermissionInfoBean>();
 
 			if (user.getIsAdmin()) {
-				permissionList = securityService.getItAndBaAdminPermission();
+//				permissionList = securityService.getItAndBaAdminPermission();
+				permissionList = securityService.getAllAdminPermission();
 				user.setGroupType(String.join(",", AdminModuleConstant.USER_GROUP_CATEGORY_IT,
 						AdminModuleConstant.USER_GROUP_CATEGORY_BA, AdminModuleConstant.USER_GROUP_CATEGORY_OP));
 			} else {

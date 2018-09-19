@@ -123,7 +123,7 @@ public class IndexController extends AbstractModuleCommonController {
 		Subject currentUser = SecurityUtils.getSubject();
 		if (currentUser.isAuthenticated()) {
 			PaginationResult pr = systemMessageService
-					.getPaginationAll(GocWebUtils.formatBeanFromRequest(req, SystemMessageBean.class));
+					.getPaginationResult(GocWebUtils.formatBeanFromRequest(req, SystemMessageBean.class));
 			message.setMessageBody(pr);
 		}
 		return message;

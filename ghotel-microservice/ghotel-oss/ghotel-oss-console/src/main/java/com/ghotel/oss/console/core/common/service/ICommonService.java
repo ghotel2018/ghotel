@@ -14,4 +14,6 @@ public interface ICommonService<T> {
 
 	public List<T> getAll();
 
+	public int delete(String id) throws Exception;
+
 }

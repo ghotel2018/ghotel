@@ -1,4 +1,4 @@
-package com.ghotel.oss.console.modules.user.dao;
+package com.ghotel.oss.console.modules.ghotel.user.dao;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

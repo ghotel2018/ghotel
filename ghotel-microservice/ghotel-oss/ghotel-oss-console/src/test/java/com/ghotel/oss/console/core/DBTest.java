@@ -16,8 +16,8 @@ import com.ghotel.model.po.user.Account;
 import com.ghotel.model.po.user.ContactInfo;
 import com.ghotel.model.po.user.ContactInfoType;
 import com.ghotel.model.po.user.User;
-import com.ghotel.oss.console.modules.user.dao.AccountRepository;
-import com.ghotel.oss.console.modules.user.dao.UserRepository;
+import com.ghotel.oss.console.modules.ghotel.user.dao.AccountRepository;
+import com.ghotel.oss.console.modules.ghotel.user.dao.UserRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @EnableAutoConfiguration(exclude = { MongoAutoConfiguration.class, MongoDataAutoConfiguration.class })

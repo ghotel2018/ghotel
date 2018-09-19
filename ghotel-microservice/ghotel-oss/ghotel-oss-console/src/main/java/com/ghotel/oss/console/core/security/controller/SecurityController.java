@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ghotel.oss.console.core.common.bean.Message;
 import com.ghotel.oss.console.core.common.controller.AbstractModuleCommonController;
-import com.ghotel.oss.console.core.security.GocAuthorizingRealm;
 import com.ghotel.oss.console.core.security.bean.PageConfigBean;
+import com.ghotel.oss.console.core.security.dao.GocAuthorizingRealm;
 import com.ghotel.oss.console.core.security.service.SecurityService;
 import com.ghotel.oss.console.core.utils.GocWebUtils;
 import com.ghotel.oss.console.core.constants.RequestStatusConstant;

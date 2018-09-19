@@ -26,7 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ghotel.oss.console.core.common.bean.Message;
 import com.ghotel.oss.console.core.constants.RequestStatusConstant;
-import com.ghotel.oss.console.core.security.GocSecurityConstant;
+import com.ghotel.oss.console.core.security.constants.GocSecurityConstant;
 import com.ghotel.oss.console.core.security.dao.UserInfoRepository;
 import com.ghotel.oss.console.core.utils.GocJsonUtil;
 import com.ghotel.oss.console.core.utils.GocWebUtils;

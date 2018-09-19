@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ghotel.oss.console.core.common.bean.Message;
 import com.ghotel.oss.console.core.common.controller.AbstractModuleCommonController;
+import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.core.security.bean.PermissionInfoBean;
 import com.ghotel.oss.console.core.security.bean.ResourceInfoBean;
 import com.ghotel.oss.console.core.security.bean.RoleInfoBean;
-import com.ghotel.oss.console.core.utils.GocWebUtils;
-import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
 import com.ghotel.oss.console.modules.admin.bean.PermissionSearchCriteriaBean;
 import com.ghotel.oss.console.modules.admin.bean.PermissionWithResourceDetailBean;
@@ -43,7 +39,7 @@ public class PermissionMaintenanceController extends AbstractModuleCommonControl
 
 	@RequestMapping("access")
 	@RequiresPermissions("Permission:access")
-	public @ResponseBody Message access(HttpServletRequest request, HttpServletResponse response) {
+	public @ResponseBody Message access() {
 		String returnUrl = "/module/admin/permissionMaintenance.html";
 		Map<String, String> returnParams = new HashMap<String, String>();
 		returnParams.put("url", returnUrl);
@@ -73,8 +69,7 @@ public class PermissionMaintenanceController extends AbstractModuleCommonControl
 
 	@RequestMapping(value = "get/{id}", method = RequestMethod.GET)
 	@RequiresPermissions("Permission:update")
-	public @ResponseBody Message getPermission(@PathVariable("id") int id, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public @ResponseBody Message getPermission(@PathVariable("id") int id) throws Exception {
 
 		Message message = new Message("", RequestStatusConstant.STATUS_CODE_SECCEED,
 				permissionMaintenanceService.get(String.valueOf(id)));
@@ -85,9 +80,8 @@ public class PermissionMaintenanceController extends AbstractModuleCommonControl
 	// 删除permission需要的资源
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	@RequiresPermissions("Permission:delete")
-	public @ResponseBody Message deletePermission(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		permissionMaintenanceService.delete(GocWebUtils.formatBeanFromRequest(request, PermissionInfoBean.class));
+	public @ResponseBody Message deletePermission(PermissionInfoBean bean) throws Exception {
+		permissionMaintenanceService.delete(bean);
 		Message message = new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, "删除记录请求成功！");
 		return message;
 	}
@@ -102,7 +96,7 @@ public class PermissionMaintenanceController extends AbstractModuleCommonControl
 		Message message = new Message();
 		message.setStatusCode(RequestStatusConstant.STATUS_CODE_SECCEED);
 		PaginationResult<PermissionInfoBean> pr = permissionMaintenanceService
-				.getPaginationAll(permissionSearchCriteriaBean);
+				.getPaginationResult(permissionSearchCriteriaBean);
 		message.setMessageBody(pr);
 		return message;
 	}
@@ -121,8 +115,7 @@ public class PermissionMaintenanceController extends AbstractModuleCommonControl
 	// 新增，更新需要的共用
 	@RequestMapping(value = "getBindingResource/{id}", method = RequestMethod.GET)
 	@RequiresPermissions("Permission:access")
-	public @ResponseBody Message getBindingResource(@PathVariable("id") String id, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public @ResponseBody Message getBindingResource(@PathVariable("id") String id) throws Exception {
 		Message message = new Message("", RequestStatusConstant.STATUS_CODE_SECCEED,
 				permissionMaintenanceService.getBindingResources(id));
 		return message;
@@ -130,20 +123,16 @@ public class PermissionMaintenanceController extends AbstractModuleCommonControl
 
 	@RequestMapping(value = "addBindingResource", method = RequestMethod.POST)
 	@RequiresPermissions("Permission:addBindingResource")
-	public @ResponseBody Message addBindingResource(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		permissionMaintenanceService.addBindingResource((PermissionWithResourceDetailBean) GocWebUtils
-				.formatBeanFromRequest(request, PermissionWithResourceDetailBean.class));
+	public @ResponseBody Message addBindingResource(PermissionWithResourceDetailBean bean) throws Exception {
+		permissionMaintenanceService.addBindingResource(bean);
 		Message message = new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, "绑定资源成功！");
 		return message;
 	}
 
 	@RequestMapping(value = "removeBindingResource", method = RequestMethod.POST)
 	@RequiresPermissions("Permission:removeBindingResource")
-	public @ResponseBody Message removeBindingResource(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		permissionMaintenanceService.removeBindingResource((PermissionWithResourceDetailBean) GocWebUtils
-				.formatBeanFromRequest(request, PermissionWithResourceDetailBean.class));
+	public @ResponseBody Message removeBindingResource(PermissionWithResourceDetailBean bean) throws Exception {
+		permissionMaintenanceService.removeBindingResource(bean);
 		Message message = new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, "资源解绑成功！");
 		return message;
 	}
@@ -163,7 +152,7 @@ public class PermissionMaintenanceController extends AbstractModuleCommonControl
 
 	@RequestMapping(value = "getConfig", method = RequestMethod.GET)
 	@RequiresPermissions("Permission:access")
-	public @ResponseBody Message getConfig(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public @ResponseBody Message getConfig() throws Exception {
 		Message message = new Message("", RequestStatusConstant.STATUS_CODE_SECCEED,
 				resourceMaintenanceService.getAllModule());
 		// return options;

@@ -132,6 +132,13 @@ public class SecurityServiceImpl implements SecurityService {
 	}
 
 	@Override
+	public List<PermissionInfoBean> getAllAdminPermission() {
+
+		return getPermissionByResourceTypes(new String[] { AdminModuleConstant.USER_GROUP_CATEGORY_IT,
+				AdminModuleConstant.USER_GROUP_CATEGORY_BA, AdminModuleConstant.USER_GROUP_CATEGORY_OP });
+	}
+
+	@Override
 	public UserInfoBean getUserByUserId(String userId) {
 		if (StringUtils.isBlank(userId)) {
 			return null;
@@ -165,7 +172,7 @@ public class SecurityServiceImpl implements SecurityService {
 
 			menuResourceList = resourceInfoRepository.findByCategoryInAndResourceTypeIn(new String[] { "menu", "all" },
 					new String[] { AdminModuleConstant.USER_GROUP_CATEGORY_IT,
-							AdminModuleConstant.USER_GROUP_CATEGORY_BA });
+							AdminModuleConstant.USER_GROUP_CATEGORY_BA, AdminModuleConstant.USER_GROUP_CATEGORY_OP });
 
 		} else {
 			List<PermissionInfoBean> perms = getPermissionByUserId(user.getUserId(), module);
@@ -191,7 +198,7 @@ public class SecurityServiceImpl implements SecurityService {
 		DictionaryTypeSearchCriteriaBean bean = new DictionaryTypeSearchCriteriaBean();
 		bean.setNum(100);
 		bean.setTypeKey(module + ":_");// 冒号有用 不要删掉 如果只使用下划线 则like内下划线表示任意单一字符 需要转义 冒号配合escape 具体百度escape
-		PaginationResult<DictionaryTypeBean> pr = dictionaryTypeService.getPaginationAll(bean);
+		PaginationResult<DictionaryTypeBean> pr = dictionaryTypeService.getPaginationResult(bean);
 		List<Map<String, Object>> dictionaryList = new ArrayList<Map<String, Object>>();
 		Map<String, Object> innerMap = null;
 		for (Object t : pr.getList()) {

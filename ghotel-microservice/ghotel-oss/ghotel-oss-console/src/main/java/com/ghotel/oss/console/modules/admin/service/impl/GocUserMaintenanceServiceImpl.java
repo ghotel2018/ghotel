@@ -65,7 +65,7 @@ public class GocUserMaintenanceServiceImpl extends AbstractPaginationCommonServi
 	}
 
 	@Override
-	public PaginationResult<UserInfoBean> getPaginationAll(PaginationBean paginationBean) throws Exception {
+	public PaginationResult<UserInfoBean> getPaginationResult(PaginationBean paginationBean) throws Exception {
 		UserSearchCriteriaBean bean = (UserSearchCriteriaBean) paginationBean;
 		UserInfoBean user = parseSearchObjToEnity(bean, UserInfoBean.class);
 		List<GroupInfoBean> groups = null;

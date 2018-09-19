@@ -79,7 +79,7 @@ public class SchedulerController extends AbstractModuleCommonController {
 	public @ResponseBody Message getAll(JobSearchCriteriaBean jobSearchCriteriaBean) throws Exception {
 		message = new Message();
 		message.setStatusCode(RequestStatusConstant.STATUS_CODE_SECCEED);
-		PaginationResult<JobDetailInfoBean> pr = schedulerService.getPaginationAll(jobSearchCriteriaBean);
+		PaginationResult<JobDetailInfoBean> pr = schedulerService.getPaginationResult(jobSearchCriteriaBean);
 		message.setMessageBody(pr);
 		return this.message;
 	}

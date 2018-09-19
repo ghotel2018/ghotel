@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ghotel.oss.console.core.common.bean.Message;
 import com.ghotel.oss.console.core.common.controller.AbstractModuleCommonController;
+import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.core.security.bean.MenuConfigInfoBean;
 import com.ghotel.oss.console.core.security.bean.MenuConfigSearchCriteriaBean;
 import com.ghotel.oss.console.core.security.bean.ResourceInfoBean;
-import com.ghotel.oss.console.core.utils.GocWebUtils;
-import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.modules.admin.bean.ModuleInfoBean;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
 import com.ghotel.oss.console.modules.admin.bean.ResourceSearchCriteriaBean;
@@ -80,7 +77,7 @@ public class ResourceMaintenanceController extends AbstractModuleCommonControlle
 	public @ResponseBody Message getRoleResources(ResourceSearchCriteriaBean bean) throws Exception {
 		Message message = new Message();
 		message.setStatusCode(RequestStatusConstant.STATUS_CODE_SECCEED);
-		PaginationResult<ResourceInfoBean> pr = resourceMaintenanceService.getPaginationAll(bean);
+		PaginationResult<ResourceInfoBean> pr = resourceMaintenanceService.getPaginationResult(bean);
 		message.setMessageBody(pr);
 		return message;
 	}

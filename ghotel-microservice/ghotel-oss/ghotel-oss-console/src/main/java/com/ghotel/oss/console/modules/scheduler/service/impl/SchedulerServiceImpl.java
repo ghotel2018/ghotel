@@ -124,7 +124,7 @@ public class SchedulerServiceImpl extends AbstractPaginationCommonServiceWrapper
 	}
 	
 	@Override
-	public PaginationResult<JobDetailInfoBean> getPaginationAll(PaginationBean paginationBean) throws Exception {
+	public PaginationResult<JobDetailInfoBean> getPaginationResult(PaginationBean paginationBean) throws Exception {
 		int start = paginationBean.getStart();
 		int end = paginationBean.getEnd();
 		List<JobDetailInfoBean> groups = jobDetailInfoRepository.findAll();

@@ -5,6 +5,6 @@ import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
 
 public interface ICommonPaginationService<T> extends ICommonService<T> {
 
-	public PaginationResult<T> getPaginationAll(PaginationBean paginationBean) throws Exception;
+	public PaginationResult<T> getPaginationResult(PaginationBean paginationBean) throws Exception;
 
 }

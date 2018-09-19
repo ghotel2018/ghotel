@@ -57,7 +57,7 @@ public class DictionaryDataController extends AbstractModuleCommonController {
 	public Message getType(DictionaryTypeSearchCriteriaBean bean) throws Exception {
 		message = new Message();
 		message.setStatusCode(RequestStatusConstant.STATUS_CODE_SECCEED);
-		PaginationResult<DictionaryTypeBean> pr = typeService.getPaginationAll(bean);
+		PaginationResult<DictionaryTypeBean> pr = typeService.getPaginationResult(bean);
 		message.setMessageBody(pr);
 		return this.message;
 	}

@@ -20,7 +20,7 @@ public class DictionaryTypeServiceImpl extends AbstractPaginationCommonServiceWr
 	DictionaryTypeRepository dictionaryTypeRepository;
 
 	@Override
-	public PaginationResult<DictionaryTypeBean> getPaginationAll(PaginationBean object) throws Exception {
+	public PaginationResult<DictionaryTypeBean> getPaginationResult(PaginationBean object) throws Exception {
 		DictionaryTypeBean type = parseSearchObjToEnity(object, DictionaryTypeBean.class);
 		if (type.getDetails() == null || type.getDetails().isEmpty()) {
 			type.setDetails(null);

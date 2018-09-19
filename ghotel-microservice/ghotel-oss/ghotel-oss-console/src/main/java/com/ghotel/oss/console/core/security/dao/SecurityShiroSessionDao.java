@@ -1,4 +1,4 @@
-package com.ghotel.oss.console.core.security;
+package com.ghotel.oss.console.core.security.dao;
 
 import java.io.Serializable;
 import java.util.Collection;

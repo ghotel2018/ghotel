@@ -10,18 +10,16 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ghotel.oss.console.core.exception.GocBeanFormatException;
-import com.ghotel.oss.console.core.security.GocSecurityConstant;
 import com.ghotel.oss.console.core.security.bean.TreeBean;
 import com.ghotel.oss.console.core.security.bean.UserInfoBean;
+import com.ghotel.oss.console.core.security.constants.GocSecurityConstant;
 
 public class GocWebUtils {
 

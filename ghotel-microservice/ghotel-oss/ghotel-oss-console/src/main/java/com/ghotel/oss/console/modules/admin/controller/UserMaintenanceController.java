@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ghotel.oss.console.core.common.bean.Message;
 import com.ghotel.oss.console.core.common.controller.AbstractModuleCommonController;
+import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.core.security.bean.GroupInfoBean;
 import com.ghotel.oss.console.core.security.bean.UserInfoBean;
 import com.ghotel.oss.console.core.utils.GocWebUtils;
-import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
 import com.ghotel.oss.console.modules.admin.bean.UserSearchCriteriaBean;
 import com.ghotel.oss.console.modules.admin.service.UserMaintenanceService;
@@ -63,7 +61,7 @@ public class UserMaintenanceController extends AbstractModuleCommonController {
 
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	@RequiresPermissions("User:delete")
-	public @ResponseBody Message deleteUser(UserInfoBean userInfoBean, HttpSession session) throws Exception {
+	public @ResponseBody Message deleteUser(UserInfoBean userInfoBean) throws Exception {
 		Message message;
 		String userId = GocWebUtils.getSessionUser().map(user -> {
 			return user.getUserId();
@@ -84,7 +82,7 @@ public class UserMaintenanceController extends AbstractModuleCommonController {
 	public @ResponseBody Message getAll(UserSearchCriteriaBean bean) throws Exception {
 		Message message = new Message();
 		message.setStatusCode(RequestStatusConstant.STATUS_CODE_SECCEED);
-		PaginationResult<UserInfoBean> pr = userMaintenanceService.getPaginationAll(bean);
+		PaginationResult<UserInfoBean> pr = userMaintenanceService.getPaginationResult(bean);
 		message.setMessageBody(pr);
 		return message;
 	}

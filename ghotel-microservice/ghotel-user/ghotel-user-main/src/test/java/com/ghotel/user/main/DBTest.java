@@ -25,8 +25,8 @@ public class DBTest {
 		User user = new User();
 
 		Date date = new Date();
-		user.setCreateDate(date);
-		user.setLastUpdateDate(date);
+//		user.setCreateDate(date);
+//		user.setLastUpdateDate(date);
 		user.setName("user1");
 
 		account.setAssociateUser(user);

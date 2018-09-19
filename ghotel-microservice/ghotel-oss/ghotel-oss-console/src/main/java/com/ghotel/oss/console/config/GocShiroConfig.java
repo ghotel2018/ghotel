@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.ghotel.core.config.BaseConfig;
-import com.ghotel.oss.console.core.security.GocAuthorizingRealm;
+import com.ghotel.oss.console.core.security.dao.GocAuthorizingRealm;
 import com.ghotel.oss.console.core.security.filter.GocExtendFormAuthenticationFilter;
 import com.ghotel.oss.console.core.security.filter.GocPermissionAnnotationMethodInterceptor;
 

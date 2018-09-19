@@ -1,4 +1,4 @@
-package com.ghotel.oss.console.core.security;
+package com.ghotel.oss.console.core.security.constants;
 
 public class GocSecurityConstant {
 	

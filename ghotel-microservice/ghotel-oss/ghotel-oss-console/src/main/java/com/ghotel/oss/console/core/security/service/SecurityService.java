@@ -36,4 +36,6 @@ public interface SecurityService {
 	public List<PermissionInfoBean> getPermissionByUserId(String userId);
 
 	public boolean resetPassword(UserInfoBean cacheUser, String oldPw);
+
+	public List<PermissionInfoBean> getAllAdminPermission();
 }
