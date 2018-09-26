@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,7 @@ public class GHotelUserController {
 	@RequestMapping("access")
 //	@RequiresPermissions("GHotelUser:access")
 	public @ResponseBody Message access() {
-		String returnUrl = "/module/ghotelUser/userMaintenance.html";
+		String returnUrl = "/module/ghotelUser/ghotel-user.html";
 		Map<String, String> returnParams = new HashMap<String, String>();
 		returnParams.put("url", returnUrl);
 		Message message = new Message("", RequestStatusConstant.PAGE_NAVIGATION_ON, returnParams);
@@ -41,11 +42,11 @@ public class GHotelUserController {
 
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 //	@RequiresPermissions("GHotelUser:add")
-	public @ResponseBody Message add(User user) throws Exception {
+	public @ResponseBody Message add(@RequestBody User user) throws Exception {
 		Date now = new Date();
-
-		user.setJoinDate(now);
-
+		if (user.getJoinDate() == null) {
+			user.setJoinDate(now);
+		}
 		CommonMeta commonMeta = new CommonMeta();
 		commonMeta.setCreateTime(now);
 		commonMeta.setDelFlag(false);
@@ -57,7 +58,7 @@ public class GHotelUserController {
 
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 //	@RequiresPermissions("GHotelUser:update")
-	public @ResponseBody Message update(User user) throws Exception {
+	public @ResponseBody Message update(@RequestBody User user) throws Exception {
 		gHotelUserService.update(user);
 		return new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, "更新记录请求成功！");
 	}

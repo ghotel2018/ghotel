@@ -33,7 +33,7 @@ public class GHotelUserSearchCriteriaBean extends PaginationBean {
 	/**
 	 * 加入会员时间
 	 */
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date joinDate;
 	/**
 	 * 加入会员方式

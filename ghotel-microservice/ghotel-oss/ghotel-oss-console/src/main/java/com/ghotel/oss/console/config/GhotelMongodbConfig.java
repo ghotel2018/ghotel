@@ -25,7 +25,6 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import com.ghotel.core.annotation.OSSDataSource;
-import com.ghotel.core.listener.CascadingMongoEventListener;
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
 
@@ -58,22 +57,22 @@ public class GhotelMongodbConfig {
 	@Bean("ghotelMongoTemplate")
 	public MongoTemplate ghotelMongoTemplate(@Qualifier("ghotelMongoDbFactory") MongoDbFactory ghotelMongoDbFactory) {
 		MongoTemplate bean = new MongoTemplate(ghotelMongoDbFactory);
-		new CascadingMongoEventListener(bean);
+//		new CascadingMongoEventListener(bean);
 		return bean;
 	}
 
-	@Bean
-	public CascadingMongoEventListener ghotelCascadingMongoEventListener(
-			@Qualifier("ghotelMongoTemplate") MongoTemplate ghotelMongoTemplate) {
-		return new CascadingMongoEventListener(ghotelMongoTemplate);
-	}
+//	@Bean("ghotelCascadingMongoEventListener")
+//	public CascadingMongoEventListener ghotelCascadingMongoEventListener(
+//			@Qualifier("ghotelMongoTemplate") MongoTemplate ghotelMongoTemplate) {
+//		return new CascadingMongoEventListener(ghotelMongoTemplate);
+//	}
 
 	@Bean("ghotelMongoCustomConversions")
 	public MongoCustomConversions ghotelMongoCustomConversions() {
 		return new MongoCustomConversions(Collections.emptyList());
 	}
 
-	@Bean
+	@Bean("ghotelMappingMongoConverter")
 	public MappingMongoConverter ghotelMappingMongoConverter(
 			@Qualifier("ghotelMongoDbFactory") MongoDbFactory ghotelMongoDbFactory,
 			@Qualifier("ghotelMongoMappingContext") MongoMappingContext ghotelMongoMappingContext,

@@ -1,11 +1,15 @@
 package com.ghotel.core.listener;
 
 import java.lang.reflect.Field;
+import java.util.Iterator;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mapping.MappingException;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.MongoPersistentEntity;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
 import org.springframework.data.mongodb.core.mapping.event.BeforeConvertEvent;
 import org.springframework.util.ReflectionUtils;
@@ -14,20 +18,36 @@ import com.ghotel.model.annotation.CascadeSave;
 
 public class CascadingMongoEventListener extends AbstractMongoEventListener<Object> {
 
-	private MongoOperations mongoOperations;
+//	private MongoOperations mongoOperations;
+//
+//	public CascadingMongoEventListener(MongoOperations mongoOperations) {
+//		super();
+//		this.mongoOperations = mongoOperations;
+//	}
+	@Autowired
+	private ApplicationContext appContext;
 
-	public CascadingMongoEventListener(MongoOperations mongoOperations) {
-		super();
-		this.mongoOperations = mongoOperations;
+	public MongoOperations getMongoOperations(String collectionName) {
+		Iterator<MongoOperations> mongoOperationsIterator = appContext.getBeansOfType(MongoOperations.class).values()
+				.iterator();
+		while (mongoOperationsIterator.hasNext()) {
+			MongoOperations mongoOperations = mongoOperationsIterator.next();
+			Iterator<? extends MongoPersistentEntity<?>> persistentEntitiesIterator = mongoOperations.getConverter()
+					.getMappingContext().getPersistentEntities().iterator();
+
+			while (persistentEntitiesIterator.hasNext()) {
+				MongoPersistentEntity<?> entity = persistentEntitiesIterator.next();
+				if (entity.getCollection().equals(collectionName)) {
+					return mongoOperations;
+				}
+			}
+		}
+		return null;
 	}
 
-	public MongoOperations getMongoOperations() {
-		return mongoOperations;
-	}
-
-	public void setMongoOperations(MongoOperations mongoOperations) {
-		this.mongoOperations = mongoOperations;
-	}
+//	public void setMongoOperations(MongoOperations mongoOperations) {
+//		this.mongoOperations = mongoOperations;
+//	}
 
 	@Override
 	public void onBeforeConvert(BeforeConvertEvent<Object> event) {
@@ -48,7 +68,13 @@ public class CascadingMongoEventListener extends AbstractMongoEventListener<Obje
 						throw new MappingException("Cannot perform cascade save on child object without id set");
 					}
 
-					mongoOperations.save(fieldValue);
+					MongoOperations mongoOperations = getMongoOperations(event.getCollectionName());
+					if (mongoOperations != null) {
+						mongoOperations.save(fieldValue);
+					} else {
+						throw new MappingException(
+								"Cannot perform cascade save on child object without suited mongoOperations");
+					}
 				}
 			}
 		});

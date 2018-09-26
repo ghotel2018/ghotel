@@ -2,7 +2,6 @@ package com.ghotel.oss.console;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
-import org.apache.commons.beanutils.converters.IntegerConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = "com.ghotel.oss")
 public class GocConsoleApplication {
 	public static void main(String[] args) {
-//		ConvertUtils.register(new DateConverter(null), java.util.Date.class);
+		ConvertUtils.register(new DateConverter(null), java.util.Date.class);
 //		ConvertUtils.register(new IntegerConverter(null), Integer.class);
 		ApplicationContext ac = SpringApplication.run(GocConsoleApplication.class, args);
 	};

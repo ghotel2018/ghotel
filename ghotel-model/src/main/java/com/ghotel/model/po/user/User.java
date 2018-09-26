@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.ghotel.model.constant.DBConstant;
 import com.ghotel.model.constant.JoinMethod;
@@ -46,6 +47,7 @@ public class User extends BasePO implements Serializable {
 	/**
 	 * 加入会员时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date joinDate;
 	/**
 	 * 加入会员方式

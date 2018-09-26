@@ -5,15 +5,15 @@
  * 
  */
 
-//通用页面配置
+// 通用页面配置
 var CMC = {
-	projectAbbr : '' ,//项目短名，
+	projectAbbr : '' ,// 项目短名，
 	resource: "cmc", // 需要根据实际情况改动
 	paginationSetting : {
 		searchTable : 'srTable',
 		pageNumberName : 'start',
 		pageSizeName : "end",
-		searchTableTemplate: "<div id='searchResult' style='margin:10px 0;'><table id='srTable' class='easyui-datagrid' title='查询结果' style='width:{width};height:360px'></table></div>", //查询模板
+		searchTableTemplate: "<div id='searchResult' style='margin:10px 0;'><table id='srTable' class='easyui-datagrid' title='查询结果' style='width:{width};height:360px'></table></div>", // 查询模板
 		paginationParamsTemplate : "<input type='hidden' name='start' value=1 /> <input type='hidden' name='end' value=10 />" ,
 		defaultWidth: '100%'
 	},
@@ -26,13 +26,19 @@ var CMC = {
     selectObject:""
 };
 
-(function($){
+(function($){    
+	$.fn.datebox.defaults.formatter = function(date){
+		var y = date.getFullYear();
+		var m = date.getMonth()+1;
+		var d = date.getDate();
+		return y+'-'+m+'-'+d;
+	}
 	$._ajax = $.ajax;
     var _ajax = $.ajax;
     var _ajaxFileUpload = $.ajaxFileUpload;
     /**
-     * @Decription 默认的ajax 请求方法
-     */
+	 * @Decription 默认的ajax 请求方法
+	 */
     CMC.fn = {
             error : function(XMLHttpRequest, textStatus, errorThrown){
             	if(XMLHttpRequest.status==0 && XMLHttpRequest.readyState==0){
@@ -65,9 +71,10 @@ var CMC = {
             }, notAuthenticated : function(data, textStatus){ // Status == -5
             	CMC.hideProcessBox();
             	CMC.alertMessage("您的会话已经过期或身份没有经过认证，请重新登陆！",'error',CMC.showLoginDialog); 
-            },verificationCodeNotMatch: function (data, textStatus){ // Status == -6
+            },verificationCodeNotMatch: function (data, textStatus){ // Status
+																		// == -6
             	CMC.alertMessage("验证码不正确！",'error'); 
-            },pageNavigation: function(data, textStatus){ // status  ==2
+            },pageNavigation: function(data, textStatus){ // status ==2
             	if(data.messageBody.errorMessage){
             		CMC.alertMessage(data.messageBody.errorMessage, 'error');
             		return;
@@ -79,16 +86,18 @@ var CMC = {
             }
     };
     
-    //重写jquery的ajax方法
+    // 重写jquery的ajax方法
     CMC.request = $.ajax =function(opt){
-        //备份opt中error和success方法
-    	//强制使用JSON作为返回的数据
+        // 备份opt中error和success方法
+    	// 强制使用JSON作为返回的数据
     	// "xml": 返回 XML 文档，可用 jQuery 处理。
         // "html": 返回纯文本 HTML 信息；包含的 script 标签会在插入 dom 时执行。
-        // "script": 返回纯文本 JavaScript 代码。不会自动缓存结果。除非设置了 "cache" 参数。注意：在远程请求时(不在同一个域下)，所有 POST 请求都将转为 GET 请求。（因为将使用 DOM 的 script标签来加载）
-    	//  "json": 返回 JSON 数据 。
-    	//  "jsonp": JSONP 格式。使用 JSONP 形式调用函数时，如 "myurl?callback=?" jQuery 将自动替换 ? 为正确的函数名，以执行回调函数。
-    	//  "text": 返回纯文本字符串
+        // "script": 返回纯文本 JavaScript 代码。不会自动缓存结果。除非设置了 "cache"
+		// 参数。注意：在远程请求时(不在同一个域下)，所有 POST 请求都将转为 GET 请求。（因为将使用 DOM 的 script标签来加载）
+    	// "json": 返回 JSON 数据 。
+    	// "jsonp": JSONP 格式。使用 JSONP 形式调用函数时，如 "myurl?callback=?" jQuery 将自动替换
+		// ? 为正确的函数名，以执行回调函数。
+    	// "text": 返回纯文本字符串
     	var fn = $.extend({},CMC.fn);
     	if(!opt.dataType){
     		opt.dataType = 'json';
@@ -100,7 +109,7 @@ var CMC = {
     	if(!opt.timeout){
     		opt.timeout=600000;
     	}
-    	//添加项目短名
+    	// 添加项目短名
     	var signal = "?";
     	if(opt.url && opt.url.indexOf('?')!=-1){
     		signal = "&";
@@ -137,10 +146,10 @@ var CMC = {
         	fn.contraintExist = opt.contraintExist;
         }
         
-        //扩展增强处理
+        // 扩展增强处理
         var _opt = $.extend(opt,{
             error:function(XMLHttpRequest, textStatus, errorThrown){
-                //错误方法增强处理
+                // 错误方法增强处理
             	console.log(XMLHttpRequest.status +"- " + XMLHttpRequest.readyState);
             	CMC.hideProcessBox();
             	var status = XMLHttpRequest.status;
@@ -149,12 +158,12 @@ var CMC = {
             		return;
             	}
                 fn.error(XMLHttpRequest, textStatus, errorThrown);
-                //没有经过身份认证的访问会导致404
+                // 没有经过身份认证的访问会导致404
             },
             success:function(data, textStatus){
-            	//字符串，则另外处理
+            	// 字符串，则另外处理
             	if(typeof data !="string" ){
-            		 //成功回调方法增强处理
+            		 // 成功回调方法增强处理
                 	if(data.statusCode == 0 ){
                 		fn.success(data, textStatus);
                 	}else if(data.statusCode == 1){
@@ -180,10 +189,10 @@ var CMC = {
                
             },
             beforeSend:function(XHR){
-                //提交前回调方法
+                // 提交前回调方法
             },
             complete:function(XHR, TS){
-                //请求完成后回调函数 (请求成功或失败之后均调用)。
+                // 请求完成后回调函数 (请求成功或失败之后均调用)。
             	fn.complete(XHR, TS);
             }
         });
@@ -203,14 +212,14 @@ var CMC = {
     	if(!opt.dataType){
     		opt.dataType = 'json';
     	}
-    	//添加项目短名
+    	// 添加项目短名
     	if(opt.url && opt.url.indexOf(CMC.projectAbbr)==-1){
     		opt.url = "/" + CMC.projectAbbr +"/"+ opt.url;
     	}
     	
     	var _opt = $.extend(opt,{
             error:function(XMLHttpRequest, textStatus, errorThrown){
-               //异步上传file使用iframe post表单数据，会话过期的话会返回登录页面
+               // 异步上传file使用iframe post表单数据，会话过期的话会返回登录页面
             	CMC.hideProcessBox();
                 if(XMLHttpRequest.responseText.indexOf("loginfrom")!=-1){
                 	fn.notAuthenticated(XMLHttpRequest.responseText, textStatus);
@@ -219,9 +228,9 @@ var CMC = {
                 }
             },
             success:function(data, textStatus){
-            	//字符串，则另外处理
+            	// 字符串，则另外处理
             	if(typeof data !="string" ){
-            		 //成功回调方法增强处理
+            		 // 成功回调方法增强处理
                 	if(data.statusCode == 0 ){
                 		fn.success(data, textStatus);
                 	}else if(data.statusCode == 1){
@@ -251,7 +260,7 @@ var CMC = {
     	_ajaxFileUpload(_opt)
     }
     
-    //封装的alert message
+    // 封装的alert message
     CMC.alertMessage = function(message,level,callBack){
     	if(!level){
     		level = "error";
@@ -259,7 +268,7 @@ var CMC = {
     	$.messager.alert('温馨提示','亲~' +message,level,callBack);
     };
     
-    //封装的confirn dialog
+    // 封装的confirn dialog
     CMC.confirm = function(message, callBack){
     	message = "亲~ " +  message;
     	var fn = function(r){if(r){}}
@@ -269,27 +278,26 @@ var CMC = {
     	$.messager.confirm('confirm',message,fn);
     }
     
-    //对于重新登录或会话过期的请求 弹出登录框要求重新登录
+    // 对于重新登录或会话过期的请求 弹出登录框要求重新登录
     CMC.showLoginDialog = function(){
     	CMC.showVerifyCodeWindowForFeedback();
     	$('#loginBox').dialog('open');
     };
     
-	/*  初始化
-	 * 参数说明： menuId, 当前页面的菜单ID
-	 *  paginationTableEanble : 是否启用默认的分页数据表
-	 **/
+	/*
+	 * 初始化 参数说明： menuId, 当前页面的菜单ID paginationTableEanble : 是否启用默认的分页数据表
+	 */
     CMC.init = function(page){
 
     	window.onkeydown = function(e) {
-    		if (CMC.loginBoxIsOpen==true && e.keyCode == 13) { //回车键的键值为13
+    		if (CMC.loginBoxIsOpen==true && e.keyCode == 13) { // 回车键的键值为13
     			CMC.checkVerifyCode(CMC.ajaxLogin);
     		}
     	}
     	
-    	CMC.currentPage = page;//set current page
-    	CMC.initPage();  //request Page Config
-    	//显示查询结果框
+    	CMC.currentPage = page;// set current page
+    	CMC.initPage();  // request Page Config
+    	// 显示查询结果框
     	
     	if(CMC.currentPage.searchTableRequired && CMC.currentPage.searchTableRequired== true){
     		if(!CMC.currentPage.searchUrl){
@@ -301,11 +309,11 @@ var CMC = {
     			$("#mainContent").append(CMC.paginationSetting.searchTableTemplate.replace('{width}',CMC.paginationSetting.defaultWidth));
     		}
     		
-        	//初始化查询分页参数
+        	// 初始化查询分页参数
         	if($(".CMCSearchForm")){
         		$(".CMCSearchForm").append(CMC.paginationSetting.paginationParamsTemplate);
         	}
-        	//window.setTimeout("CMC.initSearchSetting();", 20);
+        	// window.setTimeout("CMC.initSearchSetting();", 20);
         	CMC.initSearchSetting();
 			if(!page.initNotSearch){
 				CMC.search();
@@ -319,7 +327,8 @@ var CMC = {
 			dataType : "html",
 			async : false,
 			success : function(responseText) {
-				$(responseText).appendTo("body");//loginContainer 在于 indexNew.html
+				$(responseText).appendTo("body");// loginContainer 在于
+													// indexNew.html
 				$("#loginBox").dialog({
 					iconCls:'icon-save',
 					modal:true,
@@ -342,8 +351,8 @@ var CMC = {
 				CMC.alertMessage("获取页面配置信息出错，请联系系统管理员！",'error');
 			}
 		});
-    	//把遮盖层的高度改成100%
-    	//$('.window-mask').css('height','');
+    	// 把遮盖层的高度改成100%
+    	// $('.window-mask').css('height','');
     };
     
     CMC.initPage = function(){
@@ -354,8 +363,8 @@ var CMC = {
 			async : false,
 			success : function(msg) {
 				CMC.pageConfig = msg.messageBody;
-				if(CMC.currentPage.menuId=="index"){//主界面
-					CMC.preInit();//初始化登录时间、登录人员页面信息
+				if(CMC.currentPage.menuId=="index"){// 主界面
+					CMC.preInit();// 初始化登录时间、登录人员页面信息
 				}
 				CMC.initPagePermission();
 		     	if(CMC.currentPage.init){
@@ -370,10 +379,10 @@ var CMC = {
     }
     
     CMC.preInit = function(){
-	   $('#lastLoginTime').html(CMC.pageConfig.user.lastLoginTime);//初始化主界面登录时间
-	   $('#loginUserName').html(CMC.pageConfig.user.userName);//初始化主界面登录人员
+	   $('#lastLoginTime').html(CMC.pageConfig.user.lastLoginTime);// 初始化主界面登录时间
+	   $('#loginUserName').html(CMC.pageConfig.user.userName);// 初始化主界面登录人员
 	   var topMenu = CMC.pageConfig.menuConfig;
-	   addNav(topMenu, "menulist");//初始化导航栏
+	   addNav(topMenu, "menulist");// 初始化导航栏
     }
     
     CMC.initPagePermission = function(perm){
@@ -427,7 +436,7 @@ var CMC = {
     		});
     	}
     }
-    //初始化搜索框
+    // 初始化搜索框
     CMC.search = function() {
     	CMC.grid.datagrid("loading");
     	CMC.grid.datagrid("getPager").pagination({
@@ -457,10 +466,10 @@ var CMC = {
 		});
 	};
 	
-   //加载列表数据
+   // 加载列表数据
 	CMC.setGridData = function(table, result){
-		//table.datagrid("selectAll");
-		//table.datagrid("clearSelections");
+		// table.datagrid("selectAll");
+		// table.datagrid("clearSelections");
 		table.datagrid("loadData",result.messageBody.list);
 		table.datagrid("getPager").pagination({
 			total : result.messageBody.total,
@@ -469,14 +478,14 @@ var CMC = {
 
 	}
     
-   //弹出对话框
+   // 弹出对话框
 	CMC.dialog = function(id,action){
 		$("#"+id).dialog(action);
 	};
 
-	//初始化搜索配置
+	// 初始化搜索配置
 	CMC.initSearchSetting = function (){
-		$(".CMCSearchButton").click(CMC.search);//为button点击事件注册回调函数
+		$(".CMCSearchButton").click(CMC.search);// 为button点击事件注册回调函数
 		CMC.grid = $('#'+CMC.paginationSetting.searchTable);
 		var singleSelect=true;
 		if(CMC.currentPage.multipleSelect){
@@ -491,11 +500,11 @@ var CMC = {
 			loadMsg: "亲~ 正在加载数据,请稍后...",
 			emptyMsg: "亲~ 很抱歉没有查询任何数据."
 		});
-		//注册分页事件
+		// 注册分页事件
 		CMC.grid.datagrid("getPager").pagination({
 			onSelectPage: function(pageNum,pageSize){
-	        	//初始化查询分页参数
-				//alert("onselect"+ pageNum +"+"+ pageSize);
+	        	// 初始化查询分页参数
+				// alert("onselect"+ pageNum +"+"+ pageSize);
 	        	$(".CMCSearchForm").form('load',{
 	        		start : (pageNum-1) *pageSize +1,
 	        		end : pageNum *pageSize
@@ -506,34 +515,36 @@ var CMC = {
 			onBeforeRefresh: function(pageNum,pageSize){
 			},
 			onRefresh: function(pageNum,pageSize){
-				//初始化查询分页参数
-				/*alert("onrefresh" + pageNum+ "+"+ pageSize);
-	        	$("#"+CMC.currentPage.searchFormId).form('load',{
-	        		num : (pageNum-1) *pageSize +1,
-	        		end : pageNum *pageSize
-	        	});
-	        	CMC.search();*/
+				// 初始化查询分页参数
+				/*
+				 * alert("onrefresh" + pageNum+ "+"+ pageSize);
+				 * $("#"+CMC.currentPage.searchFormId).form('load',{ num :
+				 * (pageNum-1) *pageSize +1, end : pageNum *pageSize });
+				 * CMC.search();
+				 */
 			},
 			onChangePageSize:function(pageSize){	
-				//初始化查询分页参数
-				/*alert( "onChangePageSize" + pageSize);
-	        	$("#"+CMC.currentPage.searchFormId).form('load',{
-	        		num : ($('#'+CMC.paginationSetting.searchTable).datagrid("getPager").pageNumber-1) *pageSize +1,
-	        		end : $('#'+CMC.paginationSetting.searchTable).datagrid("getPager").pageNumber*pageSize
-	        	});
-	        	CMC.search();*/
+				// 初始化查询分页参数
+				/*
+				 * alert( "onChangePageSize" + pageSize);
+				 * $("#"+CMC.currentPage.searchFormId).form('load',{ num :
+				 * ($('#'+CMC.paginationSetting.searchTable).datagrid("getPager").pageNumber-1)
+				 * *pageSize +1, end :
+				 * $('#'+CMC.paginationSetting.searchTable).datagrid("getPager").pageNumber*pageSize
+				 * }); CMC.search();
+				 */
 			},
 			total :0,
 			pageNumber: 0,
 			pageSize:10
 		});
-		//CMC.search();
+		// CMC.search();
 	}
 	
-	//展开菜单并定位到当前页面
+	// 展开菜单并定位到当前页面
     CMC.expandParentNode = function(element){
     	if(element && element.parent()){
-			//二层处理
+			// 二层处理
 			if(element.parent().parent()
 					&& element.parent().parent().children('a')
 					&& element.parent().parent().children('a')[0] ){
@@ -543,14 +554,14 @@ var CMC = {
 				if(element.parent().parent().parent()
 						&& element.parent().parent().parent().children('a')){
 					CMC.changeMenuClass(element.parent().parent().parent().children('a'));
-					//CMC.expandParentNode(element.parent().parent().parent().children('a'));
+					// CMC.expandParentNode(element.parent().parent().parent().children('a'));
 				}
 			}
 
     	}
     };
     
-  //调用校验码功能
+  // 调用校验码功能
     CMC.showVerifyCodeWindowForFeedback = function () {
 		var myDate = new Date();
 		$("#__imgVerifyCode").attr(
@@ -560,7 +571,7 @@ var CMC = {
 	}
 	
 
-    //可以传入一个函数 或者字符串 字符串格式是 obj.func ， 例如:  window.login, CMC.ajaxLogin, etc..
+    // 可以传入一个函数 或者字符串 字符串格式是 obj.func ， 例如: window.login, CMC.ajaxLogin, etc..
     CMC.checkVerifyCode = function(callBack) {
 		var msg_blank = "请输入验证码！";
 		var msg_incorrect = "验证码不正确，请重试！";
@@ -595,7 +606,7 @@ var CMC = {
 		});
 	}
 
-	//验证登录框输入
+	// 验证登录框输入
     CMC.validatePass = function (){
 		if ($("#username").val() == "") {
 			CMC.alertMessage("请输入用户名。",'error');
@@ -610,7 +621,7 @@ var CMC = {
 		return true;
 	}
 	
-    //异步登录框
+    // 异步登录框
     CMC.ajaxLogin = function() {
 		if(CMC.validatePass()){
 			CMC.request({
@@ -624,7 +635,7 @@ var CMC = {
 						CMC.alertMessage(msg.messageBody,'info');	
 						$("#ajaxloginfrom").form("clear");
 						$('#loginBox').dialog('close');
-						//重新 
+						// 重新
 						if(CMC.pageConfig==null){
 							CMC.initPage();
 						}
@@ -658,7 +669,7 @@ var CMC = {
     }
     
     CMC.fileChange = function (ele,reflectEleId){
-    	//debugger
+    	// debugger
     	var newVal = $(ele).val();
     	var id = $(ele).attr('id');
     	$(ele).removeAttr("onchange");
@@ -668,8 +679,8 @@ var CMC = {
     	}else{
         	$('#'+reflectEleId).val(newVal);
     	}
-    	//$(ele).replaceWith(bkHtml);
-    	//$("#"+ id).attr('value',String(newVal));
+    	// $(ele).replaceWith(bkHtml);
+    	// $("#"+ id).attr('value',String(newVal));
     	$(ele).attr("onchange","CMC.fileChange(this,'" + reflectEleId + "')");
     }
 
@@ -710,15 +721,15 @@ var CMC = {
 		return index ;
 	} 
 	
-	Date.prototype.Format = function (fmt) { //author: meizz 
+	Date.prototype.Format = function (fmt) { // author: meizz
 	    var o = {
-	        "M+": this.getMonth() + 1, //月份 
-	        "d+": this.getDate(), //日 
-	        "h+": this.getHours(), //小时 
-	        "m+": this.getMinutes(), //分 
-	        "s+": this.getSeconds(), //秒 
-	        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-	        "S": this.getMilliseconds() //毫秒 
+	        "M+": this.getMonth() + 1, // 月份
+	        "d+": this.getDate(), // 日
+	        "h+": this.getHours(), // 小时
+	        "m+": this.getMinutes(), // 分
+	        "s+": this.getSeconds(), // 秒
+	        "q+": Math.floor((this.getMonth() + 3) / 3), // 季度
+	        "S": this.getMilliseconds() // 毫秒
 	    };
 	    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
 	    for (var k in o)
@@ -729,7 +740,7 @@ var CMC = {
 	
 })(jQuery);
 
-CMC.getWindowTopLeft = function (win){//window 弹窗居中
+CMC.getWindowTopLeft = function (win){// window 弹窗居中
 	var iframeWidth = $("#"+win).parent().parent().width();
     var iframeHeight =  $("#"+win).parent().parent().height();
     var windowWidth = $("#" +win).parent().width()+12;
@@ -754,7 +765,7 @@ CMC.dateFormatter = function(date){
 }  
 
 $.extend($.fn.validatebox.defaults.rules, {
-	dateCompareLE:{//小于等于
+	dateCompareLE:{// 小于等于
    	 	validator: function(value, param){ 
 	   	 	var varify = /^(?:(?!0000)[0-9]{4}([-]?)(?:(?:0?[1-9]|1[0-2])\1(?:0?[1-9]|1[0-9]|2[0-8])|(?:0?[13-9]|1[0-2])\1(?:29|30)|(?:0?[13578]|1[02])\1(?:31))|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)([-]?)0?2\2(?:29))$/i.test(value);
 	   	 	if(varify){
@@ -762,7 +773,7 @@ $.extend($.fn.validatebox.defaults.rules, {
 		   	 	if(endTime==""){
 		   	 		return true;
 		   	 	}
-		   	 	//if()
+		   	 	// if()
 		  		var dateEnd = $.fn.datebox.defaults.parser(endTime); 
 		  		var dateStart = $.fn.datebox.defaults.parser(value);
 		  		varify = dateStart <= dateEnd; 
@@ -777,7 +788,7 @@ $.extend($.fn.validatebox.defaults.rules, {
    	 	},
    	 	message: ''
    	},
-	dateCompareGE:{//大于等于
+	dateCompareGE:{// 大于等于
    	 	validator: function(value, param){ 
 	   	 	var varify = /^(?:(?!0000)[0-9]{4}([-]?)(?:(?:0?[1-9]|1[0-2])\1(?:0?[1-9]|1[0-9]|2[0-8])|(?:0?[13-9]|1[0-2])\1(?:29|30)|(?:0?[13578]|1[02])\1(?:31))|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)([-]?)0?2\2(?:29))$/i.test(value);
 	   	 	if(varify){
@@ -799,7 +810,7 @@ $.extend($.fn.validatebox.defaults.rules, {
 	   	 	}
    	 	}
    	},
-   	dateTimeCompareLE:{//小于等于
+   	dateTimeCompareLE:{// 小于等于
    	 	validator: function(value, param){ 
 	   	 	var varify = /^(?:(?!0000)[0-9]{4}([-]?)(?:(?:0?[1-9]|1[0-2])\1(?:0?[1-9]|1[0-9]|2[0-8])|(?:0?[13-9]|1[0-2])\1(?:29|30)|(?:0?[13578]|1[02])\1(?:31))|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)([-]?)0?2\2(?:29)) ([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/i.test(value);
 	   	 	if(varify){
@@ -821,7 +832,7 @@ $.extend($.fn.validatebox.defaults.rules, {
    	 	},
    	 	message: ''
    	},
-   	dateTimeCompareGE:{//大于等于
+   	dateTimeCompareGE:{// 大于等于
    	 	validator: function(value, param){ 
 	   	 	var varify = /^(?:(?!0000)[0-9]{4}([-]?)(?:(?:0?[1-9]|1[0-2])\1(?:0?[1-9]|1[0-9]|2[0-8])|(?:0?[13-9]|1[0-2])\1(?:29|30)|(?:0?[13578]|1[02])\1(?:31))|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)([-]?)0?2\2(?:29)) ([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/i.test(value);
 	   	 	if(varify){
@@ -859,8 +870,8 @@ function initSelect(){
 		var renderType = dictionaryList[i].type.renderType;
 		if(renderType=="0"){
 			var selectId = ids[1];
-			//console.log(dictionaryList[i]);
-			//console.log(dictionaryList[i].detail);
+			// console.log(dictionaryList[i]);
+			// console.log(dictionaryList[i].detail);
 			$("#"+selectId).combobox({
 				data: dictionaryList[i].detail,
 				panelHeight: '80px',
@@ -868,19 +879,19 @@ function initSelect(){
 				textField:'detailName' 
 			});
 		}else if(renderType="1"){
-			initHtml(dictionaryList[i]);//由于每个页面需要的html不相同 所以交给各自的html各自实现
+			initHtml(dictionaryList[i]);// 由于每个页面需要的html不相同 所以交给各自的html各自实现
 		}
 	}
 }
 Date.prototype.format = function (fmt) {
     var o = {
-        "M+": this.getMonth() + 1, //月份 
-        "d+": this.getDate(), //日 
-        "H+": this.getHours(), //小时 
-        "m+": this.getMinutes(), //分 
-        "s+": this.getSeconds(), //秒 
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-        "S": this.getMilliseconds() //毫秒 
+        "M+": this.getMonth() + 1, // 月份
+        "d+": this.getDate(), // 日
+        "H+": this.getHours(), // 小时
+        "m+": this.getMinutes(), // 分
+        "s+": this.getSeconds(), // 秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), // 季度
+        "S": this.getMilliseconds() // 毫秒
     };
     if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
     for (var k in o)

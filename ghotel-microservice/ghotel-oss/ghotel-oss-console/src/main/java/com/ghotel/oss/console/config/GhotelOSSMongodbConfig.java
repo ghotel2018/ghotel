@@ -25,7 +25,6 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import com.ghotel.core.annotation.OSSDataSource;
-import com.ghotel.core.listener.CascadingMongoEventListener;
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
 
@@ -60,14 +59,8 @@ public class GhotelOSSMongodbConfig {
 	public MongoTemplate ghotelOSSMongoTemplate(
 			@Qualifier("ghotelOSSMongoDbFactory") MongoDbFactory ghotelOSSMongoDbFactory) {
 		MongoTemplate bean = new MongoTemplate(ghotelOSSMongoDbFactory);
-		new CascadingMongoEventListener(bean);
+//		new CascadingMongoEventListener(bean);
 		return bean;
-	}
-
-	@Bean
-	public CascadingMongoEventListener ghotelCascadingMongoEventListener(
-			@Qualifier("ghotelOSSMongoTemplate") MongoTemplate ghotelOSSMongoTemplate) {
-		return new CascadingMongoEventListener(ghotelOSSMongoTemplate);
 	}
 
 	@Bean("ghotelOSSMongoCustomConversions")
@@ -75,7 +68,7 @@ public class GhotelOSSMongodbConfig {
 		return new MongoCustomConversions(Collections.emptyList());
 	}
 
-	@Bean
+	@Bean("ghotelOSSMappingMongoConverter")
 	public MappingMongoConverter ghotelOSSMappingMongoConverter(
 			@Qualifier("ghotelOSSMongoDbFactory") MongoDbFactory ghotelOSSMongoDbFactory,
 			@Qualifier("ghotelOSSMongoMappingContext") MongoMappingContext ghotelOSSMongoMappingContext,

@@ -1,6 +1,7 @@
 package com.ghotel.oss.console.modules.admin.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
 import com.ghotel.oss.console.core.common.service.AbstractPaginationCommonServiceWrapper;
+import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.core.logging.annotation.GocLogAnnotation;
 import com.ghotel.oss.console.core.security.bean.MenuConfigInfoBean;
 import com.ghotel.oss.console.core.security.bean.MenuConfigSearchCriteriaBean;
@@ -17,7 +19,6 @@ import com.ghotel.oss.console.core.security.dao.MenuConfigRepository;
 import com.ghotel.oss.console.core.security.dao.ModuleInfoRepository;
 import com.ghotel.oss.console.core.security.dao.PermissionInfoRepository;
 import com.ghotel.oss.console.core.security.dao.ResourceInfoRepository;
-import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.modules.admin.bean.ModuleInfoBean;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
 import com.ghotel.oss.console.modules.admin.bean.ResourceSearchCriteriaBean;
@@ -83,9 +84,11 @@ public class GocResourceMaintenanceServiceImpl extends AbstractPaginationCommonS
 	@GocLogAnnotation(description = "更新菜单")
 	public boolean updateMenuConfig(MenuConfigSearchCriteriaBean bean) throws Exception {
 		MenuConfigInfoBean menu = new MenuConfigInfoBean();
-		BeanUtils.populate(menu, BeanUtils.describe(bean));
-		if (StringUtils.isNotBlank(bean.getResourceId())) {
-			resourceInfoRepository.findById(bean.getResourceId()).ifPresent(resource -> {
+		Map<String, String> valMap = BeanUtils.describe(bean);
+		valMap.remove("resource");
+		BeanUtils.populate(menu, valMap);
+		if (bean.getResource() != null && StringUtils.isNotBlank(bean.getResource().getId())) {
+			resourceInfoRepository.findById(bean.getResource().getId()).ifPresent(resource -> {
 				menu.setResource(resource);
 			});
 		}

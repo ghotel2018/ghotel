@@ -12,6 +12,6 @@ public class BaseConfig {
 	@ConditionalOnMissingBean
 	@Bean
 	public CascadingMongoEventListener getCascadingMongoEventListener(@Autowired MongoOperations MongoOperations) {
-		return new CascadingMongoEventListener(MongoOperations);
+		return new CascadingMongoEventListener();
 	}
 }

@@ -1,25 +1,53 @@
 package com.ghotel.oss.console.core.common.service;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.ConvertUtilsBean;
-import org.apache.commons.beanutils.Converter;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.beanutils.converters.IntegerConverter;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.mapping.MongoPersistentEntity;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.UntypedExampleMatcher;
 
 import com.ghotel.oss.console.core.common.bean.PaginationBean;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
 
 public abstract class AbstractPaginationCommonServiceWrapper<T> extends AbstractCommonServiceWrapper<T> {
+	@Autowired
+	private ApplicationContext applicationContext;
+
+	protected MongoOperations getMongoOperations(Class<?> entityClass) {
+		Iterator<MongoOperations> mongoOperationsIterator = applicationContext.getBeansOfType(MongoOperations.class)
+				.values().iterator();
+		while (mongoOperationsIterator.hasNext()) {
+			MongoOperations mongoOperations = mongoOperationsIterator.next();
+
+			String collectionName = mongoOperations.getConverter().getMappingContext()
+					.getRequiredPersistentEntity(entityClass).getCollection();
+			Iterator<? extends MongoPersistentEntity<?>> persistentEntitiesIterator = mongoOperations.getConverter()
+					.getMappingContext().getPersistentEntities().iterator();
+
+			while (persistentEntitiesIterator.hasNext()) {
+				MongoPersistentEntity<?> entity = persistentEntitiesIterator.next();
+				if (entity.getCollection().equals(collectionName)) {
+					return mongoOperations;
+				}
+			}
+		}
+		return null;
+	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes", "hiding" })
 	protected T parseSearchObjToEnity(Object source, Class<T> targetClass) throws Exception {
@@ -66,7 +94,7 @@ public abstract class AbstractPaginationCommonServiceWrapper<T> extends Abstract
 	}
 
 	protected ExampleMatcher getDefaultExampleMatcher() {
-		return ExampleMatcher.matching().withIgnoreCase().withStringMatcher(StringMatcher.CONTAINING)
+		return UntypedExampleMatcher.matching().withIgnoreCase().withStringMatcher(StringMatcher.CONTAINING)
 				.withIgnoreNullValues();
 
 	}
@@ -76,6 +104,11 @@ public abstract class AbstractPaginationCommonServiceWrapper<T> extends Abstract
 
 		return getPaginationResult(Example.of(t, getDefaultExampleMatcher()), paginationBean.getStart(),
 				paginationBean.getEnd());
+	}
+
+	protected PaginationResult<T> getPaginationResult(Class<T> entityClass, Query query, PaginationBean bean) {
+		return getPaginationResult(getMongoOperations(entityClass).find(query, entityClass), bean.getStart(),
+				bean.getEnd());
 	}
 
 	protected PaginationResult<T> getPaginationResult(Example<T> example, PaginationBean bean) {
@@ -104,7 +137,7 @@ public abstract class AbstractPaginationCommonServiceWrapper<T> extends Abstract
 		PaginationResult<T> bean = new PaginationResult<T>();
 		bean.setTotal(total);
 		if (!(total < end) && total > 0) {
-			if (start > total || start == total) {
+			if (start > total) {
 				start = 1;
 			}
 			result = result.subList(start - 1, end);
