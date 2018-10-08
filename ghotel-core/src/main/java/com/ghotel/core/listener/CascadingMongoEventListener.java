@@ -60,20 +60,22 @@ public class CascadingMongoEventListener extends AbstractMongoEventListener<Obje
 				if (field.isAnnotationPresent(DBRef.class) && field.isAnnotationPresent(CascadeSave.class)) {
 					final Object fieldValue = field.get(source);
 
-					DbRefFieldCallback callback = new DbRefFieldCallback();
+					if (fieldValue != null) {
+						DbRefFieldCallback callback = new DbRefFieldCallback();
 
-					ReflectionUtils.doWithFields(fieldValue.getClass(), callback);
+						ReflectionUtils.doWithFields(fieldValue.getClass(), callback);
 
-					if (!callback.isIdFound()) {
-						throw new MappingException("Cannot perform cascade save on child object without id set");
-					}
+						if (!callback.isIdFound()) {
+							throw new MappingException("Cannot perform cascade save on child object without id set");
+						}
 
-					MongoOperations mongoOperations = getMongoOperations(event.getCollectionName());
-					if (mongoOperations != null) {
-						mongoOperations.save(fieldValue);
-					} else {
-						throw new MappingException(
-								"Cannot perform cascade save on child object without suited mongoOperations");
+						MongoOperations mongoOperations = getMongoOperations(event.getCollectionName());
+						if (mongoOperations != null) {
+							mongoOperations.save(fieldValue);
+						} else {
+							throw new MappingException(
+									"Cannot perform cascade save on child object without suited mongoOperations");
+						}
 					}
 				}
 			}

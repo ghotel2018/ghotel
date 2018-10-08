@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.ghotel.model.annotation.CascadeSave;
 import com.ghotel.model.constant.AccountStatus;
 import com.ghotel.model.constant.DBConstant;
+import com.ghotel.model.constant.Registertype;
 import com.ghotel.model.po.BasePO;
 
 /**
@@ -32,13 +33,16 @@ public class Account extends BasePO implements Serializable {
 	private String password;
 
 	/**
-	 * //TODO 这个是啥
+	 * 注册类型
 	 */
-	private Integer registertype;
+	private Registertype registertype;
 	/**
 	 * 账号状态
 	 */
 	private AccountStatus status;
+
+	// 推荐人
+	private String referee;
 
 	/**
 	 * 关联的用户表
@@ -63,12 +67,20 @@ public class Account extends BasePO implements Serializable {
 		this.password = password;
 	}
 
-	public Integer getRegistertype() {
+	public Registertype getRegistertype() {
 		return registertype;
 	}
 
-	public void setRegistertype(Integer registertype) {
+	public void setRegistertype(Registertype registertype) {
 		this.registertype = registertype;
+	}
+
+	public String getReferee() {
+		return referee;
+	}
+
+	public void setReferee(String referee) {
+		this.referee = referee;
 	}
 
 	public AccountStatus getStatus() {

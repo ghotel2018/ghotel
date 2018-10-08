@@ -45,7 +45,7 @@ public class GHotelUserSearchCriteriaBean extends PaginationBean {
 	 */
 	private String weChatOpenId;
 
-	private Integer deleteFlag;
+	private Boolean deleteFlag;
 
 	public String getName() {
 		return name;
@@ -111,11 +111,11 @@ public class GHotelUserSearchCriteriaBean extends PaginationBean {
 		this.weChatOpenId = weChatOpenId;
 	}
 
-	public Integer getDeleteFlag() {
+	public Boolean getDeleteFlag() {
 		return deleteFlag;
 	}
 
-	public void setDeleteFlag(Integer deleteFlag) {
+	public void setDeleteFlag(Boolean deleteFlag) {
 		this.deleteFlag = deleteFlag;
 	}
 

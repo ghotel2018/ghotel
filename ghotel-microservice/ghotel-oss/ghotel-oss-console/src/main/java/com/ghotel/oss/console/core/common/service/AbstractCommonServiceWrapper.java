@@ -14,10 +14,29 @@ public abstract class AbstractCommonServiceWrapper<T> implements ICommonService<
 
 	protected abstract MongoRepository<T, String> getRepository();
 
+	private CommonMeta generateDefaultCommonMeta() {
+		Date now = new Date();
+		CommonMeta commonMeta = new CommonMeta();
+		commonMeta.setCreateTime(now);
+		commonMeta.setLastUpdateTime(now);
+		commonMeta.setDelFlag(false);
+
+		return commonMeta;
+	}
+
+	@SuppressWarnings("unchecked")
 	@Override
 	@GocLogAnnotation(description = "新增")
 	public T add(T t) throws Exception {
-		return getRepository().save(t);
+		if (t instanceof BasePO) {
+			BasePO po = (BasePO) t;
+
+			CommonMeta commonMeta = generateDefaultCommonMeta();
+			commonMeta.setLastUpdateTime(new Date());
+			return getRepository().save((T) po);
+		} else {
+			return getRepository().save(t);
+		}
 	}
 
 	@Override
@@ -29,7 +48,11 @@ public abstract class AbstractCommonServiceWrapper<T> implements ICommonService<
 			BasePO orginPo = (BasePO) getRepository().findById(po.getId()).get();
 
 			CommonMeta commonMeta = orginPo.getCommonMeta();
-			commonMeta.setLastUpdateTime(new Date());
+			if (commonMeta == null) {
+				commonMeta = generateDefaultCommonMeta();
+			} else {
+				commonMeta.setLastUpdateTime(new Date());
+			}
 			po.setCommonMeta(commonMeta);
 
 			return getRepository().save((T) po);
@@ -47,6 +70,9 @@ public abstract class AbstractCommonServiceWrapper<T> implements ICommonService<
 		if (t instanceof BasePO) {
 			BasePO po = (BasePO) t;
 			CommonMeta commonMeta = po.getCommonMeta();
+			if (commonMeta == null) {
+				commonMeta = generateDefaultCommonMeta();
+			}
 			commonMeta.setDelFlag(true);
 			po.setCommonMeta(commonMeta);
 			getRepository().save((T) po);

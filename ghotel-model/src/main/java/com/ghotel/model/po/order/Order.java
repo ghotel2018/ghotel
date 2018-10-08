@@ -1,28 +1,21 @@
 package com.ghotel.model.po.order;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
-import com.ghotel.model.po.CommonMeta;
-import com.ghotel.model.po.Coupon;
-import com.ghotel.model.po.OrderDetail;
-import com.ghotel.model.po.product.Price;
-import com.ghotel.model.po.product.Stock;
-import com.ghotel.model.po.user.Contact;
-import com.ghotel.model.po.user.User;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.ghotel.model.annotation.CascadeSave;
 import com.ghotel.model.constant.DBConstant;
+import com.ghotel.model.po.Coupon;
+import com.ghotel.model.po.product.Price;
+import com.ghotel.model.po.product.Stock;
+import com.ghotel.model.po.user.Contact;
+import com.ghotel.model.po.user.User;
 
 /**
- * @author kekon
- * 订单表
+ * @author kekon 订单表
  */
 @Document(collection = DBConstant.COLLECTION_NAME_ORDER)
 //@CompoundIndexes({
@@ -32,12 +25,6 @@ import com.ghotel.model.constant.DBConstant;
 public class Order implements Serializable {
 
 	private static final long serialVersionUID = -5602583636664663538L;
-
-	/**
-	 * 主键
-	 */
-	@Id
-	private String id;
 
 	/**
 	 * 订单号
@@ -103,19 +90,6 @@ public class Order implements Serializable {
 	@DBRef
 	@CascadeSave
 	private Coupon coupon;
-
-	/**
-	 * 公共属性
-	 */
-	private CommonMeta commonMeta;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getOrderNo() {
 		return orderNo;
@@ -205,44 +179,36 @@ public class Order implements Serializable {
 		this.coupon = coupon;
 	}
 
-	public CommonMeta getCommonMeta() {
-		return commonMeta;
-	}
-
-	public void setCommonMeta(CommonMeta commonMeta) {
-		this.commonMeta = commonMeta;
-	}
-
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder("{");
-		sb.append("\"id\":\"")
-				.append(id).append('\"');
-		sb.append(",\"orderNo\":\"")
-				.append(orderNo).append('\"');
-		sb.append(",\"price\":")
-				.append(price);
-		sb.append(",\"stock\":")
-				.append(stock);
-		sb.append(",\"bookUser\":")
-				.append(bookUser);
-		sb.append(",\"contact\":")
-				.append(contact);
-		sb.append(",\"occupants\":")
-				.append(occupants);
-		sb.append(",\"totalPrice\":")
-				.append(totalPrice);
-		sb.append(",\"payPrice\":")
-				.append(payPrice);
-		sb.append(",\"status\":")
-				.append(status);
-		sb.append(",\"payWay\":")
-				.append(payWay);
-		sb.append(",\"coupon\":")
-				.append(coupon);
-		sb.append(",\"commonMeta\":")
-				.append(commonMeta);
-		sb.append('}');
-		return sb.toString();
-	}
+//	@Override
+//	public String toString() {
+//		final StringBuilder sb = new StringBuilder("{");
+//		sb.append("\"id\":\"")
+//				.append(id).append('\"');
+//		sb.append(",\"orderNo\":\"")
+//				.append(orderNo).append('\"');
+//		sb.append(",\"price\":")
+//				.append(price);
+//		sb.append(",\"stock\":")
+//				.append(stock);
+//		sb.append(",\"bookUser\":")
+//				.append(bookUser);
+//		sb.append(",\"contact\":")
+//				.append(contact);
+//		sb.append(",\"occupants\":")
+//				.append(occupants);
+//		sb.append(",\"totalPrice\":")
+//				.append(totalPrice);
+//		sb.append(",\"payPrice\":")
+//				.append(payPrice);
+//		sb.append(",\"status\":")
+//				.append(status);
+//		sb.append(",\"payWay\":")
+//				.append(payWay);
+//		sb.append(",\"coupon\":")
+//				.append(coupon);
+//		sb.append(",\"commonMeta\":")
+//				.append(commonMeta);
+//		sb.append('}');
+//		return sb.toString();
+//	}
 }

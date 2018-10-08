@@ -141,6 +141,7 @@ public abstract class AbstractPaginationCommonServiceWrapper<T> extends Abstract
 				start = 1;
 			}
 			result = result.subList(start - 1, end);
+
 		}
 		bean.setList(result);
 		bean.setNum(end);

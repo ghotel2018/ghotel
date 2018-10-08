@@ -2,9 +2,9 @@ package com.ghotel.oss.console.core.common.bean;
 
 public class PaginationBean {
 
-	protected int start;
+	protected int start = 1;
 
-	protected int end;
+	protected int end = 10;
 
 	public int getStart() {
 		return start;

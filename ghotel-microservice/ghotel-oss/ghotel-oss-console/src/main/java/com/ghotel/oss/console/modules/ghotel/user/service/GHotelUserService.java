@@ -9,4 +9,6 @@ public interface GHotelUserService extends ICommonPaginationService<User> {
 
 	public PaginationResult<User> getPaginationResult(GHotelUserSearchCriteriaBean bean) throws Exception;
 
+	public PaginationResult<User> getUnbindUser(GHotelUserSearchCriteriaBean bean) throws Exception;
+
 }
