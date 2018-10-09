@@ -1,6 +1,5 @@
-package com.ghotel.oss.console.modules.ghotel.user.controller;
+package com.ghotel.oss.console.modules.ghotel.order.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,25 +12,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ghotel.model.po.user.User;
+import com.ghotel.model.po.order.Order;
 import com.ghotel.oss.console.core.common.bean.Message;
 import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
-import com.ghotel.oss.console.modules.ghotel.user.bean.GHotelUserSearchCriteriaBean;
-import com.ghotel.oss.console.modules.ghotel.user.service.GHotelUserService;
+import com.ghotel.oss.console.modules.ghotel.order.bean.GHotelOrderSearchCriteriaBean;
+import com.ghotel.oss.console.modules.ghotel.order.service.GHotelOrderService;
 
 @Controller
-@RequestMapping("ghotel/user")
-//@RequiresPermissions("GHotelUser")
+@RequestMapping("ghotel/order")
+//@RequiresPermissions("GHotelOrder")
 @RequiresAuthentication
-public class GHotelUserController {
+public class GHotelOrderController {
 	@Autowired
-	GHotelUserService gHotelUserService;
+	GHotelOrderService gHotelOrderService;
 
 	@RequestMapping("access")
-//	@RequiresPermissions("GHotelUser:access")
+//	@RequiresPermissions("GHotelOrder:access")
 	public @ResponseBody Message access() {
-		String returnUrl = "/module/ghotelUser/ghotel-user.html";
+		String returnUrl = "/module/ghotelOrder/ghotel-order.html";
 		Map<String, String> returnParams = new HashMap<String, String>();
 		returnParams.put("url", returnUrl);
 		Message message = new Message("", RequestStatusConstant.PAGE_NAVIGATION_ON, returnParams);
@@ -39,53 +38,40 @@ public class GHotelUserController {
 	}
 
 	@RequestMapping(value = "add", method = RequestMethod.POST)
-//	@RequiresPermissions("GHotelUser:add")
-	public @ResponseBody Message add(@RequestBody User user) throws Exception {
-		Date now = new Date();
-		if (user.getJoinDate() == null) {
-			user.setJoinDate(now);
-		}
-		gHotelUserService.add(user);
+//	@RequiresPermissions("GHotelOrder:add")
+	public @ResponseBody Message add(@RequestBody Order order) throws Exception {
+		gHotelOrderService.add(order);
 		return new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, "新增记录请求成功!");
 	}
 
 	@RequestMapping(value = "update", method = RequestMethod.POST)
-//	@RequiresPermissions("GHotelUser:update")
-	public @ResponseBody Message update(@RequestBody User user) throws Exception {
-		gHotelUserService.update(user);
+//	@RequiresPermissions("GHotelOrder:update")
+	public @ResponseBody Message update(@RequestBody Order order) throws Exception {
+		gHotelOrderService.update(order);
 		return new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, "更新记录请求成功！");
 	}
 
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
-//	@RequiresPermissions("GHotelUser:delete")
-	public @ResponseBody Message deleteUser(@RequestBody User user) throws Exception {
-		gHotelUserService.delete(user);
+//	@RequiresPermissions("GHotelOrder:delete")
+	public @ResponseBody Message deleteOrder(@RequestBody Order order) throws Exception {
+		gHotelOrderService.delete(order);
 		return new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, "删除记录请求成功！");
 	}
 
 	@RequestMapping(value = "getAll", method = RequestMethod.POST)
-//	@RequiresPermissions("GHotelUser:access")
-	public @ResponseBody Message getAll(GHotelUserSearchCriteriaBean bean) throws Exception {
+//	@RequiresPermissions("GHotelOrder:access")
+	public @ResponseBody Message getAll(GHotelOrderSearchCriteriaBean bean) throws Exception {
 		Message message = new Message();
 		message.setStatusCode(RequestStatusConstant.STATUS_CODE_SECCEED);
-		PaginationResult<User> pr = gHotelUserService.getPaginationResult(bean);
-		message.setMessageBody(pr);
-		return message;
-	}
-
-	@RequestMapping(value = "getUnbindUser", method = RequestMethod.POST)
-	public @ResponseBody Message getUnbindUser(GHotelUserSearchCriteriaBean bean) throws Exception {
-		Message message = new Message();
-		message.setStatusCode(RequestStatusConstant.STATUS_CODE_SECCEED);
-		PaginationResult<User> pr = gHotelUserService.getUnbindUser(bean);
+		PaginationResult<Order> pr = gHotelOrderService.getPaginationResult(bean);
 		message.setMessageBody(pr);
 		return message;
 	}
 
 	@RequestMapping(value = "get/{id}", method = RequestMethod.GET)
-//	@RequiresPermissions("GHotelUser:access")
+//	@RequiresPermissions("GHotelOrder:access")
 	public @ResponseBody Message getDetail(@PathVariable("id") String id) throws Exception {
-		Message message = new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, gHotelUserService.get(id));
+		Message message = new Message("", RequestStatusConstant.STATUS_CODE_SECCEED, gHotelOrderService.get(id));
 		return message;
 	}
 }

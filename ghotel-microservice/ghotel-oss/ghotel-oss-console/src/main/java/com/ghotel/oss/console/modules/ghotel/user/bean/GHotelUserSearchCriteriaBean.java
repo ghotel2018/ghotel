@@ -1,4 +1,4 @@
-package com.ghotel.oss.console.modules.ghotel.user.beam;
+package com.ghotel.oss.console.modules.ghotel.user.bean;
 
 import java.util.Date;
 

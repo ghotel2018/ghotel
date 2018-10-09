@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.ghotel.model.annotation.CascadeSave;
 import com.ghotel.model.constant.DBConstant;
+import com.ghotel.model.po.BasePO;
 import com.ghotel.model.po.Coupon;
 import com.ghotel.model.po.product.Price;
 import com.ghotel.model.po.product.Stock;
@@ -22,7 +23,7 @@ import com.ghotel.model.po.user.User;
 //		@CompoundIndex(name = "idx_order_orderNo", def = "{'orderNo': 1}"),
 //		@CompoundIndex(name = "idx_commonMeta_createTime", def = "{'commonMeta.createTime': 1}")
 //})
-public class Order implements Serializable {
+public class Order extends BasePO implements Serializable {
 
 	private static final long serialVersionUID = -5602583636664663538L;
 

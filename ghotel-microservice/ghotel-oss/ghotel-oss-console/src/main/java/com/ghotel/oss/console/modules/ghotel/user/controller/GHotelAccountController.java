@@ -16,7 +16,7 @@ import com.ghotel.model.po.user.Account;
 import com.ghotel.oss.console.core.common.bean.Message;
 import com.ghotel.oss.console.core.constants.RequestStatusConstant;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
-import com.ghotel.oss.console.modules.ghotel.user.beam.GHotelAccountSearchCriteriaBean;
+import com.ghotel.oss.console.modules.ghotel.user.bean.GHotelAccountSearchCriteriaBean;
 import com.ghotel.oss.console.modules.ghotel.user.service.GHotelAccountService;
 
 @Controller

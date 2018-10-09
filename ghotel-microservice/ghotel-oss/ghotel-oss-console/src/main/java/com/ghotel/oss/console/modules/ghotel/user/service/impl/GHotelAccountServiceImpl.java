@@ -1,5 +1,7 @@
 package com.ghotel.oss.console.modules.ghotel.user.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,11 @@ public class GHotelAccountServiceImpl extends AbstractPaginationCommonServiceWra
 	@Override
 	protected MongoRepository<Account, String> getRepository() {
 		return accountRepository;
+	}
+
+	@Override
+	public List<Account> getUnbindUserAccount() {
+		return accountRepository.findByAssociateUserIsNotNull();
 	}
 
 }

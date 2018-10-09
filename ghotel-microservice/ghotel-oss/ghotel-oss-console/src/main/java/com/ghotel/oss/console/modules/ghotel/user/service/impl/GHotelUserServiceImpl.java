@@ -17,7 +17,7 @@ import com.ghotel.model.po.user.Account;
 import com.ghotel.model.po.user.User;
 import com.ghotel.oss.console.core.common.service.AbstractPaginationCommonServiceWrapper;
 import com.ghotel.oss.console.modules.admin.bean.PaginationResult;
-import com.ghotel.oss.console.modules.ghotel.user.beam.GHotelUserSearchCriteriaBean;
+import com.ghotel.oss.console.modules.ghotel.user.bean.GHotelUserSearchCriteriaBean;
 import com.ghotel.oss.console.modules.ghotel.user.dao.UserRepository;
 import com.ghotel.oss.console.modules.ghotel.user.service.GHotelAccountService;
 import com.ghotel.oss.console.modules.ghotel.user.service.GHotelUserService;
@@ -44,7 +44,7 @@ public class GHotelUserServiceImpl extends AbstractPaginationCommonServiceWrappe
 	@Override
 	public PaginationResult<User> getUnbindUser(GHotelUserSearchCriteriaBean bean) throws Exception {
 		List<String> userIds = new ArrayList<>();
-		List<Account> accounts = gHotelAccountService.getAll();
+		List<Account> accounts = gHotelAccountService.getUnbindUserAccount();
 		for (Account account : accounts) {
 			if (account.getAssociateUser() != null) {
 				userIds.add(account.getAssociateUser().getId());
