@@ -1,0 +1,229 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>账号管理</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<LINK rel="stylesheet" href="/cmc/common/css/default.css"
+	type="text/css">
+<link rel="stylesheet" type="text/css"
+	href="/cmc/common/js/jquery-easyui-1.4.2/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css"
+	href="/cmc/common/js/jquery-easyui-1.4.2/themes/icon.css">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<script type="text/javascript"
+	src="/cmc/common/js/jquery-easyui-1.4.2/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/cmc/common//js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="/cmc/common/js/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/cmc/common/js/cmcCore.js"></script>
+<LINK rel="stylesheet" href="/cmc/common/css/cmc.css" type="text/css">
+</head>
+<BODY>
+	<div id='mainContent' class="myMainContent">
+		<div class="easyui-panel" title="查询条件">
+			<form id="searchForm" class="easyui-form CMCSearchForm" method="post"
+				data-options="novalidate:true">
+				<table style="width: 100%;" class="tbStyle">
+					<tr>
+						<th width="15%">登录名:</th>
+						<td width="35%"><input class="easyui-textbox" type="text"
+							name="name" data-options="required:false" style="width: 250px;"></input></td>
+						<th width="15%">推荐人:</th>
+						<td width="35%"><input class="easyui-textbox" type="text"
+							name="referee" data-options="required:false"
+							style="width: 250px;"></input></td>
+					</tr>
+					<tr>
+						<th>注册类型:</th>
+						<td><select class="easyui-combobox" name="registertype"
+							style="width: 250px;" data-options="panelHeight: '100px'">
+								<option value=""></option>
+								<option value="FRONTDESK">前台推荐</option>
+								<option value="WECHAT">微信注册</option>
+								<option value="APP">APP注册</option>
+						</select></td>
+						<th>加入方式:</th>
+						<td><select class="easyui-combobox" name="status"
+							style="width: 250px;" data-options="panelHeight: '100px'">
+								<option value=""></option>
+								<option value="LOCKED">锁定</option>
+								<option value="NORMAL">正常</option>
+								<option value="NOTACTIVED">未激活</option>
+						</select></td>
+					</tr>
+					<tr>
+						<th>已删除:</th>
+						<td><select class="easyui-combobox" name="deleteFlag"
+							style="width: 250px;" data-options="panelHeight: '100px'">
+								<option value=""></option>
+								<option value="false">否</option>
+								<option value="true">是</option>
+						</select></td>
+					</tr>
+				</table>
+			</form>
+
+			<div id="buttonBar" class='footer CMCButtonBar'
+				style="text-align: center; padding: 5px; width: 70%;">
+				<a href="javascript:void(0)"
+					class="easyui-linkbutton CMCSearchButton"
+					permission="GHotelAccount:getAll">查询</a> <a
+					href="javascript:void(0)" class="easyui-linkbutton"
+					id="ghotel-account-button-add" permission="GHotelAccount:add">新建</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton"
+					id="ghotel-account-button-update"
+					permission="GHotelAccount:update,get">修改</a> <a
+					href="javascript:void(0)" class="easyui-linkbutton"
+					id="ghotel-account-button-delete" permission="GHotelAccount:delete">删除</a>
+				<!-- <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('.CMCSearchForm').form('clear');">清除</a> -->
+			</div>
+		</div>
+	</div>
+
+	<div id="ghotel-account-detail-div" class="easyui-dialog"
+		data-options="iconCls:'icon-save',modal:true,closed: true"
+		style="width: 60%; height: 80%; padding: 10px">
+		<div style="padding: 10px 60px 20px 60px">
+			<form id="ghotel-account-detail-form" method="post"
+				data-options="novalidate:true">
+				<table cellpadding="5" width="100%">
+					<tr>
+						<td><lable style="color:red;">*</lable>登录名:</td>
+						<td><input type="hidden" id="ghotel-account-detail-id"
+							name="id" data-options="required:true"></input><input
+							class="easyui-textbox" type="text" name="name"
+							data-options="required:true"></input></td>
+					</tr>
+					<tr>
+						<td><lable style="color:red;">*</lable>密码:</td>
+						<td><input class="easyui-textbox" type="text" name="password"
+							data-options="required:true"></input><label style="color: red;"></label></td>
+					</tr>
+					<tr>
+						<td><lable style="color:red;">*</lable>注册类型:</td>
+						<td><select class="easyui-combobox" name="registertype"
+							data-options="panelHeight:'auto',required:true"
+							style="width: 250px;">
+								<option value=""></option>
+								<option value="FRONTDESK">前台推荐</option>
+								<option value="WECHAT">微信注册</option>
+								<option value="APP">APP注册</option>
+						</select></td>
+					</tr>
+
+					<tr>
+						<td><lable style="color:red;">*</lable>账号状态:</td>
+						<td><select class="easyui-combobox" name=status
+							data-options="panelHeight:'auto',required:true"
+							style="width: 250px;">
+								<option value=""></option>
+								<option value="LOCKED">锁定</option>
+								<option value="NORMAL">正常</option>
+								<option value="NOTACTIVED">未激活</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>推荐人:</td>
+						<td><input class="easyui-textbox" name="referee"
+							style="width: 200px;" data-options="required:false"></td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align: center; padding: 5px; width: 100%;">
+				<a href="javascript:void(0)"
+					class="easyui-linkbutton ghotel-account-submit-add">提交</a> <a
+					href="javascript:void(0)"
+					class="easyui-linkbutton ghotel-account-submit-update">提交</a><a
+					href="javascript:void(0)" class="easyui-linkbutton"
+					id="button-bind-user">绑定用户</a> <a href="javascript:void(0)"
+					class="easyui-linkbutton" id="button-remove-user">解绑用户</a> <a
+					href="javascript:void(0)" class="easyui-linkbutton"
+					onclick="CMC.dialog('ghotel-account-detail-div','close')">关闭</a>
+			</div>
+			<div style="margin: 10px 0;">
+				<table id='bind-user-list' title='绑定用户'
+					style='width: 100%; height: 350px'>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div id="search-bind-user-dialog" class="easyui-dialog" title="用户选择"
+		data-options="iconCls:'icon-save',modal:true,closed: true"
+		style="width: 780px; height: 680px; padding: 10px">
+		<div style="color: red; font-weight: bold; padding-left: 2px;">
+			<ul>
+				<li>请注意 :用户不能绑定多个账号，已绑定账号的用户不显示出来</li>
+			</ul>
+		</div>
+		<div class="easyui-panel" title="查询条件">
+			<form id="search-unbind-user-form" class="easyui-form CMCSearchForm1"
+				method="post" data-options="novalidate:true">
+				<table style="width: 100%;" class="tbStyle">
+					<tr>
+						<th width="15%">姓名:</th>
+						<td width="35%"><input class="easyui-textbox" type="text"
+							name="name" data-options="required:false" style="width: 250px;"></input></td>
+						<th width="15%">微信openid:</th>
+						<td width="35%"><input class="easyui-textbox" type="text"
+							name="weChatOpenId" data-options="required:false"
+							style="width: 250px;"></input></td>
+					</tr>
+					<tr>
+						<th>联系方式:</th>
+						<td><input class="easyui-textbox" type="text"
+							name="contactInfo" data-options="required:false"
+							style="width: 250px;"></input></td>
+						<th>证件号码:</th>
+						<td><input class="easyui-textbox" name="certificateNumber"
+							type="text" data-options="required:false" style="width: 250px;"></input></td>
+					</tr>
+					<tr>
+						<th>用户类型:</th>
+						<td><select class="easyui-combobox" name="userType"
+							style="width: 250px;" data-options="panelHeight: '100px'">
+								<option value=""></option>
+								<option value="NORMAL">普通用户</option>
+								<option value="SILVER_VIPER">银卡会员</option>
+								<option value="GOLD_VIPER">金卡会员</option>
+								<option value="DIAMOND_VIPER">钻石会员</option>
+						</select></td>
+						<th>用户级别:</th>
+						<td><input class="easyui-textbox" type="text" name="level"
+							data-options="required:false" style="width: 250px;"></input></td>
+					</tr>
+					<tr>
+						<th>加入方式:</th>
+						<td><select class="easyui-combobox" name="joinMethod"
+							style="width: 250px;" data-options="panelHeight: '100px'">
+								<option value=""></option>
+								<option value="WECHAT">微信</option>
+								<option value="APP">APP</option>
+						</select></td>
+						<th>加入时间:</th>
+						<td><input class="easyui-datebox" name="joinDate" type="text"
+							data-options="required:false" style="width: 250px;"></input></td>
+					</tr>
+				</table>
+			</form>
+
+			<div class='footer CMCButtonBar'
+				style="text-align: center; padding: 5px; width: 90%; height: 50px;">
+				<a href="javascript:void(0)" class="easyui-linkbutton "
+					id="button-search-user">查询</a> <a href="javascript:void(0)"
+					class="easyui-linkbutton" id="button-select-user">选择用户</a> <a
+					href="javascript:void(0)" class="easyui-linkbutton"
+					onclick="CMC.dialog('search-bind-user-dialog','close');">关闭</a>
+			</div>
+			<div style='margin: 20px 0;'>
+				<table id='table-bind-user' class='easyui-datagrid' title='查询结果'
+					style='width: 100%; height: 350px'></table>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript"
+		src="/cmc/common/js/ghotelUser/ghotel-account.js"></script>
+</body>
+</html>

@@ -30,7 +30,7 @@ public class GHotelPaymentController {
 	@RequestMapping("access")
 //	@RequiresPermissions("GHotelPayment:access")
 	public @ResponseBody Message access() {
-		String returnUrl = "/module/ghotelPayment/ghotel-payment.html";
+		String returnUrl = "/module/ghotelOrder/ghotel-payment.html";
 		Map<String, String> returnParams = new HashMap<String, String>();
 		returnParams.put("url", returnUrl);
 		Message message = new Message("", RequestStatusConstant.PAGE_NAVIGATION_ON, returnParams);
