@@ -2,6 +2,8 @@ package com.ghotel.oss.console.modules.ghotel.order.bean;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.ghotel.model.po.order.PayStatus;
 import com.ghotel.oss.console.core.common.bean.PaginationBean;
 
@@ -34,6 +36,7 @@ public class GHotelPaymentSearchCriteriaBean extends PaginationBean {
 	/**
 	 * 回调时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date callBackTime;
 
 	public String getPayNo() {

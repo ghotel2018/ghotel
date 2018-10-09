@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.ghotel.model.constant.DBConstant;
 import com.ghotel.model.po.BasePO;
@@ -49,6 +50,7 @@ public class Payment extends BasePO implements Serializable {
 	/**
 	 * 回调时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date callBackTime;
 
 	public String getPayNo() {
